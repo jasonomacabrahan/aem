@@ -29,7 +29,7 @@
 
             @if ($message = Session::get('success'))
                         <script>
-                            swal("Success","Welcome! Registration Successfull","success");
+                            swal("Success","Welcome! Registration was Successfull","success");
                         </script>
                   @endif
 
