@@ -63,7 +63,7 @@
                                 <td>{{ $user->division }}</td>
                                 <td>{{ $user->designation }}</td>
                                 <td>{{ $user->contactNumber }}</td>
-                                <td>{{ $user->sex }}</td>
+                                <td>{{ (($user->sex==0)?'Male':'Female') }}</td>
                                 <td>{{ $user->usertype }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->created_at }}</td>
