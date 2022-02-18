@@ -15,7 +15,7 @@
       <div class="col-md-12">
           <div class="card">
               <div class="card-header">
-                <h2><i class="fa fa-fw fa-th-list"></i>Activities / Events Expenses</h2>
+                <h2><i class="fa fa-fw fa-th-list"></i>Activities / Events Expenses - </h2>
                 <a href="./activity.addexpense" id="test" class="btn btn-success"><i class="fas fa-plus-circle"></i> New Expense </a>
 <!---                <a href="{{ '#' }}" class="btn btn-warning"><i class="fas fa-hand-holding"></i>Withdraw</a>
                 <a href="{{ '#' }}" class="btn btn-primary pull-right  "><i class="fas fa-swatchbook"></i>Category</a>
