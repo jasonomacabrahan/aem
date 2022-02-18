@@ -81,8 +81,10 @@
                             <th>Name</th>
                             <th>Agency</th>
                             <th>Division</th>
+                        @if (auth->user->usertype == 'admin')
                             <th>Designation</th>
                             <th>Contact Number</th>
+                        @endif
                             <th>eMail</th>
                             <th>Sex</th>
                             <th>Date - Registered</th>
@@ -97,8 +99,10 @@
                                 <td>{{  $activityattendance->agency }}</td>
                                 <td>{{  $activityattendance->division }}</td>
                                 <td>{{  $activityattendance->designation }}</td>
+                            @if (auth->user->usertype == 'admin')
                                 <td>{{  $activityattendance->contactNumber }}</td>
                                 <td>{{  $activityattendance->email }}</td>
+                            @endif
                                 <td>{{  (($activityattendance->sex==0)?'Male':'Female') }}</td>
                                 <td>{{ $activityattendance->registrationDate }}</td>
                                 <td>{{ $activityattendance->created_at }}</td>
