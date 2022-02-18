@@ -21,8 +21,6 @@
               @csrf
               @method('put')
               @include('alerts.success')
-              <div class="row">
-              </div>
                 <div class="row">
                     <div class="col-md-7 pr-1">
                         <div class="form-group">
@@ -41,6 +39,36 @@
                     </div>
                   </div>
                 </div>
+                <div class="row">
+                  <div class="col-md-7 pr-1">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">{{__("Agency")}}</label>
+                      <input type="text" name="agency" class="form-control" value="{{ old('agency', auth()->user()->agency) }}">
+                      @include('alerts.feedback', ['field' => 'agency'])
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-7 pr-1">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">{{__("Division")}}</label>
+                      <input type="text" name="division" class="form-control" value="{{ old('division', auth()->user()->division) }}">
+                      @include('alerts.feedback', ['field' => 'division'])
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-7 pr-1">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">{{__("Designation")}}</label>
+                      <input type="text" name="designation" class="form-control" value="{{ old('designation', auth()->user()->designation) }}">
+                      @include('alerts.feedback', ['field' => 'designation'])
+                    </div>
+                  </div>
+                </div>
+
               <div class="card-footer ">
                 <button type="submit" class="btn btn-primary btn-round">{{__('Save')}}</button>
               </div>
@@ -99,8 +127,11 @@
                 <img class="avatar border-gray" src="{{asset('assets')}}/img/default-avatar.png" alt="...">
                 <h5 class="title">{{ auth()->user()->name }}</h5>
               </a>
-              <p class="description">
-                  {{ auth()->user()->email }}
+              <p class="description text-left">
+                  <sub class="text-dark"><label for="">Email: </label>{{ auth()->user()->email }}</sub><br>
+                  <sub><label for="">Designation: </label>{{ auth()->user()->designation }}</sub><br>
+                  <sub><label for="">Division: </label>{{ auth()->user()->division }}</sub><br>
+                  <sub><label for="">Agency: </label>{{ auth()->user()->agency }}</sub>
               </p>
             </div>
           </div>

@@ -17,6 +17,8 @@
   <!-- CSS Files -->
   <link href="{{ asset('assets') }}/css/bootstrap.min.css" rel="stylesheet" />
   <link href="{{ asset('assets') }}/css/now-ui-dashboard.css?v=1.3.0" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.0/css/dataTables.bootstrap4.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.bootstrap4.min.css"/>
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="{{ asset('assets') }}/demo/demo.css" rel="stylesheet" />
   <script type="text/javascript" src="{{ asset('sweet') }}/sweetalert-dev.js"></script>
@@ -34,7 +36,9 @@
     @endguest
   </div>
   <!--   Core JS Files   -->
-  <script src="{{ asset('assets') }}/js/core/jquery.min.js"></script>
+  {{-- <script src="{{ asset('assets') }}/js/core/jquery.min.js"></script> --}}
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  
   <script src="{{ asset('assets') }}/js/core/popper.min.js"></script>
   <script src="{{ asset('assets') }}/js/core/bootstrap.min.js"></script>
   <script src="{{ asset('assets') }}/js/plugins/perfect-scrollbar.jquery.min.js"></script>
@@ -49,6 +53,38 @@
   <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
   <script src="{{ asset('assets') }}/demo/demo.js"></script>
   @stack('js')
+
+  <!--for datatables-->
+  <script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.0/js/dataTables.bootstrap4.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.bootstrap4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.colVis.min.js"></script>
+  <!--end of datatable-->
+
+  <script>
+    $(document).ready(function() {
+var table = $('#list').DataTable( {
+    lengthChange: true,
+    buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
+} );
+
+table.buttons().container()
+    .appendTo( '#list_wrapper .col-md-6:eq(0)' );
+
+    $('#receiptTable').DataTable( {
+    dom: 'Bfrtip',
+    buttons: [
+        'print'
+    ]
+} );
+} );
+</script>
 </body>
 
 </html>
