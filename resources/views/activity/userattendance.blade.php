@@ -63,7 +63,7 @@
                                         <td>{{ $activityattendance->programDescription }}</td>
                                         <td>{{ $activityattendance->focalPerson }}</td>
                                         <td>
-                                            <a href="./activity.attendance/{{ $activityattendance->id }}"><i class="fa fa-fw fa-th-list"></i></i></a>
+                                            <a href="../activity.attendance/{{ $activityattendance->id }}"><i class="fa fa-fw fa-th-list"></i></i></a>
 
                                         </td>
                                     </tr>
