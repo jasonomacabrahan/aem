@@ -81,10 +81,12 @@
                             <th>Name</th>
                             <th>Agency</th>
                             <th>Division</th>
+                        @if (auth()->user()->usertype == 'admin')
                             <th>Designation</th>
                             <th>Contact Number</th>
                             <th>eMail</th>
                             <th>Sex</th>
+                        @endif
                             <th>Date - Registered</th>
                             <th>Created@</th>
                             <th><i class="fa fa-fw fa-cog"></i></th>
@@ -96,10 +98,12 @@
                                 <td>{{  $activityattendance->name }}</td>
                                 <td>{{  $activityattendance->agency }}</td>
                                 <td>{{  $activityattendance->division }}</td>
+                            @if (auth()->user()->usertype == 'admin')
                                 <td>{{  $activityattendance->designation }}</td>
                                 <td>{{  $activityattendance->contactNumber }}</td>
                                 <td>{{  $activityattendance->email }}</td>
                                 <td>{{  (($activityattendance->sex==0)?'Male':'Female') }}</td>
+                            @endif
                                 <td>{{ $activityattendance->registrationDate }}</td>
                                 <td>{{ $activityattendance->created_at }}</td>
                                 <td>
