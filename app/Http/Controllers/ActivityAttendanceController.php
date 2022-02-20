@@ -43,14 +43,15 @@ class ActivityAttendanceController extends Controller
         return view('activity.attendance',['activityattendances'=>$activityattendances]); 
     }
 
-    public function usertrainings($userID)
+    public function usertrainings()
     {
+        $userID = auth()->user()->id;
         $activityattendances = ActivityAttendance::join('activities', 'activities.id', '=', 'activity_attendances.ActivityID')
         ->join('programs', 'programs.id', '=', 'activities.papID')
         ->where('activity_attendances.RegisteredID','=', $userID)
         ->get(['activities.*', 'activity_attendances.*', 'programs.*']);
 
-        return view('activity.userattendance',['activityattendances'=>$activityattendances]); //
+        return view('activity.userattendance',['activityattendances'=>$activityattendances]); 
     }
 
     /**
@@ -66,7 +67,7 @@ class ActivityAttendanceController extends Controller
         $activityattendance->registrationDate =  $req->registrationDate;
         $activityattendance->created_at = now();
         $activityattendance->updated_at = now();
-        $activity = ActivityAttendance::where('RegisteredID',$activityattendance->RegisteredID)->where('ActivityID', $activityattendance->ActivityID)->first();
+        $activity = ActivityAttendance::where('RegisteredID',$activityattendance->RegisteredID)->where('registrationDate', $activityattendance->registrationDate)->first();
         if ($activity) {
             return redirect()->route('activity.reg')
                     ->with('error', 'Event');

@@ -41,8 +41,18 @@ class ProgramController extends Controller
         $Program->focalPerson           =  $req->focalPerson;
         $Program->created_at = now();
         $Program->updated_at = now();
-        $Program->save();
-        return redirect('programs.index');
+
+        $program = Program::where('shortName',$Program->shortName )->where('focalPerson', $Program->focalPerson)->first();
+        if ($program) {
+            return redirect()->route('programs.add')
+                    ->with('error', 'Event');
+        }else{
+            $Program->save();
+            return redirect()->route('programs.add')
+                    ->with('success', 'Event');
+          
+        }
+
     }
 
 

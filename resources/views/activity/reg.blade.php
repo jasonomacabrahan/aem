@@ -50,7 +50,7 @@ $activies = DB::table('activities')->get();
                     </div>
                 </div>
                 
-                <button type="submit" class="btn btn-primary btn-round"> Register </button>
+                <button type="submit" class="btn btn-info"> Register </button>
                 @if ($message = Session::get('success'))
                         <script>
                             swal("Thank you","Activity Registration was Successful","success");

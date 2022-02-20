@@ -16,11 +16,8 @@
           <div class="card">
               <div class="card-header">
                 <h2><i class="fa fa-fw fa-th-list"></i>Activities / Events Expenses - </h2>
-                <a href="./activity.addexpense" id="test" class="btn btn-success"><i class="fas fa-plus-circle"></i> New Expense </a>
-<!---                <a href="{{ '#' }}" class="btn btn-warning"><i class="fas fa-hand-holding"></i>Withdraw</a>
-                <a href="{{ '#' }}" class="btn btn-primary pull-right  "><i class="fas fa-swatchbook"></i>Category</a>
-                <a href="{{ '#' }}" class="btn btn-primary pull-right"><i class="fas fa-ruler"></i>Unit</a>
-                <a href="{{ '#' }}" class="btn btn-primary pull-right"><i class="fas fa-people-carry"></i>Recipient</a> -->
+                <a href="./activity.addexpense" id="test" class="btn btn-info"><i class="fas fa-plus-circle"></i> New Expense </a>
+
               </div>
             <div class="card-body">
                 <style>
@@ -28,7 +25,7 @@
                         font-size: 10pt;!important;
                     }
                 </style>
-                 @if ($message = Session::get('success'))
+                 @if ($message = Session::get('successupdate'))
                  <script>
                      swal("Success","Changes Saved","success");
                  </script>
@@ -40,27 +37,27 @@
                      swal("Oops","Something is wrong I cant Identify","error");
                  </script>
                 @endif
-
+                
                 <div class="row">
                     <div class="card-body">
                       <div class="card-content">
                         <table id="list" class="table table-striped table-hover table-bordered" style="width:100%">
                             <thead >
-                                <tr style='font-size: 8pt;'>
-                                    <th>Activity / Event </th>
-                                    <th>Program</th>
-                                    <th>Fuel & Lubricants</th>
-                                    <th>Travel Per Diem</th>
-                                    <th>Food & Accommodation</th>
-                                    <th>Misc. Expense</th>
-                                    <th>Activity Notes</th>
-                                    <th>Created@</th>
+                                <tr style='font-size: 6pt;'>
+                                    <th style='font-weight: bolder;'>Activity / Event </th>
+                                    <th style='font-weight: bolder;'>Program</th>
+                                    <th style='font-weight: bolder;'>Fuel & Lubricants</th>
+                                    <th style='font-weight: bolder;'>Travel Per Diem</th>
+                                    <th style='font-weight: bolder;'>Food & Accommodation</th>
+                                    <th style='font-weight: bolder;'>Misc. Expense</th>
+                                    <th style='font-weight: bolder;'>Activity Notes</th>
+                                    <th style='font-weight: bolder;'>Created@</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($activityexpenses as $activityexpense)
                                     <tr>
-                                        <td>{{ $activityexpense->activityDescription }}</td>
+                                        <td><a href="updateexpenses/{{ $activityexpense->id }}">{{ $activityexpense->activityDescription }}<i class="fa-solid fa-fw fa-pen-to-square"></i></a></td>
                                         <td>{{ $activityexpense->shortName }}</td>
                                         <td align="right">{{ number_format($activityexpense->fuelLubricants,2) }}</td>
                                         <td align="right">{{ number_format($activityexpense->travelPerDiem,2) }}</td>
