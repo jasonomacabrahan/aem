@@ -2,7 +2,7 @@
     'namePage' => 'Welcome',
     'class' => 'login-page sidebar-mini ',
     'activePage' => 'welcome',
-    'backgroundImage' => asset('assets') . "/img/bg.png",
+    'backgroundImage' => asset('assets') . "/img/bg2.png",
 ])
 
 @section('content')
@@ -14,7 +14,8 @@
                   <div class="header-body text-center mb-7">
                       <div class="row justify-content-center">
                           <div class="col-lg-12 col-md-9">
-                              <h3 class="text-white">{{ __('Welcome to DICT - XI ( Davao Region ) Activity Monitoring System.') }}</h3>
+                              <h3 class="text-white">{{ __('Welcome to DICT - XI ( Davao Region ) Activity Event Monitoring System.') }}</h3>
+                              <a href="/register" class="btn btn-lg btn-info">Register Now</a>
                               <p class="text-lead text-light mt-3 mb-0">
                                   @include('alerts.migrations_check')
                               </p>

@@ -2,34 +2,18 @@
     'namePage' => 'Login page',
     'class' => 'login-page sidebar-mini ',
     'activePage' => 'login',
-    'backgroundImage' => asset('assets') . "/img/bg.png",
+    'backgroundImage' => asset('assets') . "/img/bg2.png",
 ])
 
 @section('content')
     <div class="content">
         <div class="container">
-        <div class="col-md-12 ml-auto mr-auto">
-            <div class="header bg-gradient-primary py-10 py-lg-2 pt-lg-12">
-                <div class="container">
-                    <div class="header-body text-center mb-7">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-12 col-md-9">
-                                <p class="text-lead text-light mt-3 mb-0">
-                                    @include('alerts.migrations_check')
-                                </p>
-                            </div>
-                            <div class="col-lg-5 col-md-6">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
         <div class="col-md-4 ml-auto mr-auto">
 
             @if ($message = Session::get('success'))
                         <script>
-                            swal("Success","Welcome! Registration was Successfull","success");
+                            swal("Success","Registration was Successful","success");
                         </script>
                   @endif
 
@@ -79,7 +63,7 @@
                 @endif
                 </div>
                 <div class="card-footer ">
-                    <button  type = "submit" class="btn btn-danger btn-lg btn-block mb-3"><i class="ui-1_lock-circle-open"></i>{{ __('Login') }}</button>
+                    <button  type = "submit" class="btn btn-info btn-lg btn-block mb-3"><i class="ui-1_lock-circle-open"></i>{{ __('Login') }}</button>
                 </div>
             </div>
             </form>

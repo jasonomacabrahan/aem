@@ -15,15 +15,15 @@
           <div class="card">
             <div class="card-header">
               <h5 class="title">{{__(" Add Program and Project")}}</h5>
-            </div>
 
+            </div>
             <div class="card-body">
-            <form action="programs.add" method="POST" class="mt-1 py-3">
+              <form action="programs.add" method="POST" class="mt-1 py-3">
                 @csrf
                 <div class="row">
                     <div class="col-md-11 pr-1">
                       <div class="form-group">
-                        <label for="shortName">{{__(" shortName")}}</label>
+                        <label  class="text-dark fw-bold"  for="shortName">{{__(" Short Name")}}</label>
                         <input type="text" name="shortName" class="form-control" placeholder="Enter Short Name" value="{{ old('shortName') }}" required>
                         @include('alerts.feedback', ['field' => 'shortName'])
                       </div>
@@ -32,7 +32,7 @@
                 <div class="row">
                     <div class="col-md-11 pr-1">
                       <div class="form-group">
-                        <label for="programDescription">{{__(" Program Description ")}}</label>
+                        <label class="text-dark fw-bold" for="programDescription">{{__(" Program Description ")}}</label>
                         <input type="text" name="programDescription" class="form-control" placeholder="Enter Program Description" value="{{ old('programDescription') }}" required>
                         @include('alerts.feedback', ['field' => 'programDescription'])
                       </div>
@@ -41,19 +41,35 @@
                 <div class="row">
                     <div class="col-md-11 pr-1">
                       <div class="form-group">
-                        <label for="focalPerson">{{__("Focal Person")}}</label>
+                        <label class="text-dark fw-bold" for="focalPerson">{{__("Focal Person")}}</label>
                         <input type="text" name="focalPerson" class="form-control" placeholder="Enter Focal Person" value="{{ old('focalPerson') }}">
                         @include('alerts.feedback', ['field' => 'focalPerson'])
                       </div>
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-round"> Add  </button>
+                <a href="/programs.index" class="btn btn-danger"><i class="fa-solid fa-fw fa-angle-left"></i>Back to Program & Projects</a>
+                <button type="submit" class="btn btn-info"><i class="fa-solid fa-fw fa-save"></i>Add Program & Projects</button>
             </form>
             </div>
+          </div>
+
+            @if ($message = Session::get('success'))
+                 <script>
+                     swal("Success","Program or Project added","success");
+                 </script>
+                @endif
+
+            @if ($message = Session::get('error'))
+                 <script>
+                     swal("Oops","Duplicate Entry","error");
+                 </script>
+                @endif
+            
             </div>
  <!--       </div> -->
     </div>
+   
 </div>
 @endsection
 

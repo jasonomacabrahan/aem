@@ -1,9 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
 use App\Models\ActivityExpense;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;  
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class ActivityExpenseController extends Controller
 {
@@ -16,7 +20,7 @@ class ActivityExpenseController extends Controller
     {
         $activityexpenses = ActivityExpense::join('activities', 'activities.id', '=', 'activity_expenses.activityID')
         ->join('programs', 'programs.id', '=', 'activities.papID')
-        ->get(['activities.*', 'activity_expenses.*', 'programs.*'])->all();
+        ->get(['activities.*', 'activity_expenses.*', 'programs.*','activity_expenses.id'])->all();
     //    dd($activityexpenses);
         return view('activity.expenses',['activityexpenses'=>$activityexpenses]);
     }
@@ -33,7 +37,7 @@ class ActivityExpenseController extends Controller
             'travelPerDiem' => 'integer',
             'foodAccommodation' => 'integer',
             'miscExpense' => 'integer',
-            'activityNotes' =>'string|max:255',
+            //'activityNotes' =>'string|max:255',
         ]);
 
         $activity = new ActivityExpense;
@@ -42,11 +46,47 @@ class ActivityExpenseController extends Controller
         $activity->travelPerDiem     =  $req->travelPerDiem;
         $activity->foodAccommodation =  $req->foodAccommodation;
         $activity->miscExpense       =  $req->miscExpense;
-        $activity->activityNotes     =  $req->activityNotes;
+        //$activity->activityNotes     =  $req->activityNotes;
         $activity->created_at = now();
         $activity->updated_at = now();
         $activity->save();
-        return redirect('../home');    }
+        //return redirect('../home');    
+        return redirect()->route('activity.addexpense')
+                    ->with('success', 'Event');
+    
+    }
+
+    public function updateexpense($id)
+     {
+        $expenses = DB::table('activity_expenses')
+            ->where('id',$id)
+            ->get();
+
+        return view('pages.updateexpense',[
+                                         "expenses"=>$expenses,
+                                         ]);
+         
+     }
+
+    public function saveexpenseupdate(Request $request)
+     {
+        $request->validate([
+            'fuelLubricants' => 'integer',
+            'travelPerDiem' => 'integer',
+            'foodAccommodation' => 'integer',
+            'miscExpense' => 'integer',
+        ]);
+        $updating = DB::table('activity_expenses')
+                    ->where('id',$request->input('id'))
+                    ->update([
+                                'fuelLubricants'=>$request->input('fuelLubricants'),
+                                'travelPerDiem'=>$request->input('travelPerDiem'),
+                                'foodAccommodation'=>$request->input('foodAccommodation'),
+                                'miscExpense'=>$request->input('miscExpense'),
+                    ]);
+                    return redirect()->route('activity.expenses')
+                        ->with('successupdate', 'Changes Saved');
+     }
 
     /**
      * Store a newly created resource in storage.
