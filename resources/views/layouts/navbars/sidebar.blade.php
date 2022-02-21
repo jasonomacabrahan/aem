@@ -20,7 +20,7 @@
       </li>
       
       <li class="@if ($activePage == 'usertrainings') active @endif">
-        <a href="/usertrainings">
+        <a href="{{ route('usertrainings') }}">
           <i class="now-ui-icons design_bullet-list-67"></i>
           <p> {{ __("Training Registered") }} </p>
         </a>

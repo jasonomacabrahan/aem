@@ -31,6 +31,7 @@ class ActivityAttendanceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+   
     public function attendance($id)
     {
         $activityattendances = ActivityAttendance::join('activities', 'activities.id', '=', 'activity_attendances.ActivityID')
@@ -52,7 +53,21 @@ class ActivityAttendanceController extends Controller
         ->get(['activities.*', 'activity_attendances.*', 'programs.*']);
 
         return view('activity.userattendance',['activityattendances'=>$activityattendances]); 
+        
     }
+
+    // public function trainings()
+    // {
+    //     return "hi";
+    //     // $userID = auth()->user()->id;
+    //     // dd($userID);
+    //     // $activityattendances = ActivityAttendance::join('activities', 'activities.id', '=', 'activity_attendances.ActivityID')
+    //     // ->join('programs', 'programs.id', '=', 'activities.papID')
+    //     // ->where('activity_attendances.RegisteredID','=', $userID)
+    //     // ->get(['activities.*', 'activity_attendances.*', 'programs.*']);
+
+    //     // return view('activity.userattendance',['activityattendances'=>$activityattendances]); 
+    // }
 
     /**
      * Show the form for creating a new resource.

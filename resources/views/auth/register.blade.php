@@ -100,8 +100,7 @@
                     <div class="input-group {{ $errors->has('sex') ? ' has-danger' : '' }}">
                       <div class="input-group-prepend form-horizontal">
                           <select name="sex" class="form-control" required>
-                            <optgroup label = "Select Gender">
-                              <option selected hidden>What is your gender?</option>
+                            <optgroup label = "-- Select Gender --">
                               <option value="0">Male</option>
                               <option value="1">Female</option>
                             </optgroup>
