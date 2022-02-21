@@ -15,11 +15,7 @@
           <div class="card">
               <div class="card-header">
                 <h2><i class="fa fa-fw fa-th-list"></i>Users</h2>
-                <a href="{{ '#' }}" id="test" class="btn btn-success"><i class="fas fa-plus-circle"></i>New User</a>
-<!---                <a href="{{ '#' }}" class="btn btn-warning"><i class="fas fa-hand-holding"></i>Withdraw</a>
-                <a href="{{ '#' }}" class="btn btn-primary pull-right  "><i class="fas fa-swatchbook"></i>Category</a>
-                <a href="{{ '#' }}" class="btn btn-primary pull-right"><i class="fas fa-ruler"></i>Unit</a>
-                <a href="{{ '#' }}" class="btn btn-primary pull-right"><i class="fas fa-people-carry"></i>Recipient</a> -->
+                <a href="{{ '#' }}" id="test" class="btn btn-info"><i class="fas fa-plus-circle"></i>New User</a>
               </div>
             <div class="card-body">
                 <style>
@@ -58,13 +54,13 @@
                     <tbody>
                         @foreach($users as $user)
                             <tr>
-                                <td><a href="#" title="Update User"></i>{{ $user->name }}</a></td>
+                                <td><a href="#" title="Update User"></i>{{ $user->name }}<i class="fa-solid fa-fw fa-pen-to-square"></i></a></td>
                                 <td>{{ $user->agency }}</a></td>
                                 <td>{{ $user->division }}</td>
                                 <td>{{ $user->designation }}</td>
                                 <td>{{ $user->contactNumber }}</td>
                                 <td>{{ (($user->sex==0)?'Male':'Female') }}</td>
-                                <td>{{ $user->usertype }}</td>
+                                <td><a href="">{{ $user->usertype }}</a></td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->created_at }}</td>
                                 <td>
