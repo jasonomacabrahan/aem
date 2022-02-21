@@ -45,7 +45,7 @@
                                     <th style='font-weight: bolder;'>Training</th>
                                     <th style='font-weight: bolder;'>Location</th>
                                     <th style='font-weight: bolder;'>Start Date</th>
-                                    <th style='font-weight: bolder;'>End Data</th>
+                                    <th style='font-weight: bolder;'>End Date</th>
                                     <th style='font-weight: bolder;'>Program</th>
                                     <th style='font-weight: bolder;'>Program Description</th>
                                     <th style='font-weight: bolder;'>Focal Person</th>
@@ -74,7 +74,7 @@
                                     <th>Training</th>
                                     <th>Location</th>
                                     <th>Start Date</th>
-                                    <th>End Data</th>
+                                    <th>End Date</th>
                                     <th>Program</th>
                                     <th>Program Description</th>
                                     <th>Focal Person</th>
