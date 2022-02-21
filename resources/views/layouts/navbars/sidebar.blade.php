@@ -25,7 +25,7 @@
           <p> {{ __("Training Registered") }} </p>
         </a>
       </li>
-@if (auth()->user()->usertype == 'admin') {
+@if (auth()->user()->usertype == 'admin') 
         <li>
             <a data-toggle="collapse" href="#master">
                 <i class="now-ui-icons ui-1_settings-gear-63"></i>
@@ -63,7 +63,7 @@
               </ul>
             </div>
             </li>
-        } @endif
+         @endif
 
         <li class="@if ($activePage == 'registration') active @endif">
             <a href="{{ route('activity.reg') }}">

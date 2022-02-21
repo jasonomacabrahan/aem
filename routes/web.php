@@ -19,6 +19,8 @@ Route::get('/', function () {
 
 
 
+
+Route::get('register', ['as' => 'auth.register', 'uses' => 'App\Http\Controllers\UserController@regnew']);
 Route::get('register', ['as' => 'auth.register', 'uses' => 'App\Http\Controllers\UserController@regnew']);
 Route::post('/regnew', [UserController::class, 'regnew'])->name('regnew');
             

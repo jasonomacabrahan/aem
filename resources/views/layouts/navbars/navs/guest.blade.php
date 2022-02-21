@@ -13,7 +13,7 @@
     <div class="collapse navbar-collapse justify-content-end" id="navigation">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a href="/" class="nav-link"> <!-- {{ route('login') }} -->
+          <a href="{{ route('home') }}" class="nav-link">
             <i class="now-ui-icons design_app"></i> {{ __(" Home ") }}
           </a>
         </li>
