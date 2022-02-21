@@ -10,7 +10,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" integrity="sha512-cyIcYOviYhF0bHIhzXWJQ/7xnaBuIIOecYoPZBgJHQKFPo+TOBA+BY1EnTpmM8yKDU4ZdI3UGccNGCEUdfbBqw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js" integrity="sha512-IZ95TbsPTDl3eT5GwqTJH/14xZ2feLEGJRbII6bRKtE/HC6x3N4cHye7yyikadgAsuiddCY2+6gMntpVHL1gHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-
+@php
+    $programs = DB::table('programs')->get();
+    $users = DB::table('users')->get();
+@endphp
 @section('content')
 <div class="panel-header panel-header-lg">
     <canvas id="bigDashboardChart"></canvas>
@@ -23,7 +26,7 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-header">
-                <h5>{{__(" Buy Package / Activation Codes")}}</h5>
+                <h5>{{__(" Task Assigment ")}}</h5>
               </div>
             <div class="card-body">
             <form action="{{ route('tasks.add') }}" method="POST" class="mt-1 py-3">
@@ -32,7 +35,6 @@
                 <div class="row">
                     <div class="col-md-7 pr-1">
                       <div class="form-group">
-                        <label for="papID">{{__(" Program ")}}</label>
                         <select name='papID'  class="form-control" id='papID'>
                             @php
                             foreach($programs as $program){
@@ -43,13 +45,13 @@
                       </div>
                     </div>
                 </div>
-<!--
+
                 <div class="row">
                     <div class="col-md-7 pr-1">
                       <div class="form-group">
-                        <label for="buySourceName">{{__(" Source Name")}}</label>
-                        <input type="text" name="buySourceName" class="form-control" placeholder="Enter Source Name" value="{{ old('buySourceName') }}" required>
-                        @include('alerts.feedback', ['field' => 'buySourceName'])
+                        <label for="taskDetail">{{__(" Task Detail")}}</label>
+                        <input type="text" name="taskDetail" class="form-control" placeholder="Enter Task Detail" value="{{ old('taskDetail') }}" required>
+                        @include('alerts.feedback', ['field' => 'taskDetail'])
                       </div>
                     </div>
                 </div>
@@ -57,35 +59,28 @@
                 <div class="row">
                     <div class="col-md-7 pr-1">
                       <div class="form-group">
-                        <label for="buyContactNumber">{{__(" Source Contact Number")}}</label>
-                        <input type="text" name="buyContactNumber" class="form-control" placeholder="Enter Source Contact Number" value="{{ old('buyContactNumber') }}" required>
-                        @include('alerts.feedback', ['field' => 'buyContactNumber'])
+                        <label for="taskBy">{{__(" Source Name")}}</label>
+                       <input type="text" name="taskBy" class="form-control" placeholder="Enter Source Name" value="{{ auth()->user()->id }}" readonly>
+                        @include('alerts.feedback', ['field' => 'taskBy'])
                       </div>
                     </div>
                 </div>
-            -->
+
                 <div class="row">
                     <div class="col-md-7 pr-1">
                       <div class="form-group">
-                        <label for="buyAmount">{{__(" Amount Sent ")}}</label>
-                        <input type="text" name="buyAmount" class="form-control" placeholder="Enter Amount Sent " value="{{ old('buyAmount') }}">
-                        @include('alerts.feedback', ['field' => 'buyAmount'])
+                        <button type="button" id="addMore" class="btn btn-success btn-sm btn-round"> Add Recipient </button>
+                        <input type="hidden" name="rowCount" id="rowCount" class="form-control" value="0">
                       </div>
-                      <button type="button" id="addMore" class="btn btn-success btn-sm btn-round"> Add Package </button>
-                      <input type="hidden" name="rowCount" id="rowCount" class="form-control" value="0">
-
                     </div>
                 </div>
 
-                @foreach($packages as $package)
-                @endforeach
                 <div class="form-group">
 
                 <table class="table table-sm table-responsive" style="display: none;">
                     <thead>
                         <tr  class=" text-center">
-                            <td>Package Name</td>
-                            <td>Quantity</td>
+                            <td>Person Name</td>
                             <td>Action</td>
                         </tr>
                     </thead>
@@ -96,7 +91,7 @@
                 </table>
 
                 </div>
-                <button type="submit" class="btn btn-primary btn-round"> Buy </button>
+                <button type="submit" class="btn btn-primary btn-round"> Record </button>
                 @if (isset($success))
                         <script>
                             swal("Thank you","Buy request was Successful","success");
@@ -159,7 +154,7 @@
             <select name='user@{{ newcount }}'  class="form-control" id='user@{{ newcount }}'>
                 @php
                 foreach($users as $user){
-                    echo '<option value="' . $user->id . '" > '. strtoupper($user->name) . ' [ '. $user->packageDescription .' ]  </option>';
+                    echo '<option value="' . $user->id . '" > '. strtoupper($user->name) . ' [ '. $user->designation .' ]  </option>';
                 }
                 @endphp
             </select>
