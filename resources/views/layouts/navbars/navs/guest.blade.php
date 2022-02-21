@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg bg-info navbar-absolute">
   <div class="container-fluid">
     <div class="navbar-wrapper text-white">
-     <a href="{{ route('home') }}" style="text-decoration:none; display:inline;"><img src="{{ asset('assets').'/img/favicon.png' }}" style="width:50px;height:50px; padding: 0px; margin: 0px;" alt=" DICT XI ">  <span style="font-size: 20px; font-weight: bolder;">&nbspDICT XI  - AEM</span></a>
+     <a href="{{ route('welcome') }}" style="text-decoration:none; display:inline;"><img src="{{ asset('assets').'/img/favicon.png' }}" style="width:50px;height:50px; padding: 0px; margin: 0px;" alt=" DICT XI ">  <span style="font-size: 20px; font-weight: bolder;">&nbspDICT XI  - AEM</span></a>
 
     </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,7 +13,7 @@
     <div class="collapse navbar-collapse justify-content-end" id="navigation">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a href="{{ route('home') }}" class="nav-link">
+          <a href="{{ route('welcome') }}" class="nav-link">
             <i class="now-ui-icons design_app"></i> {{ __(" Home ") }}
           </a>
         </li>
