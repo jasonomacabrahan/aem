@@ -36,6 +36,7 @@ Route::get('qr-code', function () {
 });
 
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
+Route::get('/welcome', 'App\Http\Controllers\HomeController@welcome')->name('welcome');
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('programs.index', ['as' => 'programs.index', 'uses' => 'App\Http\Controllers\ProgramController@index']);
