@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TaskAssignment;
+use App\Models\TaskResolution;
 use App\Models\Program;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,6 +23,14 @@ class TaskAssignmentController extends Controller
         return view('tasks.index', ['tasks'=>$tasks, 'programs'=>$programs, 'users'=>$users]);
     }
 
+    public function addtask()
+    {
+        $programs = Program::all();
+        $users = User::all();
+        dd($programs, $users);
+        return view('tasks.add', ['programs'=>$programs, 'users'=>$users]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -29,14 +38,30 @@ class TaskAssignmentController extends Controller
      */
     public function create(Request $req)
     {
+        // dd($req);
         $tasks = new TaskAssignment;
-        $tasks->papID       =$req->papID  ;
-        $tasks->taskBy      = $req->taskBy  ;
-        $tasks->taskedTo    = $req->taskedTo  ;
-        $tasks->taskDetail  = $req->taskDetail  ;
-        $tasks->taskResolved= $req->taskResolved  ;
-        $tasks->timestamps();
+        $tasks->papID       =$req->papID;
+        $tasks->taskBy      = $req->taskBy;
+        $tasks->taskedTo    = ' ';
+        $tasks->taskDetail  = $req->taskDetail;
+        $tasks->taskResolved= 0 ;
+        $tasks->created_at = now();
+        $tasks->updated_at = now();
         $tasks->save();
+        $taskid = $tasks->id;
+        $a = 1;
+        while ($a <= $req->rowCount) {
+            $packstr = 'user'.$a ;
+            if (isset($req->$packstr)) {
+
+                $assignee = new TaskResolution;
+                $assignee->taskAssignmentID = $taskid;
+                $assignee->resolutionDetails = ' ';
+                $assignee->userID = $req->$packstr;
+                $assignee->save();
+            }
+            $a++;
+        }
         return redirect('tasks.index');
     }
 
