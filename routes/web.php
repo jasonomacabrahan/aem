@@ -18,7 +18,8 @@ Route::get('/', function () {
 
 
 Route::get('tasks.index', ['as' => 'tasks.index', 'uses' => 'App\Http\Controllers\TaskAssignmentController@index']);
-Route::view('tasks.add', ['as' => 'tasks.add', 'uses' => 'App\Http\Controllers\TaskAssignmentController@index']);
+
+Route::view('tasks.add', 'tasks.add');
 Route::post('tasks.add', ['as' => 'tasks.add', 'uses' => 'App\Http\Controllers\TaskAssignmentController@create']);
 
 
