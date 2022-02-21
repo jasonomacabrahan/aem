@@ -44,14 +44,17 @@ Route::get('routes', function () {
     echo "</table>";
 });
 
+Route::get('tasks.index', ['as' => 'tasks.index', 'uses' => 'App\Http\Controllers\TaskAssignmentController@index']);
 
+Route::view('tasks.add', 'tasks.add');
+Route::post('tasks.add', ['as' => 'tasks.add', 'uses' => 'App\Http\Controllers\TaskAssignmentController@create']);
 
 
 Route::get('register', ['as' => 'auth.register', 'uses' => 'App\Http\Controllers\UserController@regnew']);
 Route::get('register', ['as' => 'auth.register', 'uses' => 'App\Http\Controllers\UserController@regnew']);
 Route::post('/regnew', [UserController::class, 'regnew'])->name('regnew');
-            
-            
+
+
 
 
 
@@ -69,7 +72,7 @@ Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('programs.index', ['as' => 'programs.index', 'uses' => 'App\Http\Controllers\ProgramController@index']);
 	Route::view('programs.add','programs.add');
-	Route::post('programs.add', ['as' => 'programs.add', 'uses' => 'App\Http\Controllers\ProgramController@create']);	
+	Route::post('programs.add', ['as' => 'programs.add', 'uses' => 'App\Http\Controllers\ProgramController@create']);
 	Route::get('activity.index', ['as' => 'activity.index', 'uses' => 'App\Http\Controllers\ActivityController@index']);
 	Route::view('activity.add','activity.add');
 	Route::post('activity.add', ['as' => 'activity.add', 'uses' => 'App\Http\Controllers\ActivityController@create']);
@@ -90,12 +93,5 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
 	Route::get('{page}', ['as' => 'page.index', 'uses' => 'App\Http\Controllers\PageController@index']);
-	
-	//Route::get('/trainings', 'App\Http\Controllers\ActivityAttendanceController@trainings');
-	//Route::get('usertrainings', 'ActivityAttendanceController@usertrainings')->name('usertrainings');
-	//Route::get('/usertrainings', [ActivityAttendanceController::class, 'usertrainings'])->name('usertrainings'); //
-	// Route::get('trainings', ['as' => 'activity.userattendance', 'uses' => 'App\Http\Controllers\ActivityAttendanceController@trainings']);
-	
-            
 });
 

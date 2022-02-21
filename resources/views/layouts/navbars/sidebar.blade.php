@@ -18,14 +18,14 @@
           <p>{{ __('Dashboard - ' . auth()->user()->usertype ) }}</p>
         </a>
       </li>
-      
+
       <li class="@if ($activePage == 'usertrainings') active @endif">
         <a href="{{ route('usertrainings') }}">
           <i class="now-ui-icons design_bullet-list-67"></i>
           <p> {{ __("Training Registered") }} </p>
         </a>
       </li>
-@if (auth()->user()->usertype == 'admin') 
+@if (auth()->user()->usertype == 'admin')
         <li>
             <a data-toggle="collapse" href="#master">
                 <i class="now-ui-icons ui-1_settings-gear-63"></i>
@@ -36,6 +36,12 @@
             </a>
             <div class="collapse hide" id="master">
               <ul class="nav">
+                <li class="@if ($activePage == 'tasks') active @endif">
+                    <a href="{{ route('tasks.index') }}">
+                      <i class="now-ui-icons shopping_shop"></i>
+                      <p> {{ __(" Tasks ") }} </p>
+                    </a>
+                </li>
                 <li class="@if ($activePage == 'programs') active @endif">
                     <a href="{{ route('programs.index') }}">
                       <i class="now-ui-icons shopping_shop"></i>
