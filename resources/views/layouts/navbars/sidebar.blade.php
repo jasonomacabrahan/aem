@@ -18,32 +18,13 @@
           <p>{{ __('Dashboard - ' . auth()->user()->usertype ) }}</p>
         </a>
       </li>
-
-      <li>
-        <a data-toggle="collapse" href="#User">
-            <i class="fab fa-laravel"></i>
-          <p>
-            {{ __("User") }}
-            <b class="caret"></b>
-          </p>
+      
+      <li class="@if ($activePage == 'usertrainings') active @endif">
+        <a href="/usertrainings">
+          <i class="now-ui-icons design_bullet-list-67"></i>
+          <p> {{ __("Training Registered") }} </p>
         </a>
-        <div class="collapse hide" id="User">
-          <ul class="nav">
-            <li class="@if ($activePage == 'profile') active @endif">
-              <a href="{{ route('profile.edit') }}">
-                <i class="now-ui-icons users_single-02"></i>
-                <p> {{ __("User Profile") }} </p>
-              </a>
-            </li>
-            <li class="@if ($activePage == 'users') active @endif">
-                <a href="{{__('./usertrainings/'.auth()->user()->id) }}">
-                  <i class="now-ui-icons design_bullet-list-67"></i>
-                  <p> {{ __("Training Registered") }} </p>
-                </a>
-              </li>
-          </ul>
-        </div>
-        </li>
+      </li>
 @if (auth()->user()->usertype == 'admin') {
         <li>
             <a data-toggle="collapse" href="#master">

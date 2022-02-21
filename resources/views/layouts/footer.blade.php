@@ -1,28 +1,20 @@
 <footer class="footer">
   <div class=" container-fluid ">
-<!---    <nav>
+<nav>
       <ul>
         <li>
-          <a href="https://www.creative-tim.com" target="_blank">
-            {{__(" Creative Tim")}}
+          <a href="#" target="_blank">
+            {{__(" About")}}
           </a>
         </li>
         <li>
-          <a href="http://presentation.creative-tim.com" target="_blank">
-            {{__(" About Us")}}
+          <a href="#" target="_blank">
+            {{__("Terms & Condition")}}
           </a>
         </li>
-        <li>
-          <a href="http://blog.creative-tim.com" target="_blank">
-            {{__(" Blog")}}
-          </a>
-        </li>
-        <li>
-          <a href="https://www.updivision.com" target="_blank">
-            {{__(" Updivision")}}</a>
-        </li>
+        
       </ul>
-    </nav> --->
+    </nav>
     <div class="copyright" id="copyright">
       &copy;
       <script>
@@ -32,7 +24,7 @@
       <a href="https://www.invisionapp.com" target="_blank">{{__(" Invision")}}</a> -->
       {{__("  Coded by")}}
       <a href="#" target="_blank">{{__(" Jiji ")}}</a>&
-      <a href="#" target="_blank">{{__(" iBPLS XI")}}</a> {{__(" .  ")}} <img src="{{ asset('assets').'/img/favicon.png' }}" alt=" DICT XI ">
+      <a href="#" target="_blank">{{__(" iBPLS XI")}}</a> {{__(" .  ")}} <!--<img src="{{ asset('assets').'/img/favicon.png' }}" alt=" DICT XI ">-->
     </div>
   </div>
 </footer>

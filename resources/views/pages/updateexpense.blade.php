@@ -19,7 +19,7 @@ $activies = DB::table('activities')->get();
 <!--        <div class="col-md-12"> -->
           <div class="card">
             <div class="card-header">
-              <h5 class="title">{{__(" Event / Activity Expense Entry ")}}</h5>
+              <h5 class="title">{{__(" Update Event / Activity Expense Entry ")}}</h5>
             </div>
 
             <div class="card-body">
@@ -29,32 +29,17 @@ $activies = DB::table('activities')->get();
               </script>
               @endif
 
-
-              @if ($message = Session::get('error'))
-                    <script>
-                        swal("Oops!","Problem encountered","error");
-                    </script>
-              @endif
-            <form action="activity.addexpense" method="POST" class="mt-1 py-3">
+            <form action="/saveexpensesupdate" method="POST" class="mt-1 py-3">
                 @csrf
-                <div class="row">
-                    <div class="col-md-11 pr-1">
-                      <div class="form-group">
-                        <label for="activityID">{{__(" Program / Project ")}}</label>
-                        <select name="activityID" class="form-control" id="activityID">
-                            @foreach($activies as $activity)
-                            <option value="{{ $activity->id }}">{{ $activity->activityDescription }}</option>
-                            @endforeach
-                        </select>
-                      </div>
-                    </div>
-                </div>
+                @foreach ($expenses as $expense)
+                
 
                 <div class="row">
                     <div class="col-md-11 pr-1">
                       <div class="form-group">
                         <label for="fuelLubricants">{{__(" Fuel & Lubricants")}}</label>
-                        <input type="text" name="fuelLubricants" class="form-control" placeholder="Enter Fuel & Lubricants" value="{{ old('fuelLubricants') }}" required>
+                        <input type="hidden" name="id" value="{{$expense->id}}">
+                        <input type="text" name="fuelLubricants" class="form-control" placeholder="Enter Fuel & Lubricants" value="{{$expense->fuelLubricants}}" required>
                         @include('alerts.feedback', ['field' => 'fuelLubricants'])
                       </div>
                     </div>
@@ -64,7 +49,7 @@ $activies = DB::table('activities')->get();
                     <div class="col-md-11 pr-1">
                       <div class="form-group">
                         <label for="travelPerDiem">{{__(" Travel Per Diem")}}</label>
-                        <input type="text" name="travelPerDiem" class="form-control" placeholder="Enter Travel Per Diem" value="{{ old('travelPerDiem') }}" required>
+                        <input type="text" name="travelPerDiem" class="form-control" placeholder="Enter Travel Per Diem" value="{{$expense->travelPerDiem}}" required>
                         @include('alerts.feedback', ['field' => 'travelPerDiem'])
                       </div>
                     </div>
@@ -74,7 +59,7 @@ $activies = DB::table('activities')->get();
                     <div class="col-md-11 pr-1">
                       <div class="form-group">
                         <label for="foodAccommodation">{{__(" Food & Accommodation")}}</label>
-                        <input type="text" name="foodAccommodation" class="form-control" placeholder="Enter Food & Accommodation" value="{{ old('foodAccommodation') }}" required>
+                        <input type="text" name="foodAccommodation" class="form-control" placeholder="Enter Food & Accommodation" value="{{$expense->foodAccommodation}}" required>
                         @include('alerts.feedback', ['field' => 'foodAccommodation'])
                       </div>
                     </div>
@@ -84,7 +69,7 @@ $activies = DB::table('activities')->get();
                     <div class="col-md-11 pr-1">
                       <div class="form-group">
                         <label for="miscExpense">{{__(" Miscellaneous Expense")}}</label>
-                        <input type="text" name="miscExpense" class="form-control" placeholder="Enter Miscellaneous Expense" value="{{ old('miscExpense') }}" required>
+                        <input type="text" name="miscExpense" class="form-control" placeholder="Enter Miscellaneous Expense" value="{{$expense->miscExpense}}" required>
                         @include('alerts.feedback', ['field' => 'miscExpense'])
                       </div>
                     </div>
@@ -99,9 +84,9 @@ $activies = DB::table('activities')->get();
                       </div>
                     </div>
                 </div> --}}
+                @endforeach
                 <a href="/expenses" class="btn btn-danger"><i class="fa-solid fa-fw fa-angle-left"></i>Back</a>
-                
-                <button type="submit" class="btn btn-info btn-round">Save</button>
+                <button type="submit" class="btn btn-info">Save</button>
             </form>
             </div>
             </div>

@@ -42,14 +42,14 @@
                         <table id="list" class="table table-striped table-hover table-bordered" style="width:100%">
                             <thead >
                                 <tr style='font-size: 8pt;'>
-                                    <th>Training</th>
-                                    <th>Location</th>
-                                    <th>Start Date</th>
-                                    <th>End Data</th>
-                                    <th>Program</th>
-                                    <th>Program Description</th>
-                                    <th>Focal Person</th>
-                                    <th><i class="fa fa-fw fa-cog"></i></th>
+                                    <th style='font-weight: bolder;'>Training</th>
+                                    <th style='font-weight: bolder;'>Location</th>
+                                    <th style='font-weight: bolder;'>Start Date</th>
+                                    <th style='font-weight: bolder;'>End Data</th>
+                                    <th style='font-weight: bolder;'>Program</th>
+                                    <th style='font-weight: bolder;'>Program Description</th>
+                                    <th style='font-weight: bolder;'>Focal Person</th>
+                                    <th style='font-weight: bolder;'><i class="fa fa-fw fa-cog"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
