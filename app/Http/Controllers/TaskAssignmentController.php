@@ -23,12 +23,14 @@ class TaskAssignmentController extends Controller
         return view('tasks.index', ['tasks'=>$tasks, 'programs'=>$programs, 'users'=>$users]);
     }
 
-    public function addtask()
+    public function taskform()
     {
         $programs = Program::all();
         $users = User::all();
-        dd($programs, $users);
+        //dd($programs, $users);
         return view('tasks.add', ['programs'=>$programs, 'users'=>$users]);
+        
+        
     }
 
     /**
@@ -62,7 +64,8 @@ class TaskAssignmentController extends Controller
             }
             $a++;
         }
-        return redirect('tasks.index');
+        return redirect()->route('taskform')
+                ->with('success', 'event');
     }
 
     /**

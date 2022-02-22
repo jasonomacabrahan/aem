@@ -15,26 +15,32 @@
     $users = DB::table('users')->get();
 @endphp
 @section('content')
-<div class="panel-header panel-header-lg">
-    <canvas id="bigDashboardChart"></canvas>
-  </div>
+<div class="panel-header panel-header-sm">
+
+</div>
 <div class="content">
 
     <div class="container">
 
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-8">
           <div class="card">
-            <div class="card-header">
-                <h5>{{__(" Task Assigment ")}}</h5>
+            <div class="card-header bg-info text-white fw-bolder">
+                <h5><i class="fa-solid fa-list-check"></i>{{__(" Task Assigment ")}}</h5>
               </div>
             <div class="card-body">
-            <form action="{{ route('tasks.add') }}" method="POST" class="mt-1 py-3">
+              @if ($message = Session::get('success'))
+                        <script>
+                            swal("Success","Task Addedd","success");
+                        </script>
+              @endif
+            <form action="{{ route('addtask') }}" method="POST" class="mt-1 py-3">
                 @csrf
 
                 <div class="row">
-                    <div class="col-md-7 pr-1">
+                    <div class="col-md-4">
                       <div class="form-group">
+                        <label for="" class="fw-bolder text-dark">Program & Projects</label>
                         <select name='papID'  class="form-control" id='papID'>
                             @php
                             foreach($programs as $program){
@@ -44,32 +50,28 @@
                         </select>
                       </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-md-7 pr-1">
+                    <div class="col-md-4">
                       <div class="form-group">
-                        <label for="taskDetail">{{__(" Task Detail")}}</label>
-                        <input type="text" name="taskDetail" class="form-control" placeholder="Enter Task Detail" value="{{ old('taskDetail') }}" required>
+                        <label for="taskDetail" class="fw-bolder text-dark">{{__(" Task Detail")}}</label>
+                        <input type="text" class="form-control" name="taskDetail" id="taskDetail" required>
                         @include('alerts.feedback', ['field' => 'taskDetail'])
                       </div>
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-7 pr-1">
+                    <div class="col-md-4">
                       <div class="form-group">
-                        <label for="taskBy">{{__(" Source Name")}}</label>
+                        <label class="fw-bolder text-dark" for="taskBy">{{__(" Source Name")}}</label>
                        <input type="text" name="taskBy" class="form-control" placeholder="Enter Source Name" value="{{ auth()->user()->id }}" readonly>
                         @include('alerts.feedback', ['field' => 'taskBy'])
                       </div>
                     </div>
-                </div>
+
+                </div>                
 
                 <div class="row">
                     <div class="col-md-7 pr-1">
                       <div class="form-group">
-                        <button type="button" id="addMore" class="btn btn-success btn-sm btn-round"> Add Recipient </button>
+                        <button type="button" id="addMore" class="btn btn-success btn-sm"><i class="fa-solid fa-plus"></i> Add Recipient </button>
                         <input type="hidden" name="rowCount" id="rowCount" class="form-control" value="0">
                       </div>
                     </div>
@@ -91,10 +93,10 @@
                 </table>
 
                 </div>
-                <button type="submit" class="btn btn-primary btn-round"> Record </button>
+                <button type="submit" class="btn btn-info"> <i class="fa-solid fa-fw fa-floppy-disk"></i> Save </button>
                 @if (isset($success))
                         <script>
-                            swal("Thank you","Buy request was Successful","success");
+                            swal("Thank you","","success");
                         </script>
                         {{ $success }}
                 @endif

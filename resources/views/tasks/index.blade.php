@@ -16,7 +16,7 @@
           <div class="card">
               <div class="card-header">
                 <h2><i class="fa fa-fw fa-th-list"></i>Task Assignments</h2>
-                <a href="tasks.add" id="test" class="btn btn-success"><i class="fas fa-plus-circle"></i> New Task </a>
+                <a href="{{ route('taskform')}}" class="btn btn-success"><i class="fas fa-plus-circle"></i> New Task </a>
               </div>
             <div class="card-body">
                 <style>
@@ -26,7 +26,7 @@
                 </style>
                  @if ($message = Session::get('success'))
                  <script>
-                     swal("Success","Changes Saved","success");
+                     swal("Success","Task Addedd","success");
                  </script>
                 @endif
 
