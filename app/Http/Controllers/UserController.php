@@ -35,6 +35,45 @@ class UserController extends Controller
         return view('users.index', ['users' => $model->paginate(15)]);
     }
 
+
+    public function getuser($id)
+    {
+         $users = DB::table('users')
+            ->where('id',$id)
+            ->get();
+         return view('pages.updatuser',[
+                                        "users"=>$users
+                                        ]);
+    }
+
+    public function saveuserupdate(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|string|max:255',
+            'contactNumber' => 'required|string|max:255',
+            'agency' => 'required',
+            'division' => 'required',
+            'designation' => 'required',
+            'usertype' => 'required',
+        ]);
+
+        
+        $updating = DB::table('users')
+                    ->where('id',$request->input('id'))
+                    ->update([
+                                'name'=>$request->input('name'),
+                                'agency'=>$request->input('agency'),
+                                'division'=>$request->input('division'),
+                                'designation'=>$request->input('designation'),
+                                'contactNumber'=>$request->input('contactNumber'),
+                                'usertype'=>$request->input('usertype'),
+                                'email'=>$request->input('email'),
+                    ]);
+                    return back()->with('success', 'Changes Saved');
+    }
+
+
     
 
     public function regnew(Request $req)

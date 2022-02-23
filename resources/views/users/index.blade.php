@@ -54,7 +54,7 @@
                     <tbody>
                         @foreach($users as $user)
                             <tr>
-                                <td><a href="#" title="Update User"></i>{{ $user->name }}<i class="fa-solid fa-fw fa-pen-to-square"></i></a></td>
+                                <td><a href="{{ route('getuser', ['id' => $user->id])  }}" title="Update User"></i>{{ $user->name }}<i class="fa-solid fa-fw fa-pen-to-square"></i></a></td>
                                 <td>{{ $user->agency }}</a></td>
                                 <td>{{ $user->division }}</td>
                                 <td>{{ $user->designation }}</td>
