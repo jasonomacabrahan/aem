@@ -72,13 +72,14 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('activity.index', ['as' => 'activity.index', 'uses' => 'App\Http\Controllers\ActivityController@index']);
 	Route::view('activity.add','activity.add');
 	Route::post('activity.add', ['as' => 'activity.add', 'uses' => 'App\Http\Controllers\ActivityController@create']);
-	Route::get('activity.attendance/{id}', ['as' => 'activity.attendance/{id}', 'uses' => 'App\Http\Controllers\ActivityAttendanceController@attendance']);
+	//Route::get('activity.attendance/{id}', ['as' => 'activity.attendance/{id}', 'uses' => 'App\Http\Controllers\ActivityAttendanceController@attendance']);
+	Route::get('activity/{id}', 'App\Http\Controllers\ActivityAttendanceController@attendance')->name('activity');
 	Route::get('expenses', ['as' => 'activity.expenses', 'uses' => 'App\Http\Controllers\ActivityExpenseController@index']);
 	Route::view('activity.addexpense','activity.addexpense');
 	Route::post('activity.addexpense', ['as' => 'activity.addexpense', 'uses' => 'App\Http\Controllers\ActivityExpenseController@create']);
 	Route::get('/usertrainings', 'App\Http\Controllers\ActivityAttendanceController@usertrainings')->name('usertrainings');	
 	Route::get('/updateexpenses/{id}', 'App\Http\Controllers\ActivityExpenseController@updateexpense');
-	Route::post('/saveexpensesupdate', 'App\Http\Controllers\ActivityExpenseController@saveexpenseupdate');
+	Route::post('/saveexpensesupdate', 'App\Http\Controllers\ActivityExpenseController@saveexpenseupdate')->name('saveexpensesupdate');
 	Route::get('tasks.index', ['as' => 'tasks.index', 'uses' => 'App\Http\Controllers\TaskAssignmentController@index']);
 	//Route::view('tasks.add', 'tasks.add');
 	Route::get('/taskform', 'App\Http\Controllers\TaskAssignmentController@taskform')->name('taskform');	
