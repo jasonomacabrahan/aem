@@ -72,19 +72,18 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('activity.index', ['as' => 'activity.index', 'uses' => 'App\Http\Controllers\ActivityController@index']);
 	Route::view('activity.add','activity.add');
 	Route::post('activity.add', ['as' => 'activity.add', 'uses' => 'App\Http\Controllers\ActivityController@create']);
-	//Route::get('activity.attendance/{id}', ['as' => 'activity.attendance/{id}', 'uses' => 'App\Http\Controllers\ActivityAttendanceController@attendance']);
 	Route::get('activity/{id}', 'App\Http\Controllers\ActivityAttendanceController@attendance')->name('activity');
 	Route::get('expenses', ['as' => 'activity.expenses', 'uses' => 'App\Http\Controllers\ActivityExpenseController@index']);
-	Route::view('activity.addexpense','activity.addexpense');
-	Route::post('activity.addexpense', ['as' => 'activity.addexpense', 'uses' => 'App\Http\Controllers\ActivityExpenseController@create']);
+	Route::view('activity.addexpense','activity.addexpense')->name('activity.addexpense');
+	Route::post('/addexpense', 'App\Http\Controllers\ActivityExpenseController@create')->name('addexpense');
 	Route::get('/usertrainings', 'App\Http\Controllers\ActivityAttendanceController@usertrainings')->name('usertrainings');	
+	Route::get('/getuser/{id}', 'App\Http\Controllers\UserController@getuser')->name('getuser');//just for getting user id
+	Route::post('/saveuserupdate', 'App\Http\Controllers\UserController@saveuserupdate')->name('saveuserupdate');//just for updating user account and level
 	Route::get('/updateexpenses/{id}', 'App\Http\Controllers\ActivityExpenseController@updateexpense');
 	Route::post('/saveexpensesupdate', 'App\Http\Controllers\ActivityExpenseController@saveexpenseupdate')->name('saveexpensesupdate');
 	Route::get('tasks.index', ['as' => 'tasks.index', 'uses' => 'App\Http\Controllers\TaskAssignmentController@index']);
-	//Route::view('tasks.add', 'tasks.add');
 	Route::get('/taskform', 'App\Http\Controllers\TaskAssignmentController@taskform')->name('taskform');	
 	Route::post('/addtask', 'App\Http\Controllers\TaskAssignmentController@create')->name('addtask');
-	//Route::post('tasks.add', ['as' => 'tasks.add', 'uses' => 'App\Http\Controllers\TaskAssignmentController@create']);
 	
 	Route::view('activity.reg','activity.reg');
 	Route::post('activity.reg', ['as' => 'activity.reg', 'uses' => 'App\Http\Controllers\ActivityAttendanceController@create']);
