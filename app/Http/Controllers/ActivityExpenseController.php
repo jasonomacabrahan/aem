@@ -37,7 +37,7 @@ class ActivityExpenseController extends Controller
             'travelPerDiem' => 'integer',
             'foodAccommodation' => 'integer',
             'miscExpense' => 'integer',
-            //'activityNotes' =>'string|max:255',
+            'activityNotes' =>'string|max:255',
         ]);
 
         $activity = new ActivityExpense;
@@ -46,7 +46,7 @@ class ActivityExpenseController extends Controller
         $activity->travelPerDiem     =  $req->travelPerDiem;
         $activity->foodAccommodation =  $req->foodAccommodation;
         $activity->miscExpense       =  $req->miscExpense;
-        //$activity->activityNotes     =  $req->activityNotes;
+        $activity->activityNotes     =  $req->activityNotes;
         $activity->created_at = now();
         $activity->updated_at = now();
         $activity->save();
