@@ -35,7 +35,7 @@ $activies = DB::table('activities')->get();
                         swal("Oops!","Problem encountered","error");
                     </script>
               @endif
-            <form action="activity.addexpense" method="POST" class="mt-1 py-3">
+            <form action="{{ route('addexpense') }}" method="POST" class="mt-1 py-3">
                 @csrf
                 <div class="row">
                     <div class="col-md-11 pr-1">
@@ -89,17 +89,7 @@ $activies = DB::table('activities')->get();
                       </div>
                     </div>
                 </div>
-
-                {{-- <div class="row">
-                    <div class="col-md-11 pr-1">
-                      <div class="form-group">
-                        <label for="activityNotes">{{__(" Activity Notes")}}</label>
-                        <input type="text" name="activityNotes" class="form-control" placeholder="Enter Activity Notes" value="{{ old('activityNotes') }}" required>
-                        @include('alerts.feedback', ['field' => 'activityNotes'])
-                      </div>
-                    </div>
-                </div> --}}
-                <a href="/expenses" class="btn btn-danger"><i class="fa-solid fa-fw fa-angle-left"></i>Back</a>
+                <a href="{{ route('activity.expenses') }}" class="btn btn-danger"><i class="fa-solid fa-fw fa-angle-left"></i>Back</a>
                 
                 <button type="submit" class="btn btn-info btn-round">Save</button>
             </form>

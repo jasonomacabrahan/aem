@@ -15,7 +15,12 @@
                       <div class="row justify-content-center">
                           <div class="col-lg-12 col-md-9">
                               <h3 class="text-white">{{ __('Welcome to DICT - XI ( Davao Region ) Activity Event Monitoring System.') }}</h3>
-                              <a href="{{ route('register') }}" class="btn btn-lg btn-info">Register Now</a>
+                              <a href="{{ route('register') }}" class="btn btn-lg btn-info"><i class="fa-solid fa-fw fa-user-astronaut"></i>Register Now</a>
+                              <hr>
+                              <h6 class="text-white">{{ __('Soon in Play Store and App Store. For now you can click button below.') }}</h6>
+                             
+                              <a href="{{ asset('app') }}/DICTAPP.apk" class="btn btn-lg btn-danger"><i class="fa-solid fa-fw fa-download"></i>Download</a>
+
                               <p class="text-lead text-light mt-3 mb-0">
                                   @include('alerts.migrations_check')
                               </p>
