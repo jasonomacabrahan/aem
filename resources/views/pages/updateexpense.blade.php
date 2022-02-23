@@ -29,7 +29,7 @@ $activies = DB::table('activities')->get();
               </script>
               @endif
 
-            <form action="/saveexpensesupdate" method="POST" class="mt-1 py-3">
+            <form action="{{ route('saveexpensesupdate') }}" method="POST" class="mt-1 py-3">
                 @csrf
                 @foreach ($expenses as $expense)
                 
