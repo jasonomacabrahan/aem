@@ -33,10 +33,10 @@ class ActivityExpenseController extends Controller
     public function create(Request $req)
     {
         $validated = $req->validate([
-            'fuelLubricants' => 'integer',
-            'travelPerDiem' => 'integer',
-            'foodAccommodation' => 'integer',
-            'miscExpense' => 'integer',
+            'fuelLubricants' => 'required|regex:/^\d*(\.\d{1,2})?$/',
+            'travelPerDiem' => 'required|regex:/^\d*(\.\d{1,2})?$/',
+            'foodAccommodation' => 'required|regex:/^\d*(\.\d{1,2})?$/',
+            'miscExpense' => 'required|regex:/^\d*(\.\d{1,2})?$/',
             'activityNotes' =>'string|max:255',
         ]);
 
