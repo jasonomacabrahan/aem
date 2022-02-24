@@ -89,8 +89,18 @@ $activies = DB::table('activities')->get();
                       </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-11 pr-1">
+                      <div class="form-group">
+                        <label for="activityNotes">{{__(" Activity Notes")}}</label>
+                        <input type="text" name="activityNotes" class="form-control" placeholder="Enter Activity Notes" value="{{ old('miscExpense') }}" required>
+                        @include('alerts.feedback', ['field' => 'activityNotes'])
+                      </div>
+                    </div>
+                </div>
                 <a href="{{ route('activity.expenses') }}" class="btn btn-danger"><i class="fa-solid fa-fw fa-angle-left"></i>Back</a>
-                
+
                 <button type="submit" class="btn btn-info btn-round">Save</button>
             </form>
             </div>
