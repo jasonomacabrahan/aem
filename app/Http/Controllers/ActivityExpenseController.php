@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\ActivityExpense;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;  
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -50,10 +50,10 @@ class ActivityExpenseController extends Controller
         $activity->created_at = now();
         $activity->updated_at = now();
         $activity->save();
-        //return redirect('../home');    
+        //return redirect('../home');
         return redirect()->route('activity.addexpense')
                     ->with('success', 'Event');
-    
+
     }
 
     public function updateexpense($id)
@@ -65,16 +65,17 @@ class ActivityExpenseController extends Controller
         return view('pages.updateexpense',[
                                          "expenses"=>$expenses,
                                          ]);
-         
+
      }
 
     public function saveexpenseupdate(Request $request)
      {
         $request->validate([
-            'fuelLubricants' => 'integer',
-            'travelPerDiem' => 'integer',
-            'foodAccommodation' => 'integer',
-            'miscExpense' => 'integer',
+            'fuelLubricants' => 'required|regex:/^\d*(\.\d{1,2})?$/',
+            'travelPerDiem' => 'required|regex:/^\d*(\.\d{1,2})?$/',
+            'foodAccommodation' => 'required|regex:/^\d*(\.\d{1,2})?$/',
+            'miscExpense' => 'required|regex:/^\d*(\.\d{1,2})?$/',
+            'activityNotes' => 'required|string|max:255)'
         ]);
         $updating = DB::table('activity_expenses')
                     ->where('id',$request->input('id'))
@@ -83,6 +84,7 @@ class ActivityExpenseController extends Controller
                                 'travelPerDiem'=>$request->input('travelPerDiem'),
                                 'foodAccommodation'=>$request->input('foodAccommodation'),
                                 'miscExpense'=>$request->input('miscExpense'),
+                                'activityNotes'=>$request->input('activityNotes'),
                     ]);
                     return redirect()->route('activity.expenses')
                         ->with('successupdate', 'Changes Saved');
