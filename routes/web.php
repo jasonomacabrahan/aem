@@ -64,8 +64,6 @@ Auth::routes();
 Route::get('/welcome', 'App\Http\Controllers\HomeController@welcome')->name('welcome');
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
 
-
-
 Route::get('tasks.resolutions/{id}', ['as' => 'tasks.resolutions/{id}', 'uses' => 'App\Http\Controllers\TaskResolutionController@responses']);
 Route::view('tasks.resolutions','tasks.resolutions');
 Route::get('tasks.respond/{id}', ['as' => 'tasks.respond/{id}', 'uses' => 'App\Http\Controllers\TaskResolutionController@respond']);
