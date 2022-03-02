@@ -69,6 +69,16 @@
                   </div>
                 </div>
 
+                <div class="row">
+                  <div class="col-md-7 pr-1">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">{{__("Designation")}}</label>
+                      <input type="text" name="usertype" class="form-control" value="{{ old('usertype', auth()->user()->usertype) }}">
+                      @include('alerts.feedback', ['field' => 'usertype'])
+                    </div>
+                  </div>
+                </div>
+
               <div class="card-footer ">
                 <button type="submit" class="btn btn-primary btn-round">{{__('Save')}}</button>
               </div>
