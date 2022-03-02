@@ -28,7 +28,7 @@
                                     <hr>
                                     <h6 class="text-white">{{ __('For easy access...') }}</h6>
                                    
-                                    <a href="{{ asset('app') }}/DICTAPP.apk" class="btn btn-lg btn-danger"><i class="fa-brands fa-fw fa-android"></i>Download Android App</a>
+                                    <a href="https://mega.nz/file/degE0aRL#iQU4lONChKjxy9Gx6ZRcfaCST_C4WHvRovk9ktNMjl0" target="_blank" class="btn btn-lg btn-danger"><i class="fa-brands fa-fw fa-android"></i>Download Android App</a>
                                     <br>
                                     <sub class="fw-bolder text-white">(3.17 MB)</sub>
                                     
