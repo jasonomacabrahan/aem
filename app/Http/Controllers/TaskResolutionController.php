@@ -50,7 +50,8 @@ class TaskResolutionController extends Controller
        // dd($responses, $taskID);
         return view('tasks.respond', ['responses'=>$responses, 'users'=>$users]);
     }
-        /**
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

@@ -19,7 +19,6 @@
             <div class="card-header">
               <h5 class="title">{{__(" Task Response")}}</h5>
             </div>
-
             <div class="card-body">
             <form action="tasks.respond" method="POST" class="mt-1 py-3">
                 @csrf

@@ -60,7 +60,6 @@
                                 <td>{{ $response->created_at }}</td>
                                 <td>
                                     <a href="/tasks.respond/{{ $response->id }}"><i class="fa fa-fw fa-th-list"></i></i></a>
-
                                 </td>
                             </tr>
                         @endforeach

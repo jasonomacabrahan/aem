@@ -61,6 +61,7 @@ Auth::routes();
 	return QrCode::size(500)->generate('Welcome to sparkouttech.com!');
 }); */
 
+
 Route::get('/welcome', 'App\Http\Controllers\HomeController@welcome')->name('welcome');
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
 
