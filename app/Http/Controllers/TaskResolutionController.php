@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TaskResolution;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TaskResolutionController extends Controller
@@ -14,7 +15,43 @@ class TaskResolutionController extends Controller
      */
     public function index()
     {
-        //
+        $responses = TaskResolution::all();
+        /*        $responses = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
+                ->join('programs', 'programs.id', '=', 'task_assignments.papID')
+                ->where('task_resolutions.taskAssignmentID','=','task_assignments.id')
+                ->get(['programs.*', 'task_assignments.*', 'task_resolutions.*']); */
+            //   dd($responses);
+                return view('tasks.resolution', ['responses'=>$responses]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function responses($taskID)
+    {
+        $responses = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
+        ->join('programs', 'programs.id', '=', 'task_assignments.papID')
+        ->where('task_resolutions.taskAssignmentID','=',$taskID)
+        ->get(['programs.*', 'task_assignments.*', 'task_resolutions.*']);
+    //   dd($responses);
+        return view('tasks.resolutions', compact('responses'));
+    }
+
+        /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function mytasks($myID)
+    {
+        $mytasks = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
+        ->join('programs', 'programs.id', '=', 'task_assignments.papID')
+        ->where('task_resolutions.userID','=',$myID)
+        ->get(['programs.*', 'task_assignments.*', 'task_resolutions.*']);
+        $users = User::all();
+        return view('tasks.mytasks', ['mytasks'=>$mytasks, 'users'=>$users]);
     }
 
     /**
