@@ -57,17 +57,17 @@ Route::post('/regnew', [UserController::class, 'regnew'])->name('regnew');
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Auth::routes();
 
-Route::get('qr-code', function () {
+/* Route::get('qr-code', function () {
 	return QrCode::size(500)->generate('Welcome to sparkouttech.com!');
-});
+}); */
+
 
 Route::get('/welcome', 'App\Http\Controllers\HomeController@welcome')->name('welcome');
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
 
-
-
 Route::get('tasks.resolutions/{id}', ['as' => 'tasks.resolutions/{id}', 'uses' => 'App\Http\Controllers\TaskResolutionController@responses']);
 Route::view('tasks.resolutions','tasks.resolutions');
+Route::get('tasks.respond/{id}', ['as' => 'tasks.respond/{id}', 'uses' => 'App\Http\Controllers\TaskResolutionController@respond']);
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('programs.index', ['as' => 'programs.index', 'uses' => 'App\Http\Controllers\ProgramController@index']);
@@ -89,7 +89,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/taskform', 'App\Http\Controllers\TaskAssignmentController@taskform')->name('taskform');
 	Route::post('/addtask', 'App\Http\Controllers\TaskAssignmentController@create')->name('addtask');
 	Route::get('mystasks', 'App\Http\Controllers\TaskResolutionController@mytasks')->name('mytasks');//showing the task of logged in user
-	
+
 
 	Route::view('activity.reg','activity.reg');
 	Route::post('activity.reg', ['as' => 'activity.reg', 'uses' => 'App\Http\Controllers\ActivityAttendanceController@create']);
