@@ -26,7 +26,7 @@
         </a>
       </li>
       <li class="@if ($activePage == 'mytasks') active @endif">
-        <a href="/tasks.mytasks/{{ auth()->user()->id  }}">
+        <a href="{{ route('mytasks') }}">
           <i class="now-ui-icons design_bullet-list-67"></i>
           <p> {{ __("My Tasks") }} </p>
         </a>
