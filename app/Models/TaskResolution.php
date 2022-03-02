@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class TaskResolution extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'taskAssignmentID',
+        'resolutionDetails',
+        'userID',
+        'verifiedBy',
+    ];
 }

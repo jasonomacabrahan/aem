@@ -1,8 +1,8 @@
 @extends('layouts.app', [
-    'namePage' => 'TASKS LIST',
+    'namePage' => 'my tasks LIST',
     'class' => 'sidebar-mini',
-    'activePage' => 'tasks',
-
+    'activePage' => 'mytasks',
+    'backgroundImage' => asset('assets') . "/img/logo.png",
 ])
 
 @section('content')
@@ -15,8 +15,7 @@
       <div class="col-md-12">
           <div class="card">
               <div class="card-header">
-                <h2><i class="fa fa-fw fa-th-list"></i>Task Assignments</h2>
-                <a href="{{ route('taskform')}}" class="btn btn-success"><i class="fas fa-plus-circle"></i> New Task </a>
+                <h2><i class="fa fa-fw fa-th-list"></i>My Tasks Assignments</h2>
               </div>
             <div class="card-body">
                 <style>
@@ -26,7 +25,7 @@
                 </style>
                  @if ($message = Session::get('success'))
                  <script>
-                     swal("Success","Task Addedd","success");
+                     swal("Success","response Added","success");
                  </script>
                 @endif
 
@@ -40,38 +39,38 @@
                 <table id="list" class="table table-striped table-hover table-bordered" style="width:100%">
                     <thead >
                         <tr style='font-size: 8pt;'>
-                            <th>Task</th>
+                            <th>Task Detail</th>
                             <th>Program</th>
                             <th>Source</th>
-                            <th>Target</th>
+                            <th>Response</th>
                             <th>Resolved</th>
                             <th>Created@</th>
                             <th><i class="fa fa-fw fa-cog"></i></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($tasks as $task)
+                        @foreach($mytasks as $mytask)
                             <tr>
-                                <td><a href="#" title="Update task"></i>{{ $task->taskDetail }}</a></td>
-                                <td>{{ $programs[($task->papID-1)]->shortName }}</a></td>
-                                <td>{{ $task->taskBy }}</td>
-                                <td>{{ $task->taskedTo }}</td>
-                                <td>{{ $task->taskResolved }}</td>
-                                <td>{{ $task->created_at }}</td>
+                                <td><a href="#" title="Update response"></i>{{ $mytask->taskDetail }}</a></td>
+                                <td>{{ $mytask->shortName }}</a></td>
+                                <td>{{ $users[($mytask->taskBy-1)]->name }}</td>
+                                <td>{{ $mytask->resolutionDetails }}</td>
+                                <td>{{ $mytask->verifiedBy }}</td>
+                                <td>{{ $mytask->created_at }}</td>
                                 <td>
-                                    <a href="tasks.resolutions/{{ $task->id }}"><i class="fa fa-fw fa-th-list"></i></i></a>
+                                    <a href="mytask.respond/{{ $mytask->id }}"><i class="fa fa-fw fa-th-list"></i></i></a>
 
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                     <tfoot style='font-size: 8pt;'>
-                        <tr>
-                            <th>task</th>
-                            <th>Location</th>
-                            <th>Date - Start</th>
-                            <th>Date - End</th>
+                        <tr style='font-size: 8pt;'>
+                            <th>Task Detail</th>
                             <th>Program</th>
+                            <th>Source</th>
+                            <th>Response</th>
+                            <th>Resolved</th>
                             <th>Created@</th>
                             <th><i class="fa fa-fw fa-cog"></i></th>
                         </tr>
