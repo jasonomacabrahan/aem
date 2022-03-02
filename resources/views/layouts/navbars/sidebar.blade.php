@@ -25,6 +25,12 @@
           <p> {{ __("Training Registered") }} </p>
         </a>
       </li>
+      <li class="@if ($activePage == 'mytasks') active @endif">
+        <a href="/tasks.mytasks/{{ auth()->user()->id  }}">
+          <i class="now-ui-icons design_bullet-list-67"></i>
+          <p> {{ __("My Tasks") }} </p>
+        </a>
+      </li>
 @if (auth()->user()->usertype == 'admin')
         <li>
             <a data-toggle="collapse" href="#master">

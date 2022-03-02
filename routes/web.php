@@ -64,6 +64,11 @@ Route::get('qr-code', function () {
 Route::get('/welcome', 'App\Http\Controllers\HomeController@welcome')->name('welcome');
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
 
+Route::get('tasks.mytasks/{id}', ['as' => 'tasks.mytasks/{id}', 'uses' => 'App\Http\Controllers\TaskResolutionController@mytasks']);
+
+
+Route::get('tasks.resolutions/{id}', ['as' => 'tasks.resolutions/{id}', 'uses' => 'App\Http\Controllers\TaskResolutionController@responses']);
+Route::view('tasks.resolutions','tasks.resolutions');
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('programs.index', ['as' => 'programs.index', 'uses' => 'App\Http\Controllers\ProgramController@index']);
@@ -76,18 +81,19 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('expenses', ['as' => 'activity.expenses', 'uses' => 'App\Http\Controllers\ActivityExpenseController@index']);
 	Route::view('activity.addexpense','activity.addexpense')->name('activity.addexpense');
 	Route::post('/addexpense', 'App\Http\Controllers\ActivityExpenseController@create')->name('addexpense');
-	Route::get('/usertrainings', 'App\Http\Controllers\ActivityAttendanceController@usertrainings')->name('usertrainings');	
+	Route::get('/usertrainings', 'App\Http\Controllers\ActivityAttendanceController@usertrainings')->name('usertrainings');
 	Route::get('/getuser/{id}', 'App\Http\Controllers\UserController@getuser')->name('getuser');//just for getting user id
 	Route::post('/saveuserupdate', 'App\Http\Controllers\UserController@saveuserupdate')->name('saveuserupdate');//just for updating user account and level
 	Route::get('/updateexpenses/{id}', 'App\Http\Controllers\ActivityExpenseController@updateexpense');
 	Route::post('/saveexpensesupdate', 'App\Http\Controllers\ActivityExpenseController@saveexpenseupdate')->name('saveexpensesupdate');
 	Route::get('tasks.index', ['as' => 'tasks.index', 'uses' => 'App\Http\Controllers\TaskAssignmentController@index']);
-	Route::get('/taskform', 'App\Http\Controllers\TaskAssignmentController@taskform')->name('taskform');	
+	Route::get('/taskform', 'App\Http\Controllers\TaskAssignmentController@taskform')->name('taskform');
 	Route::post('/addtask', 'App\Http\Controllers\TaskAssignmentController@create')->name('addtask');
-	
+
+
 	Route::view('activity.reg','activity.reg');
 	Route::post('activity.reg', ['as' => 'activity.reg', 'uses' => 'App\Http\Controllers\ActivityAttendanceController@create']);
-	
+
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
