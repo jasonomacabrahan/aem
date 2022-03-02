@@ -44,11 +44,12 @@ class TaskResolutionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function mytasks($myID)
+    public function mytasks()
     {
+        $id = auth()->user()->id;
         $mytasks = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
         ->join('programs', 'programs.id', '=', 'task_assignments.papID')
-        ->where('task_resolutions.userID','=',$myID)
+        ->where('task_resolutions.userID','=',$id)
         ->get(['programs.*', 'task_assignments.*', 'task_resolutions.*']);
         $users = User::all();
         return view('tasks.mytasks', ['mytasks'=>$mytasks, 'users'=>$users]);

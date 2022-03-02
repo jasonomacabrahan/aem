@@ -64,7 +64,6 @@ Route::get('qr-code', function () {
 Route::get('/welcome', 'App\Http\Controllers\HomeController@welcome')->name('welcome');
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
 
-Route::get('tasks.mytasks/{id}', ['as' => 'tasks.mytasks/{id}', 'uses' => 'App\Http\Controllers\TaskResolutionController@mytasks']);
 
 
 Route::get('tasks.resolutions/{id}', ['as' => 'tasks.resolutions/{id}', 'uses' => 'App\Http\Controllers\TaskResolutionController@responses']);
@@ -89,7 +88,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('tasks.index', ['as' => 'tasks.index', 'uses' => 'App\Http\Controllers\TaskAssignmentController@index']);
 	Route::get('/taskform', 'App\Http\Controllers\TaskAssignmentController@taskform')->name('taskform');
 	Route::post('/addtask', 'App\Http\Controllers\TaskAssignmentController@create')->name('addtask');
-
+	Route::get('mystasks', 'App\Http\Controllers\TaskResolutionController@mytasks')->name('mytasks');//showing the task of logged in user
+	
 
 	Route::view('activity.reg','activity.reg');
 	Route::post('activity.reg', ['as' => 'activity.reg', 'uses' => 'App\Http\Controllers\ActivityAttendanceController@create']);
