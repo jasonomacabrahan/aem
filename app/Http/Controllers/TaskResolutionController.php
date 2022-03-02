@@ -35,10 +35,21 @@ class TaskResolutionController extends Controller
         ->join('programs', 'programs.id', '=', 'task_assignments.papID')
         ->where('task_resolutions.taskAssignmentID','=',$taskID)
         ->get(['programs.*', 'task_assignments.*', 'task_resolutions.*']);
+        $users = User::all();
     //   dd($responses);
-        return view('tasks.resolutions', compact('responses'));
+        return view('tasks.resolutions', ['responses'=>$responses, 'users'=>$users]);
     }
 
+    public function respond($taskID)
+    {
+        $responses = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
+        ->join('programs', 'programs.id', '=', 'task_assignments.papID')
+        ->where('task_resolutions.id','=',$taskID)
+        ->get(['programs.*', 'task_assignments.*', 'task_resolutions.*'])->first();
+        $users = User::all();
+       // dd($responses, $taskID);
+        return view('tasks.respond', ['responses'=>$responses, 'users'=>$users]);
+    }
         /**
      * Display a listing of the resource.
      *

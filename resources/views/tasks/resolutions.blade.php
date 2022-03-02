@@ -42,7 +42,7 @@
                         <tr style='font-size: 8pt;'>
                             <th>Task Detail</th>
                             <th>Program</th>
-                            <th>Source</th>
+                            <th>Tasked To</th>
                             <th>Response</th>
                             <th>Resolved</th>
                             <th>Created@</th>
@@ -54,12 +54,12 @@
                             <tr>
                                 <td><a href="#" title="Update response"></i>{{ $response->taskDetail }}</a></td>
                                 <td>{{ $response->shortName }}</a></td>
-                                <td>{{ $response->userID }}</td>
+                                <td>{{ $users[($response->userID-1)]->name }}</td>
                                 <td>{{ $response->resolutionDetails }}</td>
                                 <td>{{ $response->verifiedBy }}</td>
                                 <td>{{ $response->created_at }}</td>
                                 <td>
-                                    <a href="response.attendance/{{ $response->id }}"><i class="fa fa-fw fa-th-list"></i></i></a>
+                                    <a href="/tasks.respond/{{ $response->id }}"><i class="fa fa-fw fa-th-list"></i></i></a>
 
                                 </td>
                             </tr>

@@ -58,7 +58,7 @@
                                 <td>{{ $mytask->verifiedBy }}</td>
                                 <td>{{ $mytask->created_at }}</td>
                                 <td>
-                                    <a href="mytask.respond/{{ $mytask->id }}"><i class="fa fa-fw fa-th-list"></i></i></a>
+                                    <a href="tasks.respond/{{ $mytask->id }}"><i class="fa fa-fw fa-th-list"></i></i></a>
 
                                 </td>
                             </tr>
