@@ -51,7 +51,7 @@ class TaskResolutionController extends Controller
         $responses = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
         ->join('programs', 'programs.id', '=', 'task_assignments.papID')
         ->where('task_resolutions.id','=',$taskID)
-        ->get(['programs.*', 'task_assignments.*', 'task_resolutions.*'])->first();
+        ->get(['programs.*', 'task_assignments.*','task_assignments.id AS taskid', 'task_resolutions.*'])->first();
         $users = User::all();
        // dd($responses, $taskID);
         return view('tasks.respond', ['responses'=>$responses, 'users'=>$users]);

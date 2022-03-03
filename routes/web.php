@@ -15,14 +15,15 @@ use App\Http\Controllers\ActivityAttendanceController;
 
 
 Route::get('/', function () {
-    return view('welcome');
+	return view('welcome');
 });
 
 Route::get('hello', function () {
-    return "hello";
+	return "hello";
 });
 
 
+Route::post('sendEmailReminder', 'App\Http\Controllers\UserController@sendEmailReminder')->name('sendEmailReminder');
 Route::get('routes', function () {
     $routeCollection = Route::getRoutes();
 
