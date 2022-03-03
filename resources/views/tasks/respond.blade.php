@@ -19,7 +19,6 @@
             <div class="card-header">
               <h5 class="title">{{__(" Task Response")}}</h5>
             </div>
-
             <div class="card-body">
             <form action="{{ route('saverespond') }}" method="POST" class="mt-1 py-3">
                 @csrf
@@ -51,7 +50,6 @@
                         </div>
                       </div>
                 </div>
-
                 <button type="submit" class="btn btn-info"><i class="fa fa-fw fa-paper-plane"></i> Submit  </button>
             </form>
             </div>

@@ -67,7 +67,6 @@
                                 <td>{{ $mytask->created_at }}</td>
                                 <td>
                                     <a href="{{ route('respond', ['id' => $mytask->taskid])  }}"><i class="fa-solid fa-reply"></i></a>
-
                                 </td>
                             </tr>
                         @endforeach

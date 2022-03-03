@@ -61,10 +61,9 @@ Auth::routes();
 	return QrCode::size(500)->generate('Welcome to sparkouttech.com!');
 }); */
 
+
 Route::get('/welcome', 'App\Http\Controllers\HomeController@welcome')->name('welcome');
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
-
-
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('programs.index', ['as' => 'programs.index', 'uses' => 'App\Http\Controllers\ProgramController@index']);
@@ -94,6 +93,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/markasresolved/{id}', 'App\Http\Controllers\TaskResolutionController@markasresolved')->name('markasresolved');	
 	Route::post('/resolved', 'App\Http\Controllers\TaskResolutionController@resolved')->name('resolved');
 	Route::post('/saverespond', 'App\Http\Controllers\TaskResolutionController@saverespond')->name('saverespond');
+
 
 	Route::view('activity.reg','activity.reg');
 	Route::post('activity.reg', ['as' => 'activity.reg', 'uses' => 'App\Http\Controllers\ActivityAttendanceController@create']);

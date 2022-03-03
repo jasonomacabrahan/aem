@@ -57,12 +57,11 @@
                                 <td>{{ $response->resolutionDetails }}</td>
                                 <td>
                                     @if ($response->taskResolved==0)
-                                        <a href="{{ route('markasresolved', ['id' => $response->taskID]) }}"><i class="fa fa-fw fa-edit"></i>NO</a>
-                                        
+                                          <a href="{{ route('markasresolved', ['id' => $response->taskID]) }}"><i class="fa fa-fw fa-edit"></i>NO</a>
                                         @else
-                                        <a href="{{ route('markasresolved', ['id' => $response->taskID]) }}"><i class="fa fa-fw fa-edit"></i>YES</a>
-                                        
+                                          <a href="{{ route('markasresolved', ['id' => $response->taskID]) }}"><i class="fa fa-fw fa-edit"></i>YES</a>
                                     @endif
+
                                 </td>
                                 <td>{{ $response->created_at }}</td>
                                 
