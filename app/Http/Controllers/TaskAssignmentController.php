@@ -17,10 +17,12 @@ class TaskAssignmentController extends Controller
      */
     public function index()
     {
-        $tasks = TaskAssignment::all();
-        $programs = Program::all();
-        $users = User::all();
-        return view('tasks.index', ['tasks'=>$tasks, 'programs'=>$programs, 'users'=>$users]);
+       
+        $tasks = TaskAssignment::join('task_resolutions', 'task_resolutions.taskAssignmentID', '=', 'task_assignments.id')
+        ->join('users','users.id','=','task_resolutions.userID')
+        ->join('programs','programs.id','=','task_assignments.papID')
+        ->get(['users.*', 'task_assignments.*', 'task_resolutions.*','programs.*']);
+        return view('tasks.index', ['tasks'=>$tasks]);
     }
 
     public function taskform()

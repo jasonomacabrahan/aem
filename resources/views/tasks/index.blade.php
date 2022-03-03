@@ -42,8 +42,7 @@
                         <tr style='font-size: 8pt;'>
                             <th>Task</th>
                             <th>Program</th>
-                            <th>Source</th>
-                            <th>Target</th>
+                            <th>Tasked to</th>
                             <th>Resolved</th>
                             <th>Created@</th>
                             <th><i class="fa fa-fw fa-cog"></i></th>
@@ -53,13 +52,18 @@
                         @foreach($tasks as $task)
                             <tr>
                                 <td><a href="#" title="Update task"></i>{{ $task->taskDetail }}</a></td>
-                                <td>{{ $programs[($task->papID-1)]->shortName }}</a></td>
-                                <td>{{ $task->taskBy }}</td>
-                                <td>{{ $task->taskedTo }}</td>
-                                <td>{{ $task->taskResolved }}</td>
+                                <td>{{ $task->shortName }}</a></td>
+                                <td>{{ $task->name}}</td>
+                                <td>
+                                    @if ($task->taskResolved == 0)
+                                        {{ "NO" }}
+                                    @else
+                                        <span><i class="fa fa-fw fa-circle-check"></i>YES</span>    
+                                    @endif
+                                </td>
                                 <td>{{ $task->created_at }}</td>
                                 <td>
-                                    <a href="tasks.resolutions/{{ $task->id }}"><i class="fa fa-fw fa-th-list"></i></i></a>
+                                    <a href="{{route('tasksresolutions', ['id' => $task->id])}}"><i class="fa-solid fa-comment-dots"></i></a>
 
                                 </td>
                             </tr>
@@ -67,11 +71,10 @@
                     </tbody>
                     <tfoot style='font-size: 8pt;'>
                         <tr>
-                            <th>task</th>
-                            <th>Location</th>
-                            <th>Date - Start</th>
-                            <th>Date - End</th>
+                            <th>Task</th>
                             <th>Program</th>
+                            <th>Task to</th>
+                            <th>Resolved</th>
                             <th>Created@</th>
                             <th><i class="fa fa-fw fa-cog"></i></th>
                         </tr>

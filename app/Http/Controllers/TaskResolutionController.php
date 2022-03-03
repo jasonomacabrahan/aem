@@ -4,7 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\TaskResolution;
 use App\Models\User;
+use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class TaskResolutionController extends Controller
 {
@@ -33,11 +40,10 @@ class TaskResolutionController extends Controller
     {
         $responses = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
         ->join('programs', 'programs.id', '=', 'task_assignments.papID')
+        ->join('users', 'users.id', '=', 'task_resolutions.userID')
         ->where('task_resolutions.taskAssignmentID','=',$taskID)
-        ->get(['programs.*', 'task_assignments.*', 'task_resolutions.*']);
-        $users = User::all();
-    //   dd($responses);
-        return view('tasks.resolutions', ['responses'=>$responses, 'users'=>$users]);
+        ->get(['programs.*', 'task_assignments.*','task_assignments.id AS taskID','task_resolutions.*','users.*', 'users.name as fullname']);
+        return view('tasks.resolutions', ['responses'=>$responses]);
     }
 
     public function respond($taskID)
@@ -56,80 +62,64 @@ class TaskResolutionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function markasresolved($taskID)
+    {
+        $responses = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
+        ->join('programs', 'programs.id', '=', 'task_assignments.papID')
+        ->join('users', 'users.id', '=', 'task_assignments.taskBy')
+        ->where('task_resolutions.id','=',$taskID)
+        ->get(['programs.*', 'task_assignments.*','task_assignments.id AS taskid', 'task_resolutions.*','users.*'])->first();
+      
+        return view('tasks.resolve', ['responses'=>$responses]);
+    }
+
+    public function resolved(Request $request)
+    {
+        $request->validate([
+            'taskResolved' => 'required'
+        ]);
+        $updating = DB::table('task_assignments')
+                    ->where('id',$request->input('id'))
+                    ->update([
+                                'taskResolved'=>$request->input('taskResolved'),
+                    ]);
+                    return redirect()->route('taskindex')
+                    ->with('success', 'Some Event');
+    }
+
+
+    
+        /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function mytasks()
     {
         $id = auth()->user()->id;
         $mytasks = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
         ->join('programs', 'programs.id', '=', 'task_assignments.papID')
+        ->join('users', 'users.id', '=', 'task_assignments.taskBy')
         ->where('task_resolutions.userID','=',$id)
-        ->get(['programs.*', 'task_assignments.*', 'task_resolutions.*']);
-        $users = User::all();
-        return view('tasks.mytasks', ['mytasks'=>$mytasks, 'users'=>$users]);
+        ->get(['programs.*','task_assignments.id as taskid','task_assignments.*', 'task_resolutions.*','users.*']);
+        return view('tasks.mytasks', ['mytasks'=>$mytasks]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function saverespond(Request $request)
     {
-        //
+        $request->validate([
+            'resolutionDetails' => 'required'
+        ]);
+        $updating = DB::table('task_resolutions')
+                    ->where('id',$request->input('id'))
+                    ->update([
+                                'resolutionDetails'=>$request->input('resolutionDetails'),
+                    ]);
+                    return redirect()->route('mytasks')
+                    ->with('success', 'Some Event');
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\TaskResolution  $taskResolution
-     * @return \Illuminate\Http\Response
-     */
-    public function show(TaskResolution $taskResolution)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\TaskResolution  $taskResolution
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(TaskResolution $taskResolution)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\TaskResolution  $taskResolution
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, TaskResolution $taskResolution)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\TaskResolution  $taskResolution
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(TaskResolution $taskResolution)
-    {
-        //
-    }
+    
+    
 }
