@@ -63,7 +63,7 @@
                                 </td>
                                 <td>{{ $task->created_at }}</td>
                                 <td>
-                                    <a href="{{route('tasksresolutions', ['id' => $task->id])}}"><i class="fa-solid fa-comment-dots"></i></a>
+                                    <a href="{{route('tasksresolutions', ['id' => $task->taskID])}}"><i class="fa-solid fa-comment-dots"></i></a>
 
                                 </td>
                             </tr>
