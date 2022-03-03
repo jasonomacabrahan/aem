@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Mail;
 use App\Models\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
@@ -114,6 +114,34 @@ class UserController extends Controller
         return redirect()->route('login')
                 ->with('success', 'New User added');
     }
+
+    public function iwanttosendmail()
+    {
+        $to = $email;
+        $subject = "Account Activation";
+        $message = "Gold day; \n Here is your OTP";
+        $message .= "<h1>Thank you for using Fazz. Enjoy Shopping</h1>";
+        $header = "From:fazzofficial@fazzdelivery.com \r\n";
+        $header .= "Cc:jsceon@fazzdelivery.com \r\n";
+        $header .= "MIME-Version: 1.0\r\n";
+        $header .= "Content-type: text/html\r\n";
+        mail ($to,$subject,$message,$header);
+    }
+
+    public function sendEmailReminder()
+    {
+        $user = DB::table('users')
+                ->where('id',15)
+                ->get();
+        
+        dd($user);
+        // Mail::send('emails.reminder', ['user' => $user], function ($m) use ($user) {
+        //     $m->from('json7649@gmail.com', 'Your Application');
+ 
+        //     $m->to($user->email, $user->name)->subject('Your Reminder!');
+        // });
+    }
+
 }
 
 
