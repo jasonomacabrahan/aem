@@ -16,7 +16,7 @@
           <div class="card">
               <div class="card-header">
                 <h2><i class="fa fa-fw fa-th-list"></i>Assignment Resolutions</h2>
-                <a href="tasks.resolutions/{{ auth()->user()->id  }}" class="btn btn-success"><i class="fas fa-plus-circle"></i> New response </a>
+                {{-- <a href="tasks.resolutions/{{ auth()->user()->id  }}" class="btn btn-success"><i class="fas fa-plus-circle"></i> New response </a> --}}
               </div>
             <div class="card-body">
                 <style>
@@ -46,7 +46,6 @@
                             <th>Response</th>
                             <th>Resolved</th>
                             <th>Created@</th>
-                            <th><i class="fa fa-fw fa-cog"></i></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -54,26 +53,31 @@
                             <tr>
                                 <td><a href="#" title="Update response"></i>{{ $response->taskDetail }}</a></td>
                                 <td>{{ $response->shortName }}</a></td>
-                                <td>{{ $users[($response->userID-1)]->name }}</td>
+                                <td>{{ $response->name }}</td>
                                 <td>{{ $response->resolutionDetails }}</td>
-                                <td>{{ $response->verifiedBy }}</td>
-                                <td>{{ $response->created_at }}</td>
                                 <td>
-                                    <a href="/tasks.respond/{{ $response->id }}"><i class="fa fa-fw fa-th-list"></i></i></a>
-
+                                    @if ($response->taskResolved==0)
+                                        <a href="{{ route('markasresolved', ['id' => $response->taskID]) }}"><i class="fa fa-fw fa-edit"></i>NO</a>
+                                        
+                                        @else
+                                        <a href="{{ route('markasresolved', ['id' => $response->taskID]) }}"><i class="fa fa-fw fa-edit"></i>YES</a>
+                                        
+                                    @endif
                                 </td>
+                                <td>{{ $response->created_at }}</td>
+                                
                             </tr>
                         @endforeach
                     </tbody>
                     <tfoot style='font-size: 8pt;'>
                         <tr>
-                            <th>response</th>
-                            <th>Location</th>
-                            <th>Date - Start</th>
-                            <th>Date - End</th>
+                            <th>Task Detail</th>
                             <th>Program</th>
+                            <th>Tasked To</th>
+                            <th>Response</th>
+                            <th>Resolved</th>
                             <th>Created@</th>
-                            <th><i class="fa fa-fw fa-cog"></i></th>
+                           
                         </tr>
                     </tfoot>
                 </table>
