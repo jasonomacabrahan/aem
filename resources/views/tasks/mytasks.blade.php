@@ -25,7 +25,7 @@
                 </style>
                  @if ($message = Session::get('success'))
                  <script>
-                     swal("Success","response Added","success");
+                     swal("Success","Response Added","success");
                  </script>
                 @endif
 
@@ -51,14 +51,22 @@
                     <tbody>
                         @foreach($mytasks as $mytask)
                             <tr>
-                                <td><a href="#" title="Update response"></i>{{ $mytask->taskDetail }}</a></td>
+                                <td>{{ $mytask->taskDetail }}</a></td>
                                 <td>{{ $mytask->shortName }}</a></td>
-                                <td>{{ $users[($mytask->taskBy-1)]->name }}</td>
-                                <td>{{ $mytask->resolutionDetails }}</td>
-                                <td>{{ $mytask->verifiedBy }}</td>
+                                <td>{{ $mytask->name }}</td>
+                                <td><a href="#" title="Edit response"><i class="fa fa-fw fa-edit"></i>{{ $mytask->resolutionDetails }}</a></td>
+                                <td>
+                                    @if ($mytask->taskResolved==0)
+                                            {{ "No" }}
+                                                
+                                    @else
+                                            {{ "Yes" }}            
+                                            
+                                    @endif
+                                </td>
                                 <td>{{ $mytask->created_at }}</td>
                                 <td>
-                                    <a href="tasks.respond/{{ $mytask->id }}"><i class="fa fa-fw fa-th-list"></i></i></a>
+                                    <a href="{{ route('respond', ['id' => $mytask->taskid])  }}"><i class="fa-solid fa-reply"></i></a>
 
                                 </td>
                             </tr>

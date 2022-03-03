@@ -21,7 +21,7 @@
             </div>
 
             <div class="card-body">
-            <form action="{{ route('saverespond') }}" method="POST" class="mt-1 py-3">
+            <form action="{{ route('resolved') }}" method="POST" class="mt-1 py-3">
                 @csrf
                 <div class="row">
                   @if ($message = Session::get('success'))
@@ -44,15 +44,25 @@
                 <div class="row">
                     <div class="col-md-11 pr-1">
                         <div class="form-group">
-                          <label for="resolutionDetails" class="text-dark fw-bolder">{{__(" Task Response  ")}}</label>
+                          <label for="resolutionDetails" class="text-dark fw-bolder">{{__(" Mark as Resolved?  ")}}</label>
                           <input type="hidden" name="id" value="{{ $responses->taskid }}">
-                          <input type="text" name="resolutionDetails" class="form-control round round-0" placeholder="Enter Resolution Details " value="{{ old('resolutionDetails') }}" required>
+                          <select class="form-control" name="taskResolved">
+                                <option selected hidden>
+                                    @if ($responses->taskResolved==0)
+                                        NO
+                                    @else
+                                        YES
+                                    @endif
+                                </option>
+                                <option value="1">YES</option>
+                                <option value="0">NO</option>
+                          </select>
                           @include('alerts.feedback', ['field' => 'resolutionDetails'])
                         </div>
                       </div>
                 </div>
 
-                <button type="submit" class="btn btn-info"><i class="fa fa-fw fa-paper-plane"></i> Submit  </button>
+                <button type="submit" class="btn btn-info"><i class="fa fa-fw fa-paper-plane"></i> Mark as Resolved  </button>
             </form>
             </div>
             </div>
