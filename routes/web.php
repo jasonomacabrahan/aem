@@ -18,55 +18,31 @@ Route::get('/', function () {
 	return view('welcome');
 });
 
-Route::get('hello', function () {
-	return "hello";
-});
-
-
-Route::post('sendEmailReminder', 'App\Http\Controllers\UserController@sendEmailReminder')->name('sendEmailReminder');
-Route::get('routes', function () {
-    $routeCollection = Route::getRoutes();
-
-    echo "<table style='width:100%'>";
-    echo "<tr>";
-    echo "<td width='10%'><h4>HTTP Method</h4></td>";
-    echo "<td width='10%'><h4>Route</h4></td>";
-    echo "<td width='10%'><h4>Name</h4></td>";
-    echo "<td width='70%'><h4>Corresponding Action</h4></td>";
-    echo "</tr>";
-    foreach ($routeCollection as $value) {
-        echo "<tr>";
-        echo "<td>" . $value->methods()[0] . "</td>";
-        echo "<td>" . $value->uri() . "</td>";
-        echo "<td>" . $value->getName() . "</td>";
-        echo "<td>" . $value->getActionName() . "</td>";
-        echo "</tr>";
-    }
-    echo "</table>";
-});
-
-
+Route::get('send-mail/{email}', 'App\Http\Controllers\UserController@sendconfirmationcode')->name('send-mail');
+Route::get('/challenge', 'App\Http\Controllers\UserController@challenge')->name('challenge');
+	
 
 Route::get('register', ['as' => 'auth.register', 'uses' => 'App\Http\Controllers\UserController@regnew']);
 Route::get('register', ['as' => 'auth.register', 'uses' => 'App\Http\Controllers\UserController@regnew']);
 Route::post('/regnew', [UserController::class, 'regnew'])->name('regnew');
-
-
-
-
-
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('sendEmailReminder', 'App\Http\Controllers\UserController@sendEmailReminder')->name('sendEmailReminder');
 Auth::routes();
-
-/* Route::get('qr-code', function () {
-	return QrCode::size(500)->generate('Welcome to sparkouttech.com!');
-}); */
-
-
 Route::get('/welcome', 'App\Http\Controllers\HomeController@welcome')->name('welcome');
-Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
+Route::group(['middleware'=>['focal']],function(){
+	Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
+	//Route::view('userchallenge');
+});
 
 Route::group(['middleware' => 'auth'], function () {
+	
+	
+	Route::group(['middleware'=>['registrant']],function(){
+		
+	});
+	Route::group(['middleware'=>['admin']],function(){
+	
+	});
+
 	Route::get('programs.index', ['as' => 'programs.index', 'uses' => 'App\Http\Controllers\ProgramController@index']);
 	Route::view('programs.add','programs.add');
 	Route::post('programs.add', ['as' => 'programs.add', 'uses' => 'App\Http\Controllers\ProgramController@create']);
@@ -94,6 +70,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/markasresolved/{id}', 'App\Http\Controllers\TaskResolutionController@markasresolved')->name('markasresolved');	
 	Route::post('/resolved', 'App\Http\Controllers\TaskResolutionController@resolved')->name('resolved');
 	Route::post('/saverespond', 'App\Http\Controllers\TaskResolutionController@saverespond')->name('saverespond');
+	Route::post('/verifyotp', 'App\Http\Controllers\UserController@verifyotp')->name('verifyotp');
 
 
 	Route::view('activity.reg','activity.reg');

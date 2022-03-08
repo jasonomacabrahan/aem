@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Mail;
 use App\Models\User;
+use App\Models\OneTimePassword;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
@@ -11,15 +12,25 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Session;
+use \Crypt;
 
 class UserController extends Controller
 {
-    /*  
+    
     public function __construct()
 	{
-	    $this->middleware('auth')->except('regnew');;
+	    //$this->middleware('focal');
+	    //$this->middleware('auth')->except('sendEmailReminder');;
+        //$email = auth()->user()->email;
+        //dd($email);
+        //return "Hello";
+        // $checkotp = OneTimePassword::join('one_time_passwords', 'one_time_passwords.email', '=', 'users.email')
+        // ->where('one_time_passwords.email','=',$email)
+        // ->get();
+        // dd($checkotp);
+        //return view('tasks.mytasks', ['mytasks'=>$mytasks]);
 	}
-    */
 
     /**
      * Display a listing of the users
@@ -35,6 +46,9 @@ class UserController extends Controller
         return view('users.index', ['users' => $model->paginate(15)]);
     }
 
+    
+
+    
 
     public function getuser($id)
     {
@@ -80,7 +94,6 @@ class UserController extends Controller
     {
         $errorstr = '';
         $successstr = '';   
-        //dd($req);
         $aerrors = array();
         $validated = $req->validate([
             'email' => 'required|string|max:255|unique:users,email',
@@ -105,43 +118,67 @@ class UserController extends Controller
             $user->usertype     = 'registrant';
             $user->password     = Hash::make($req->password);
             $user->save();
-            $newRegistrant = $user->id;
-
-            $successstr .= ' Registrant  '.$user->name.' ( '.$newRegistrant.' ) registration successful! ';    
+            $email  = $user->email;
+             
         }
 
-        //preturn view('welcome');
-        return redirect()->route('login')
-                ->with('success', 'New User added');
+        return view('challenge')->with('email',$email);
+
     }
 
-    public function iwanttosendmail()
+    public function challenge()
     {
-        $to = $email;
-        $subject = "Account Activation";
-        $message = "Gold day; \n Here is your OTP";
-        $message .= "<h1>Thank you for using Fazz. Enjoy Shopping</h1>";
-        $header = "From:fazzofficial@fazzdelivery.com \r\n";
-        $header .= "Cc:jsceon@fazzdelivery.com \r\n";
-        $header .= "MIME-Version: 1.0\r\n";
-        $header .= "Content-type: text/html\r\n";
-        mail ($to,$subject,$message,$header);
+        return view('challenge');
     }
 
-    public function sendEmailReminder()
+    public function userchallenge()
     {
-        $user = DB::table('users')
-                ->where('id',15)
-                ->get();
+        return view('userchallenge');
+    }
+
+    public function sendconfirmationcode($email)
+    {
+        $email = Crypt::decrypt($email);
+        $details = [
+            'title' => 'AEM Account Confirmation',
+            'body' => 'Below is your Confirmation Code.'
+        ];
         
-        dd($user);
-        // Mail::send('emails.reminder', ['user' => $user], function ($m) use ($user) {
-        //     $m->from('json7649@gmail.com', 'Your Application');
- 
-        //     $m->to($user->email, $user->name)->subject('Your Reminder!');
-        // });
+       
+        \Mail::to($email)->send(new \App\Mail\MyMail($details,$email));
+       
+        return redirect()->route('login')
+                    ->with('codeok', 'some event');
     }
 
+    public function verifyotp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+            'otp' => 'required'
+        ]);
+
+        $checkotp = DB::table('one_time_passwords')
+                    ->where('email',$request->input('email'))
+                    ->where('otp',$request->input('otp'))
+                    ->update([
+                                'status'=>'1',
+                    ]);
+        if($checkotp==1)
+        {
+            return redirect()->route('home')
+            ->with('success', 'Some Event');
+
+        }else{
+            return redirect()->route('userchallenge')
+            ->with('error', 'Some Event');
+        }
+    }
+
+    public function trap()
+    {
+
+    }
 }
 
 

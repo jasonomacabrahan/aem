@@ -11,6 +11,11 @@
   </div>
   <div class="content">
     <div class="row">
+      @if ($message = Session::get('success'))
+            <script>
+                swal("Success","","success");
+            </script>
+      @endif
       <div class="col-lg-4">
         <div class="card card-chart">
           <div class="card-header">

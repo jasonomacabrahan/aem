@@ -15,7 +15,13 @@
                         <script>
                             swal("Success","Registration was Successful","success");
                         </script>
-                  @endif
+            @endif
+
+            @if ($message = Session::get('codeok'))
+                        <script>
+                            swal("Success","Confirmation code was sent to your email","success");
+                        </script>
+            @endif
 
 
                   @if ($message = Session::get('error'))
@@ -64,6 +70,7 @@
                 </div>
                 <div class="card-footer ">
                     <button  type = "submit" class="btn btn-info btn-lg btn-block mb-3"><i class="ui-1_lock-circle-open"></i>{{ __('Login') }}</button>
+                    
                 </div>
             </div>
             </form>
