@@ -64,7 +64,7 @@
                                             
                                     @endif
                                 </td>
-                                <td>{{ $mytask->created_at }}</td>
+                                <td>{{ $mytask->datecreated }}</td>
                                 <td>
                                     <a href="{{ route('respond', ['id' => $mytask->taskid])  }}"><i class="fa-solid fa-reply"></i></a>
                                 </td>
