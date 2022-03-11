@@ -14,7 +14,7 @@
               <h4 class="card-title">{{ __('Register') }}</h4>
             </div>
             <div class="card-body ">
-              <form method="POST" class="form-horizontal" action="{{ route('regnew') }}">
+              <form method="POST" class="form-horizontal" action="{{ route('register.perform') }}" autocomplete="off">
                 @csrf
                 <!--Begin input name -->
                 <div class="row">
@@ -40,7 +40,13 @@
                             <i class="now-ui-icons business_bank"></i>
                             </div>
                         </div>
-                        <input class="form-control {{ $errors->has('agency') ? ' is-invalid' : '' }}" placeholder="{{ __('Agency') }}" type="text" name="agency" value="{{ old('agency') }}" required>
+                        <input list="agency" class="form-control {{ $errors->has('agency') ? ' is-invalid' : '' }}" placeholder="{{ __('Agency') }}" type="text" name="agency" value="{{ old('agency') }}" required>
+                          <datalist id="agency">
+                            <option>DICT</option>
+                            <option>DILG</option>
+                            <option>DTI</option>
+                            <option>ARTA</option>
+                          </datalist>
                         @if ($errors->has('agency'))
                             <span class="invalid-feedback" style="display: block;" role="alert">
                             <strong>{{ $errors->first('agency') }}</strong>
@@ -55,7 +61,12 @@
                               <i class="now-ui-icons business_badge"></i>
                               </div>
                           </div>
-                          <input class="form-control {{ $errors->has('division') ? ' is-invalid' : '' }}" placeholder="{{ __('Division') }}" type="text" name="division" value="{{ old('division') }}" required>
+                          <input list="division" class="form-control {{ $errors->has('division') ? ' is-invalid' : '' }}" placeholder="{{ __('Division') }}" type="text" name="division" value="{{ old('division') }}" required>
+                          <datalist id="division">
+                            <option>TOD</option>
+                            <option>FINANCE</option>
+                            <option>ADMIN</option>
+                          </datalist>
                           @if ($errors->has('division'))
                               <span class="invalid-feedback" style="display: block;" role="alert">
                               <strong>{{ $errors->first('division') }}</strong>
@@ -159,7 +170,7 @@
                 </div>
 
                 <div class="card-footer ">
-                  <button type="submit" class="btn btn-info btn-round btn-lg">{{__('Register Now')}}</button>
+                  <button type="submit" class="btn btn-info rounded-0 btn-lg"><i class="fas fa-door-open"></i>{{__('Register Now')}}</button>
                 </div>
               </form>
             </div>

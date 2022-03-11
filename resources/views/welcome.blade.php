@@ -15,7 +15,7 @@
                       <div class="row justify-content-center">
                           <div class="col-lg-12 col-md-9">
                               <h3 class="text-white">{{ __('Welcome to DICT - XI ( Davao Region ) Activity Event Monitoring System.') }}</h3>
-                              <a href="{{ route('register') }}" class="btn btn-lg btn-info"><i class="fa-solid fa-fw fa-user-astronaut"></i>Register Now</a>
+                              <a href="" class="btn btn-lg btn-info"><i class="fa-solid fa-fw fa-user-astronaut"></i>Register Now</a>
                               <?php
 
                                   $useragent=$_SERVER['HTTP_USER_AGENT'];
