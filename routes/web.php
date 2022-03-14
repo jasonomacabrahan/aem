@@ -93,7 +93,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
             Route::get('/tasksresolutions/{id}', 'responses')->name('tasksresolutions');
             Route::get('/respond/{id}', 'respond')->name('respond');
             Route::get('/markasresolved/{id}', 'markasresolved')->name('markasresolved');
-            Route::get('/resolved', 'resolved')->name('resolved');
+            Route::post('/resolved', 'resolved')->name('resolved');
             Route::post('/saverespond', 'saverespond')->name('saverespond');
         });
         

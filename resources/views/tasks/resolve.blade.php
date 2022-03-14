@@ -33,7 +33,7 @@
                       <div class="form-group">
                         <label class="text-dark fw-bolder">{{__(" Task Detail Description")}}</label>
                           <ul>
-                            <li><strong>Task:</strong> {{ ucfirst($responses->taskDetail) }}</li>
+                            <li><strong>Task:</strong> {{ $responses->taskDetail }}</li>
                             <li><strong>Project</strong> {{ $responses->shortName }}</li>
                             <li><strong>Date Created:</strong>  {{ $responses->created_at }}</li>
                           </ul>
