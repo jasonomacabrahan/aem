@@ -24,6 +24,8 @@ class ActivityController extends Controller
         return view('activity.index',['activitys'=>$activitys, 'programs'=>$programs]); //
     }
 
+   
+
     /**
      * Show the form for creating a new resource.
      *

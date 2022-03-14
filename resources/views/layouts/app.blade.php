@@ -6,6 +6,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets') }}/img/apple-icon.png">
   <link rel="icon" type="image/png" href="{{ asset('assets') }}/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <!-- Extra details for Live View on GitHub Pages -->
   <title>
     DICT XI Activity Monitoring System
@@ -37,12 +38,16 @@
       @include('layouts.page_template.guest')
     @endguest
   </div>
+  {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+   --}}
   <!--   Core JS Files   -->
   {{-- <script src="{{ asset('assets') }}/js/core/jquery.min.js"></script> --}}
   {{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> --}}
   <script src="{{ asset('admin_assets/plugins/jquery/dist/jquery.min.js') }}"></script>
   <script src="{{ asset('assets') }}/js/core/popper.min.js"></script>
   <script src="{{ asset('assets') }}/js/core/bootstrap.min.js"></script>
+  <script src="{{ asset('assets/js/todo.js') }}" defer></script>
   <script src="{{ asset('assets') }}/js/plugins/perfect-scrollbar.jquery.min.js"></script>
   <!--  Google Maps Plugin    -->
   <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>

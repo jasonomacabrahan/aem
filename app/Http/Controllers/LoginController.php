@@ -46,6 +46,7 @@ class LoginController extends Controller
             $this->setRememberMeExpiration($user);
         endif;
 
+        \LogActivity::addToLog('User Login');
         return $this->authenticated($request, $user);
     }
 
