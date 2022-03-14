@@ -9,7 +9,7 @@
 </div>
 <div class="content">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-12">
             <div class="bg-light p-5 rounded">
                 <h1>Hi {{ auth()->user()->name }}</h1>
                 <label class="badge badge-info">{{ date('Y-m-d H:i:s') }}</label><br>
@@ -46,7 +46,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        {{-- <div class="col-md-6">
             <div class="card">
                 <div class="card-header bg-info">
                     <h3 class="text-white fw-bold"><i class="fa fa-fw fa-th-list  text-white"></i>To Do List</h3>
@@ -80,7 +80,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     
 </div>

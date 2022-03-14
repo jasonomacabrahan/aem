@@ -48,7 +48,7 @@
                     </div>
                 </div>
 
-                <a href="/programs.index" class="btn btn-danger"><i class="fa-solid fa-fw fa-angle-left"></i>Back to Program & Projects</a>
+                <a href="{{ route('program.index') }}" class="btn btn-danger"><i class="fa-solid fa-fw fa-angle-left"></i>Back to Program & Projects</a>
                 <button type="submit" class="btn btn-info"><i class="fa-solid fa-fw fa-save"></i>Add Program & Projects</button>
             </form>
             </div>

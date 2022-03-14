@@ -26,10 +26,6 @@
                     }
                 </style>
                  
-
-
-                
-
                 <table id="list" class="table table-striped table-hover table-bordered" style="width:100%">
                     <thead >
                         <tr style='font-size: 8pt;'>
