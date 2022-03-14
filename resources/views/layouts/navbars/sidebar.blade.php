@@ -109,53 +109,55 @@
                                   </div>
                                   </li>
                               @endcan()
+                              @can('view_usermanagement')
                               <li>
                                 <a data-toggle="collapse" href="#user">
                                     <i class="fa fa-fw fa-users"></i>
-                                <p>
-                                    {{ __("User Management") }}
+                                    <p>
+                                      {{ __("User Management") }}
                                     <b class="caret"></b>
-                                </p>
+                                  </p>
                                 </a>
                                 <div class="collapse hide" id="user">
-                                <ul class="nav">
+                                  <ul class="nav">
                                     @can('users_access')
-                                        <li class="active">
+                                    <li class="active">
                                             <a href="{{ route('admin.users.index') }}">
                                                 <i class="fa fa-fw fa-user"></i>
                                                 <span class="hide-menu">Users</span>
                                             </a>
-                                        </li>
-                                    @endcan()
-    
-                                    @can('roles_access')
-                                        <li class="">
+                                          </li>
+                                          @endcan()
+                                          
+                                          @can('roles_access')
+                                          <li class="">
                                             <a href="{{ route('admin.roles.index') }}" aria-expanded="false">
                                               <i class="fa fa-fw fa-cog"></i>
-                                                <span class="hide-menu">Roles</span>
+                                              <span class="hide-menu">Roles</span>
                                             </a>
-                                        </li>
-                                    @endcan()
-    
-                                    @can('permissions_access')
-                                    <li class="">
-                                      <a href="{{ route('admin.permissions.index') }}" aria-expanded="false">
-                                        <i class="fa fa-fw fa-cog"></i>
+                                          </li>
+                                          @endcan()
+                                          
+                                          @can('permissions_access')
+                                          <li class="">
+                                            <a href="{{ route('admin.permissions.index') }}" aria-expanded="false">
+                                              <i class="fa fa-fw fa-cog"></i>
                                         <span class="hide-menu">Permissions</span>
                                       </a>
                                     </li>
                                     @endcan()
-    
-                                </ul>
+                                    
+                                  </ul>
                                 </div>
                               </li>
+                              @endcan()
       
-                    
-                    
-                    
-
-                    
-
+                              
+                              
+                              
+                              
+                              
+                              
     </ul>
   </div>
 </div>
