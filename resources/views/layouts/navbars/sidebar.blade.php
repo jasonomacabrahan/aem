@@ -109,7 +109,7 @@
                                   </div>
                                   </li>
                               @endcan()
-                              {{-- @can('view_usermanagement') --}}
+                               @can('view_usermanagement')
                               <li>
                                 <a data-toggle="collapse" href="#user">
                                     <i class="fa fa-fw fa-users"></i>
@@ -150,7 +150,7 @@
                                   </ul>
                                 </div>
                               </li>
-                              {{-- @endcan() --}}
+                              @endcan()
       
                               
                               
