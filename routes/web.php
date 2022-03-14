@@ -1,7 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ActivityAttendanceController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,97 +11,114 @@ use App\Http\Controllers\ActivityAttendanceController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
-Route::get('/', function () {
-	return view('welcome');
+Route::group(['namespace' => 'App\Http\Controllers\Auth'], function(){
+        Route::get('/forget-password','ForgotPasswordController@showForgetPasswordForm')->name('forget.password.get');
+        Route::post('/forget-password', 'ForgotPasswordController@submitForgetPasswordForm')->name('forget.password.post'); 
+        Route::get('/reset-password/{token}', 'ForgotPasswordController@showResetPasswordForm')->name('reset.password.get');
+        Route::post('/reset-password', 'ForgotPasswordController@submitResetPasswordForm')->name('reset.password.post');
 });
 
-Route::get('hello', function () {
-	return "hello";
+Route::group(['namespace' => 'App\Http\Controllers'], function(){
+    Route::get('/', 'HomeController@index')->name('home.index');
+    Route::group(['middleware' => ['guest']], function() {
+        /**
+         * Register Routes
+         */
+    
+        Route::get('/register', 'RegisterController@show')->name('register.show');
+        Route::post('/register', 'RegisterController@register')->name('register.perform');
+    
+        /**
+         * Login Routes
+         */
+        Route::get('/login', 'LoginController@show')->name('login.show');
+        Route::post('/login', 'LoginController@login')->name('login.perform');
+    
+    });
+    
+    Route::group(['middleware' => ['auth']], function() {
+        /**
+         * Logout Routes
+         */
+        Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
+        
+        /**
+         * Verification Routes
+         */
+        Route::get('/email/verify', 'VerificationController@show')->name('verification.notice');
+        Route::get('/email/verify/{id}/{hash}', 'VerificationController@verify')->name('verification.verify')->middleware(['signed']);
+        Route::post('/email/resend', 'VerificationController@resend')->name('verification.resend');
+    });
+    
+    
+    Route::group(['middleware' => ['auth','verified']], function() {    
+        Route::get('add-to-log', 'HomeController@myTestAddToLog');
+        Route::get('logActivity', 'HomeController@logActivity')->name('userlogs');
+        Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
+        Route::resource('todo', DashboardController::class);
+        Route::view('programs.add','programs.add')->name('programs.add');
+        Route::view('activity.add','activity.add')->name('acitivity.add');
+        Route::view('activity.addexpense','activity.addexpense')->name('activity.addexpense');
+        Route::view('tasks.resolutions','tasks.resolutions');
+        
+        
+        Route::controller(ActivityController::class)->group(function () {
+            Route::get('/activity.index', 'index')->name('activity.index');
+            Route::post('/activity.add', 'create')->name('activity.add');
+        });
+        
+        Route::controller(ActivityAttendanceController::class)->group(function () {
+            Route::get('activityregistration','activityregistration')->name('activityregistration');//for view: get activity registration form
+            Route::get('/activity/{id}', 'attendance')->name('activity');
+            Route::get('/activity.add', 'create')->name('activity.add');
+            Route::get('/usertrainings', 'usertrainings')->name('usertrainings');
+            Route::post('/saveactivity','create')->name('saveactivity');
+        });
+
+        Route::controller(ActivityExpenseController::class)->group(function () {
+            Route::get('/expenses', 'index')->name('activity.expenses');
+            Route::get('/addexpense', 'create')->name('addexpense');
+            Route::get('/updateexpenses/{id}', 'updateexpense')->name('updateexpenses');
+            Route::post('/saveexpensesupdate', 'saveexpenseupdate')->name('saveexpensesupdate');
+        });
+
+        Route::controller(ProgramController::class)->group(function () {
+            Route::get('/program.index', 'index')->name('program.index');
+            Route::post('/program.add', 'create')->name('program.add');
+        });
+
+        Route::controller(TaskResolutionController::class)->group(function () {
+            Route::get('/mystasks', 'mytasks')->name('mytasks');
+            Route::get('/program.add', 'create')->name('program.add');
+            Route::get('/tasksresolutions/{id}', 'responses')->name('tasksresolutions');
+            Route::get('/respond/{id}', 'respond')->name('respond');
+            Route::get('/markasresolved/{id}', 'markasresolved')->name('markasresolved');
+            Route::get('/resolved', 'resolved')->name('resolved');
+            Route::post('/saverespond', 'saverespond')->name('saverespond');
+        });
+        
+        Route::controller(TaskAssignmentController::class)->group(function(){
+            Route::get('/tasks.index','index')->name('tasks.index');
+            Route::get('/taskindex', 'index')->name('taskindex');
+            Route::get('/taskform', 'taskform')->name('taskform');
+            Route::post('/addtask', 'create')->name('addtask');
+        });
+
+        Route::controller(UserController::class)->group(function(){
+            Route::get('/getuser/{id}', 'getuser')->name('getuser');
+            Route::get('/userdashboard', 'userdashboard')->name('userdashboard');
+            Route::post('/saveuserupdate', 'saveuserupdate')->name('saveuserupdate');
+        });
+
+    
+        Route::group(['prefix'=>"admin",'as' => 'admin.','namespace' => 'Admin','middleware' => ['auth','AdminPanelAccess']], function () {
+            Route::get('/', 'HomeController@index')->name('home');
+            Route::resource('/users', 'UserController');
+            Route::resource('/roles', 'RoleController');
+            Route::resource('/permissions', 'PermissionController')->except(['show']);
+        
+        });
+    });
 });
 
-
-Route::post('sendEmailReminder', 'App\Http\Controllers\UserController@sendEmailReminder')->name('sendEmailReminder');
-Route::get('routes', function () {
-    $routeCollection = Route::getRoutes();
-
-    echo "<table style='width:100%'>";
-    echo "<tr>";
-    echo "<td width='10%'><h4>HTTP Method</h4></td>";
-    echo "<td width='10%'><h4>Route</h4></td>";
-    echo "<td width='10%'><h4>Name</h4></td>";
-    echo "<td width='70%'><h4>Corresponding Action</h4></td>";
-    echo "</tr>";
-    foreach ($routeCollection as $value) {
-        echo "<tr>";
-        echo "<td>" . $value->methods()[0] . "</td>";
-        echo "<td>" . $value->uri() . "</td>";
-        echo "<td>" . $value->getName() . "</td>";
-        echo "<td>" . $value->getActionName() . "</td>";
-        echo "</tr>";
-    }
-    echo "</table>";
-});
-
-
-
-Route::get('register', ['as' => 'auth.register', 'uses' => 'App\Http\Controllers\UserController@regnew']);
-Route::get('register', ['as' => 'auth.register', 'uses' => 'App\Http\Controllers\UserController@regnew']);
-Route::post('/regnew', [UserController::class, 'regnew'])->name('regnew');
-
-
-
-
-
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Auth::routes();
-
-/* Route::get('qr-code', function () {
-	return QrCode::size(500)->generate('Welcome to sparkouttech.com!');
-}); */
-
-
-Route::get('/welcome', 'App\Http\Controllers\HomeController@welcome')->name('welcome');
-Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
-
-Route::group(['middleware' => 'auth'], function () {
-	Route::get('programs.index', ['as' => 'programs.index', 'uses' => 'App\Http\Controllers\ProgramController@index']);
-	Route::view('programs.add','programs.add');
-	Route::post('programs.add', ['as' => 'programs.add', 'uses' => 'App\Http\Controllers\ProgramController@create']);
-	Route::get('activity.index', ['as' => 'activity.index', 'uses' => 'App\Http\Controllers\ActivityController@index']);
-	Route::view('activity.add','activity.add');
-	Route::post('activity.add', ['as' => 'activity.add', 'uses' => 'App\Http\Controllers\ActivityController@create']);
-	Route::get('activity/{id}', 'App\Http\Controllers\ActivityAttendanceController@attendance')->name('activity');
-	Route::get('expenses', ['as' => 'activity.expenses', 'uses' => 'App\Http\Controllers\ActivityExpenseController@index']);
-	Route::view('activity.addexpense','activity.addexpense')->name('activity.addexpense');
-	Route::post('/addexpense', 'App\Http\Controllers\ActivityExpenseController@create')->name('addexpense');
-	Route::get('/usertrainings', 'App\Http\Controllers\ActivityAttendanceController@usertrainings')->name('usertrainings');
-	Route::get('/getuser/{id}', 'App\Http\Controllers\UserController@getuser')->name('getuser');//just for getting user id
-	Route::post('/saveuserupdate', 'App\Http\Controllers\UserController@saveuserupdate')->name('saveuserupdate');//just for updating user account and level
-	Route::get('/updateexpenses/{id}', 'App\Http\Controllers\ActivityExpenseController@updateexpense');
-	Route::post('/saveexpensesupdate', 'App\Http\Controllers\ActivityExpenseController@saveexpenseupdate')->name('saveexpensesupdate');
-	Route::get('tasks.index', ['as' => 'tasks.index', 'uses' => 'App\Http\Controllers\TaskAssignmentController@index']);
-	Route::get('taskindex', 'App\Http\Controllers\TaskAssignmentController@index')->name('taskindex');
-	Route::get('/taskform', 'App\Http\Controllers\TaskAssignmentController@taskform')->name('taskform');
-	Route::post('/addtask', 'App\Http\Controllers\TaskAssignmentController@create')->name('addtask');
-	Route::get('mystasks', 'App\Http\Controllers\TaskResolutionController@mytasks')->name('mytasks');//showing the task of logged in user
-	// Route::get('tasks.resolutions/{id}', ['as' => 'tasks.resolutions/{id}', 'uses' => 'App\Http\Controllers\TaskResolutionController@responses'])->name('tasks.resolutions');
-	Route::get('/tasksresolutions/{id}', 'App\Http\Controllers\TaskResolutionController@responses')->name('tasksresolutions');
-	Route::view('tasks.resolutions','tasks.resolutions');
-	Route::get('/respond/{id}', 'App\Http\Controllers\TaskResolutionController@respond')->name('respond');	
-	Route::get('/markasresolved/{id}', 'App\Http\Controllers\TaskResolutionController@markasresolved')->name('markasresolved');	
-	Route::post('/resolved', 'App\Http\Controllers\TaskResolutionController@resolved')->name('resolved');
-	Route::post('/saverespond', 'App\Http\Controllers\TaskResolutionController@saverespond')->name('saverespond');
-
-
-	Route::view('activity.reg','activity.reg');
-	Route::post('activity.reg', ['as' => 'activity.reg', 'uses' => 'App\Http\Controllers\ActivityAttendanceController@create']);
-
-	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
-	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
-	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
-	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
-	Route::get('{page}', ['as' => 'page.index', 'uses' => 'App\Http\Controllers\PageController@index']);
-});
 

@@ -231,6 +231,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'QRCode' => SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        'LogActivity' => App\Helpers\LogActivity::class,
     ],
 
 ];

@@ -12,122 +12,151 @@
   </div>
   <div class="sidebar-wrapper" id="sidebar-wrapper">
     <ul class="nav">
-      <li class="@if ($activePage == 'home') active @endif">
-        <a href="{{ route('home') }}">
-          <i class="now-ui-icons design_app"></i>
-          <p>{{ __('Dashboard - ' . auth()->user()->usertype ) }}</p>
-        </a>
-      </li>
-
-      <li class="@if ($activePage == 'usertrainings') active @endif">
-        <a href="{{ route('usertrainings') }}">
-          <i class="now-ui-icons design_bullet-list-67"></i>
-          <p> {{ __("Training Registered") }} </p>
-        </a>
-      </li>
-      <li class="@if ($activePage == 'mytasks') active @endif">
-        <a href="{{ route('mytasks') }}">
-          <i class="now-ui-icons design_bullet-list-67"></i>
-          <p> {{ __("My Tasks") }} </p>
-        </a>
-      </li>
-@if (auth()->user()->usertype == 'admin')
+                     
+      {{-- @can('admin_panel_access')
         <li>
-            <a data-toggle="collapse" href="#master">
-                <i class="now-ui-icons ui-1_settings-gear-63"></i>
-              <p>
-                {{ __("Master Tables") }}
-                <b class="caret"></b>
-              </p>
-            </a>
-            <div class="collapse hide" id="master">
-              <ul class="nav">
-                <li class="@if ($activePage == 'tasks') active @endif">
-                    <a href="{{ route('tasks.index') }}">
-                      <i class="now-ui-icons shopping_shop"></i>
-                      <p> {{ __(" Tasks ") }} </p>
-                    </a>
-                </li>
-                <li class="@if ($activePage == 'programs') active @endif">
-                    <a href="{{ route('programs.index') }}">
-                      <i class="now-ui-icons shopping_shop"></i>
-                      <p> {{ __(" Programs ") }} </p>
-                    </a>
-                </li>
-                <li class="@if ($activePage == 'activitys') active @endif">
-                    <a href="{{ route('activity.index') }}">
-                      <i class="now-ui-icons ui-1_send"></i>
-                      <p> {{ __("Activity Management") }} </p>
-                    </a>
-                </li>
-                <li class="@if ($activePage == 'expenses') active @endif">
-                    <a href="{{ route('activity.expenses') }}">
-                      <i class="now-ui-icons business_money-coins"></i>
-                      <p> {{ __("Activity Expenses") }} </p>
-                    </a>
-                </li>
-                <li class="@if ($activePage == 'users') active @endif">
-                    <a href="{{ route('user.index') }}">
-                      <i class="now-ui-icons design_bullet-list-67"></i>
-                      <p> {{ __("User Management") }} </p>
-                    </a>
-                  </li>
-              </ul>
-            </div>
-            </li>
-         @endif
-
-        <li class="@if ($activePage == 'registration') active @endif">
-            <a href="{{ route('activity.reg') }}">
-              <i class="now-ui-icons objects_planet"></i>
-              <p> {{ __("Activity Registration") }} </p>
+            <a href="{{ route('admin.home') }}" aria-expanded="false">
+              <i class="fa fa-fw fa-dashboard"></i>
+              <p>Dashboard- {{ auth()->user()->name }}</p>
             </a>
         </li>
-<!---  start of old menu --
-            <li class="@if ($activePage == 'users') active @endif">
-              <a href="{{ route('user.index') }}">
-                <i class="now-ui-icons design_bullet-list-67"></i>
-                <p> {{ __("User Management") }} </p>
-              </a>
-            </li>
-          </ul>
-      <li class="@if ($activePage == 'icons') active @endif">
-        <a href="{{ route('page.index','icons') }}">
-          <i class="now-ui-icons education_atom"></i>
-          <p>{{ __('Icons') }}</p>
+      @endcan --}}
+
+      @can('dashboard')
+      <li class="@if ($activePage == 'dashboard') active @endif">
+        <a href="{{ route('dashboard.index') }}" aria-expanded="false">
+          <i class="fa fa-fw fa-dashboard"></i>
+          <p>Dashboard</p>
         </a>
       </li>
-      <li class = "@if ($activePage == 'maps') active @endif">
-        <a href="{{ route('page.index','maps') }}">
-          <i class="now-ui-icons location_map-big"></i>
-          <p>{{ __('Maps') }}</p>
-        </a>
-      </li>
-      <li class = " @if ($activePage == 'notifications') active @endif">
-        <a href="{{ route('page.index','notifications') }}">
-          <i class="now-ui-icons ui-1_bell-53"></i>
-          <p>{{ __('Notifications') }}</p>
-        </a>
-      </li>
-      <li class = " @if ($activePage == 'table') active @endif">
-        <a href="{{ route('page.index','table') }}">
-          <i class="now-ui-icons design_bullet-list-67"></i>
-          <p>{{ __('Table List') }}</p>
-        </a>
-      </li>
-      <li class = "@if ($activePage == 'typography') active @endif">
-        <a href="{{ route('page.index','typography') }}">
-          <i class="now-ui-icons text_caps-small"></i>
-          <p>{{ __('Typography') }}</p>
-        </a>
-      </li>
-      <li class = "">
-        <a href="{{ route('page.index','upgrade') }}" class="bg-info">
-          <i class="now-ui-icons arrows-1_cloud-download-93"></i>
-          <p>{{ __('Upgrade to PRO') }}</p>
-        </a>
-      </li>
-      ---  end of old menu -->
+      @endcan
+
+      @can('activity_registration')
+        <li class="@if ($activePage == 'registration') active @endif">
+          <a href="{{ route('activityregistration') }}">
+            <i class="fas fa-skating"></i>
+            <p> {{ __("Activity Registration") }} </p>
+          </a>
+        </li>
+      @endcan()
+
+      @canany(['users_access','roles_access','permissions_access'])
+                        
+
+                            @can('training_registered')
+                              <li class="">
+                                <a href="{{ route('usertrainings') }}">
+                                  <i class="now-ui-icons design_bullet-list-67"></i>
+                                  <p> {{ __("Training Registered") }} </p>
+                                </a>
+                              </li>
+                            @endcan
+        
+                            @can('my_task')
+                              <li class="">
+                                <a href="{{ route('mytasks')  }}">
+                                  <i class="now-ui-icons design_bullet-list-67"></i>
+                                  <p> {{ __("My Tasks") }} </p>
+                                </a>
+                              </li>
+                            @endcan
+
+                            @can('userlogs')
+                              <li class="">
+                                <a href="{{ route('userlogs')  }}">
+                                  <i class="now-ui-icons design_bullet-list-67"></i>
+                                  <p> {{ __("User Logs") }} </p>
+                                </a>
+                              </li>
+                            @endcan
+
+                            @can('master_tables')
+                              <li>
+                                  <a data-toggle="collapse" href="#master">
+                                      <i class="now-ui-icons ui-1_settings-gear-63"></i>
+                                    <p>
+                                      {{ __("Master Tables") }}
+                                      <b class="caret"></b>
+                                    </p>
+                                  </a>
+                                  <div class="collapse hide" id="master">
+                                    <ul class="nav">
+                                      <li class="@if ($activePage == 'tasks') active @endif">
+                                          <a href="{{ route('tasks.index') }}">
+                                            <i class="now-ui-icons shopping_shop"></i>
+                                            <p> {{ __(" Tasks ") }} </p>
+                                          </a>
+                                      </li>
+                                      <li class="@if ($activePage == 'programs') active @endif">
+                                          <a href="{{ route('program.index') }}">
+                                            <i class="now-ui-icons shopping_shop"></i>
+                                            <p> {{ __(" Programs ") }} </p>
+                                          </a>
+                                      </li>
+                                      <li class="@if ($activePage == 'activitys') active @endif">
+                                          <a href="{{ route('activity.index') }}">
+                                            <i class="now-ui-icons ui-1_send"></i>
+                                            <p> {{ __("Activity Management") }} </p>
+                                          </a>
+                                      </li>
+                                      <li class="@if ($activePage == 'expenses') active @endif">
+                                          <a href="{{ route('activity.expenses') }}">
+                                            <i class="now-ui-icons business_money-coins"></i>
+                                            <p> {{ __("Activity Expenses") }} </p>
+                                          </a>
+                                      </li>
+                                      
+                                    </ul>
+                                  </div>
+                                  </li>
+                              @endcan
+                              <li>
+                                <a data-toggle="collapse" href="#user">
+                                    <i class="fa fa-fw fa-users"></i>
+                                <p>
+                                    {{ __("User Management") }}
+                                    <b class="caret"></b>
+                                </p>
+                                </a>
+                                <div class="collapse hide" id="user">
+                                <ul class="nav">
+                                    @can('users_access')
+                                        <li class="active">
+                                            <a href="{{ route('admin.users.index') }}">
+                                                <i class="fa fa-fw fa-user"></i>
+                                                <span class="hide-menu">Users</span>
+                                            </a>
+                                        </li>
+                                    @endcan
+    
+                                    @can('roles_access')
+                                        <li class="">
+                                            <a href="{{ route('admin.roles.index') }}" aria-expanded="false">
+                                              <i class="fa fa-fw fa-cog"></i>
+                                                <span class="hide-menu">Roles</span>
+                                            </a>
+                                        </li>
+                                    @endcan
+    
+                                    @can('permissions_access')
+                                    <li class="">
+                                      <a href="{{ route('admin.permissions.index') }}" aria-expanded="false">
+                                        <i class="fa fa-fw fa-cog"></i>
+                                        <span class="hide-menu">Permissions</span>
+                                      </a>
+                                    </li>
+                                    @endcan
+    
+                                </ul>
+                                </div>
+                              </li>
+      
+                    @endcanany
+                    
+                    
+
+                    
+
     </ul>
   </div>
 </div>

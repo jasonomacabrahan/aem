@@ -12,7 +12,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\Response;
 class TaskResolutionController extends Controller
 {
     /**
@@ -50,7 +51,7 @@ class TaskResolutionController extends Controller
     {
         $responses = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
         ->join('programs', 'programs.id', '=', 'task_assignments.papID')
-        ->where('task_resolutions.id','=',$taskID)
+        ->where('task_resolutions.taskAssignmentID','=',$taskID)
         ->get(['programs.*', 'task_assignments.*','task_assignments.id AS taskid', 'task_resolutions.*'])->first();
         $users = User::all();
        // dd($responses, $taskID);
@@ -97,23 +98,27 @@ class TaskResolutionController extends Controller
      */
     public function mytasks()
     {
+        abort_if(Gate::denies('my_task'), Response::HTTP_FORBIDDEN, 'Forbidden');
         $id = auth()->user()->id;
         $mytasks = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
         ->join('programs', 'programs.id', '=', 'task_assignments.papID')
         ->join('users', 'users.id', '=', 'task_assignments.taskBy')
         ->where('task_resolutions.userID','=',$id)
-        ->get(['programs.*','task_assignments.id as taskid','task_assignments.*', 'task_resolutions.*','users.*']);
+        ->get(['programs.*','users.name AS thesource','task_assignments.id as taskid','task_assignments.created_at AS datecreated','task_assignments.*', 'task_resolutions.*','users.*']);
         return view('tasks.mytasks', ['mytasks'=>$mytasks]);
+        
     }
 
 
     public function saverespond(Request $request)
     {
+
+        //dd($request);
         $request->validate([
             'resolutionDetails' => 'required'
         ]);
         $updating = DB::table('task_resolutions')
-                    ->where('id',$request->input('id'))
+                    ->where('taskAssignmentID',$request->input('id'))
                     ->update([
                                 'resolutionDetails'=>$request->input('resolutionDetails'),
                     ]);

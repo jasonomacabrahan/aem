@@ -8,6 +8,9 @@ use App\Models\Program;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\Response;
+
 class TaskAssignmentController extends Controller
 {
     /**
@@ -15,18 +18,21 @@ class TaskAssignmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
+    
     public function index()
-    {
-       
+    {       
+        abort_if(Gate::denies('master_tables'), Response::HTTP_FORBIDDEN, 'Forbidden');
         $tasks = TaskAssignment::join('task_resolutions', 'task_resolutions.taskAssignmentID', '=', 'task_assignments.id')
         ->join('users','users.id','=','task_resolutions.userID')
         ->join('programs','programs.id','=','task_assignments.papID')
         ->get(['users.*', 'task_assignments.*','task_assignments.id AS taskID','task_resolutions.*','programs.*']);
         return view('tasks.index', ['tasks'=>$tasks]);
     }
-
+    
     public function taskform()
     {
+        abort_if(Gate::denies('master_tables'), Response::HTTP_FORBIDDEN, 'Forbidden');
         $programs = Program::all();
         $users = User::all();
         //dd($programs, $users);
@@ -68,61 +74,5 @@ class TaskAssignmentController extends Controller
         }
         return redirect()->route('taskform')
                 ->with('success', 'event');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\TaskAssignment  $taskAssignment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(TaskAssignment $taskAssignment)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\TaskAssignment  $taskAssignment
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(TaskAssignment $taskAssignment)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\TaskAssignment  $taskAssignment
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, TaskAssignment $taskAssignment)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\TaskAssignment  $taskAssignment
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(TaskAssignment $taskAssignment)
-    {
-        //
     }
 }
