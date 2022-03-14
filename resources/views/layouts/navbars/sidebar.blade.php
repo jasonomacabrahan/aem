@@ -40,7 +40,6 @@
         </li>
       @endcan()
 
-      @canany(['users_access','roles_access','permissions_access'])
                         
 
                             @can('training_registered')
@@ -50,7 +49,7 @@
                                   <p> {{ __("Training Registered") }} </p>
                                 </a>
                               </li>
-                            @endcan
+                            @endcan()
         
                             @can('my_task')
                               <li class="">
@@ -59,7 +58,7 @@
                                   <p> {{ __("My Tasks") }} </p>
                                 </a>
                               </li>
-                            @endcan
+                            @endcan()
 
                             @can('userlogs')
                               <li class="">
@@ -68,7 +67,7 @@
                                   <p> {{ __("User Logs") }} </p>
                                 </a>
                               </li>
-                            @endcan
+                            @endcan()
 
                             @can('master_tables')
                               <li>
@@ -109,7 +108,7 @@
                                     </ul>
                                   </div>
                                   </li>
-                              @endcan
+                              @endcan()
                               <li>
                                 <a data-toggle="collapse" href="#user">
                                     <i class="fa fa-fw fa-users"></i>
@@ -127,7 +126,7 @@
                                                 <span class="hide-menu">Users</span>
                                             </a>
                                         </li>
-                                    @endcan
+                                    @endcan()
     
                                     @can('roles_access')
                                         <li class="">
@@ -136,7 +135,7 @@
                                                 <span class="hide-menu">Roles</span>
                                             </a>
                                         </li>
-                                    @endcan
+                                    @endcan()
     
                                     @can('permissions_access')
                                     <li class="">
@@ -145,13 +144,13 @@
                                         <span class="hide-menu">Permissions</span>
                                       </a>
                                     </li>
-                                    @endcan
+                                    @endcan()
     
                                 </ul>
                                 </div>
                               </li>
       
-                    @endcanany
+                    
                     
                     
 
