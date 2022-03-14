@@ -16,6 +16,7 @@
           <div class="card">
               <div class="card-header">
                 <h2><i class="fa fa-fw fa-th-list"></i>My Tasks Assignments</h2>
+                <a href="{{ route('taskform') }}" class="btn btn-info"><i class="fa fa-fw fa-plus"></i>New Task</a>
               </div>
             <div class="card-body">
                 <style>
@@ -53,7 +54,20 @@
                             <tr>
                                 <td>{{ $mytask->taskDetail }}</a></td>
                                 <td>{{ $mytask->shortName }}</a></td>
-                                <td>{{ $mytask->name }}</td>
+                                <td>
+
+                                    <?php 
+                                        $source = $mytask->thesource; 
+                                        $user = auth()->user()->name;
+                                        if ($user==$source) {
+                                            echo "Just You";
+                                        }else{
+                                            echo $source;
+                                        }
+                                    ?>
+                                             
+                                        
+                                </td>
                                 <td><a href="#" title="Edit response"><i class="fa fa-fw fa-edit"></i>{{ $mytask->resolutionDetails }}</a></td>
                                 <td>
                                     @if ($mytask->taskResolved==0)

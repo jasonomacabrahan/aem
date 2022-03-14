@@ -18,7 +18,7 @@ class LogoutController extends Controller
         Session::flush();
         
         Auth::logout();
-
+        \LogActivity::addToLog('User Logout');
         return redirect('login');
     }
 }

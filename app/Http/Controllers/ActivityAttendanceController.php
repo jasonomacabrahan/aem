@@ -7,6 +7,8 @@ use App\Models\Activity;
 use App\Models\ActivityAttendance;
 use App\Models\Program;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\Response;
 
 class ActivityAttendanceController extends Controller
 {
@@ -34,13 +36,13 @@ class ActivityAttendanceController extends Controller
    
     public function attendance($id)
     {
+        abort_if(Gate::denies('master_tables'), Response::HTTP_FORBIDDEN, 'Forbidden');
         $activityattendances = ActivityAttendance::join('activities', 'activities.id', '=', 'activity_attendances.ActivityID')
         ->join('programs', 'programs.id', '=', 'activities.papID')
         ->join('users', 'users.id', '=', 'activity_attendances.RegisteredID')
         ->where('activities.id','=', $id)
         ->get(['activities.*', 'activity_attendances.*', 'programs.*', 'users.*'])->all();
 
-        // dd($activityattendances, $id);
         return view('activity.attendance',['activityattendances'=>$activityattendances]); 
     }
 
@@ -74,6 +76,14 @@ class ActivityAttendanceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    //for viewing form only
+    public function activityregistration()
+    {
+        abort_if(Gate::denies('activity_registration'), Response::HTTP_FORBIDDEN, 'Forbidden');
+        return view('activity.reg');
+    }
+
     public function create(Request $req)
     {
         $activityattendance = new ActivityAttendance;
@@ -84,11 +94,11 @@ class ActivityAttendanceController extends Controller
         $activityattendance->updated_at = now();
         $activity = ActivityAttendance::where('RegisteredID',$activityattendance->RegisteredID)->where('registrationDate', $activityattendance->registrationDate)->first();
         if ($activity) {
-            return redirect()->route('activity.reg')
+            return redirect()->route('activityregistration')
                     ->with('error', 'Event');
         }else{
             $activityattendance->save();
-            return redirect()->route('activity.reg')
+            return redirect()->route('activityregistration')
                     ->with('success', 'Event');
           
         }

@@ -16,11 +16,7 @@
           <div class="card">
               <div class="card-header">
                 <h2><i class="fa fa-fw fa-th-list"></i>Activities & Events</h2>
-                <a href="activity.add" id="test" class="btn btn-success"><i class="fas fa-plus-circle"></i> New activity </a>
-<!---                <a href="{{ '#' }}" class="btn btn-warning"><i class="fas fa-hand-holding"></i>Withdraw</a>
-                <a href="{{ '#' }}" class="btn btn-primary pull-right  "><i class="fas fa-swatchbook"></i>Category</a>
-                <a href="{{ '#' }}" class="btn btn-primary pull-right"><i class="fas fa-ruler"></i>Unit</a>
-                <a href="{{ '#' }}" class="btn btn-primary pull-right"><i class="fas fa-people-carry"></i>Recipient</a> -->
+                <a href="{{ route('activity.add') }}" id="test" class="btn btn-success"><i class="fas fa-plus-circle"></i> New activity </a>
               </div>
             <div class="card-body">
                 <style>
@@ -63,7 +59,7 @@
                                 <td>{{ $programs[($activity->papID-1)]->shortName }}</td>
                                 <td>{{ $activity->created_at }}</td>
                                 <td>
-                                    <a href="activity.attendance/{{ $activity->id }}"><i class="fa fa-fw fa-th-list"></i></i></a>
+                                    <a href="activity/{{ $activity->id }}"><i class="fa fa-fw fa-th-list"></i></i></a>
 
                                 </td>
                             </tr>

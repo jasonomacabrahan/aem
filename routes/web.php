@@ -52,24 +52,27 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
     
     
     Route::group(['middleware' => ['auth','verified']], function() {    
+        Route::get('add-to-log', 'HomeController@myTestAddToLog');
+        Route::get('logActivity', 'HomeController@logActivity')->name('userlogs');
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
-
+        Route::resource('todo', DashboardController::class);
         Route::view('programs.add','programs.add')->name('programs.add');
         Route::view('activity.add','activity.add')->name('acitivity.add');
         Route::view('activity.addexpense','activity.addexpense')->name('activity.addexpense');
         Route::view('tasks.resolutions','tasks.resolutions');
-        Route::view('activity.reg','activity.reg');
+        
         
         Route::controller(ActivityController::class)->group(function () {
             Route::get('/activity.index', 'index')->name('activity.index');
-            Route::get('/activity.add', 'create')->name('activity.add');
+            Route::post('/activity.add', 'create')->name('activity.add');
         });
         
         Route::controller(ActivityAttendanceController::class)->group(function () {
+            Route::get('activityregistration','activityregistration')->name('activityregistration');//for view: get activity registration form
             Route::get('/activity/{id}', 'attendance')->name('activity');
             Route::get('/activity.add', 'create')->name('activity.add');
             Route::get('/usertrainings', 'usertrainings')->name('usertrainings');
-            Route::post('/activity.reg','create')->name('activity.reg');
+            Route::post('/saveactivity','create')->name('saveactivity');
         });
 
         Route::controller(ActivityExpenseController::class)->group(function () {
@@ -80,8 +83,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         });
 
         Route::controller(ProgramController::class)->group(function () {
-            Route::get('program.index', 'index')->name('program.index');
-            Route::get('/program.add', 'create')->name('program.add');
+            Route::get('/program.index', 'index')->name('program.index');
+            Route::post('/program.add', 'create')->name('program.add');
         });
 
         Route::controller(TaskResolutionController::class)->group(function () {
@@ -91,7 +94,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
             Route::get('/respond/{id}', 'respond')->name('respond');
             Route::get('/markasresolved/{id}', 'markasresolved')->name('markasresolved');
             Route::get('/resolved', 'resolved')->name('resolved');
-            Route::get('/saverespond', 'saverespond')->name('saverespond');
+            Route::post('/saverespond', 'saverespond')->name('saverespond');
         });
         
         Route::controller(TaskAssignmentController::class)->group(function(){
@@ -103,6 +106,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
 
         Route::controller(UserController::class)->group(function(){
             Route::get('/getuser/{id}', 'getuser')->name('getuser');
+            Route::get('/userdashboard', 'userdashboard')->name('userdashboard');
             Route::post('/saveuserupdate', 'saveuserupdate')->name('saveuserupdate');
         });
 

@@ -18,7 +18,7 @@
 
             </div>
             <div class="card-body">
-              <form action="programs.add" method="POST" class="mt-1 py-3">
+              <form action="program.add" method="POST" class="mt-1 py-3">
                 @csrf
                 <div class="row">
                     <div class="col-md-11 pr-1">

@@ -13,14 +13,32 @@
   <div class="sidebar-wrapper" id="sidebar-wrapper">
     <ul class="nav">
                      
-      @can('admin_panel_access')
+      {{-- @can('admin_panel_access')
         <li>
             <a href="{{ route('admin.home') }}" aria-expanded="false">
-              <i class="now-ui-icons design_app"></i>
-              <p>Dashboard</p>
+              <i class="fa fa-fw fa-dashboard"></i>
+              <p>Dashboard- {{ auth()->user()->name }}</p>
             </a>
         </li>
+      @endcan --}}
+
+      @can('dashboard')
+      <li class="@if ($activePage == 'dashboard') active @endif">
+        <a href="{{ route('dashboard.index') }}" aria-expanded="false">
+          <i class="fa fa-fw fa-dashboard"></i>
+          <p>Dashboard</p>
+        </a>
+      </li>
       @endcan
+
+      @can('activity_registration')
+        <li class="@if ($activePage == 'registration') active @endif">
+          <a href="{{ route('activityregistration') }}">
+            <i class="fas fa-skating"></i>
+            <p> {{ __("Activity Registration") }} </p>
+          </a>
+        </li>
+      @endcan()
 
       @canany(['users_access','roles_access','permissions_access'])
                         
@@ -42,6 +60,16 @@
                                 </a>
                               </li>
                             @endcan
+
+                            @can('userlogs')
+                              <li class="">
+                                <a href="{{ route('userlogs')  }}">
+                                  <i class="now-ui-icons design_bullet-list-67"></i>
+                                  <p> {{ __("User Logs") }} </p>
+                                </a>
+                              </li>
+                            @endcan
+
                             @can('master_tables')
                               <li>
                                   <a data-toggle="collapse" href="#master">

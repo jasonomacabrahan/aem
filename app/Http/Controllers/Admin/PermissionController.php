@@ -15,7 +15,7 @@ class PermissionController extends Controller
     public function index(Request $request)
     {
         abort_if(Gate::denies('permissions_access'), Response::HTTP_FORBIDDEN, 'Forbidden');
-
+        \LogActivity::addToLog('Accessed Permission Index');
         $permissions = Permission::paginate(5)->appends($request->query());;
         return view('admin.permissions.index',compact('permissions'));
     }
@@ -28,7 +28,7 @@ class PermissionController extends Controller
     public function create()
     {
         abort_if(Gate::denies('permission_create'), Response::HTTP_FORBIDDEN, 'Forbidden');
-
+        \LogActivity::addToLog('Accessed Permission Create');
         return view('admin.permissions.create');
     }
 
@@ -41,7 +41,7 @@ class PermissionController extends Controller
     public function store(StorePermissionRequest $request)
     {
         Permission::create($request->validated());
-
+        \LogActivity::addToLog('Just Created new Permission');
         return redirect()->route('admin.permissions.index')->with('status-success','New Permission Created');
     }
 
@@ -55,7 +55,7 @@ class PermissionController extends Controller
     public function edit(Permission $permission)
     {
         abort_if(Gate::denies('permission_edit'), Response::HTTP_FORBIDDEN, 'Forbidden');
-
+        \LogActivity::addToLog('Accessed Permission Edit');
         return view('admin.permissions.edit', compact('permission'));
     }
 
@@ -69,7 +69,7 @@ class PermissionController extends Controller
     public function update(UpdatePermissionRequest $request, Permission $permission)
     {
         $permission->update($request->validated());
-
+        \LogActivity::addToLog('Updated Permission');
         return redirect()->route('admin.permissions.index')->with('status-success','Permission Updated');
     }
 
@@ -82,8 +82,8 @@ class PermissionController extends Controller
     public function destroy(Permission $permission)
     {
         abort_if(Gate::denies('permission_delete'), Response::HTTP_FORBIDDEN, 'Forbidden');
-
-        $permission->delete();
+        \LogActivity::addToLog('Just deleted of the permission');
+        $permission->delete();  
 
         return redirect()->back()->with('status-success','Permission Deleted');
     }

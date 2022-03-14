@@ -4,21 +4,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Response;
 use App\Models\Todo;
-use App\Models\User;
-use App\Models\Role;
-class DashboardController extends Controller
+class TodoController extends Controller
 {
-    public function index() 
+    public function index()
     {
-        $id = auth()->user()->id;
         $todo = Todo::all();
-        $user = User::join('roles','roles.id','=','users.role_id')
-                ->where('users.id',$id)
-                ->get();
-        return view('dashboard.index')->with(compact('todo','user'));
-        //return view('dashboard.index');
+        return view('dashboard.index')->with(compact('todo'));
     }
-
+    /**
+     * Store a newly created resource in storage.
+     *
+     */
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -28,8 +24,4 @@ class DashboardController extends Controller
         $todo = Todo::create($data);
         return Response::json($todo);
     }
-
-    
-
-
 }

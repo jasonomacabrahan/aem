@@ -104,7 +104,7 @@ class TaskResolutionController extends Controller
         ->join('programs', 'programs.id', '=', 'task_assignments.papID')
         ->join('users', 'users.id', '=', 'task_assignments.taskBy')
         ->where('task_resolutions.userID','=',$id)
-        ->get(['programs.*','task_assignments.id as taskid','task_assignments.created_at AS datecreated','task_assignments.*', 'task_resolutions.*','users.*']);
+        ->get(['programs.*','users.name AS thesource','task_assignments.id as taskid','task_assignments.created_at AS datecreated','task_assignments.*', 'task_resolutions.*','users.*']);
         return view('tasks.mytasks', ['mytasks'=>$mytasks]);
         
     }
@@ -112,11 +112,13 @@ class TaskResolutionController extends Controller
 
     public function saverespond(Request $request)
     {
+
+        //dd($request);
         $request->validate([
             'resolutionDetails' => 'required'
         ]);
         $updating = DB::table('task_resolutions')
-                    ->where('id',$request->input('id'))
+                    ->where('taskAssignmentID',$request->input('id'))
                     ->update([
                                 'resolutionDetails'=>$request->input('resolutionDetails'),
                     ]);
