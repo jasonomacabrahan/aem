@@ -86,6 +86,15 @@
                                             <p> {{ __(" Tasks ") }} </p>
                                           </a>
                                       </li>
+                                      @can('manuallyassignfocal')
+                                        <li class="@if ($activePage == 'programs') active @endif">
+                                          <a href="">
+                                            <i class="now-ui-icons shopping_shop"></i>
+                                            <p> {{ __(" Programs/Focal ") }} </p>
+                                          </a>
+                                        </li>  
+                                      @endcan()
+
                                       <li class="@if ($activePage == 'programs') active @endif">
                                           <a href="{{ route('program.index') }}">
                                             <i class="now-ui-icons shopping_shop"></i>
@@ -120,8 +129,8 @@
                                 </a>
                                 <div class="collapse hide" id="user">
                                   <ul class="nav">
-                                    @can('users_access')
-                                    <li class="active">
+                                        @can('users_access')
+                                          <li li class="active">
                                             <a href="{{ route('admin.users.index') }}">
                                                 <i class="fa fa-fw fa-user"></i>
                                                 <span class="hide-menu">Users</span>
@@ -142,9 +151,9 @@
                                           <li class="">
                                             <a href="{{ route('admin.permissions.index') }}" aria-expanded="false">
                                               <i class="fa fa-fw fa-cog"></i>
-                                        <span class="hide-menu">Permissions</span>
-                                      </a>
-                                    </li>
+                                              <span class="hide-menu">Permissions</span>
+                                            </a>
+                                          </li>
                                     @endcan()
                                     
                                   </ul>

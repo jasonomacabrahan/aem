@@ -23,9 +23,11 @@ class TaskAssignmentController extends Controller
     public function index()
     {       
         abort_if(Gate::denies('master_tables'), Response::HTTP_FORBIDDEN, 'Forbidden');
+        $id = auth()->user()->id;
         $tasks = TaskAssignment::join('task_resolutions', 'task_resolutions.taskAssignmentID', '=', 'task_assignments.id')
         ->join('users','users.id','=','task_resolutions.userID')
         ->join('programs','programs.id','=','task_assignments.papID')
+        ->where('task_assignments.taskBy','=',$id)
         ->get(['users.*', 'task_assignments.*','task_assignments.id AS taskID','task_resolutions.*','programs.*']);
         return view('tasks.index', ['tasks'=>$tasks]);
     }
@@ -36,11 +38,10 @@ class TaskAssignmentController extends Controller
         $programs = Program::all();
         $users = User::all();
         //dd($programs, $users);
-        return view('tasks.add', ['programs'=>$programs, 'users'=>$users]);
-        
-        
+        return view('tasks.add', ['programs'=>$programs, 'users'=>$users]);    
     }
 
+   
     /**
      * Show the form for creating a new resource.
      *
@@ -52,7 +53,7 @@ class TaskAssignmentController extends Controller
         $tasks = new TaskAssignment;
         $tasks->papID       =$req->papID;
         $tasks->taskBy      = $req->taskBy;
-        $tasks->taskedTo    = ' ';
+        $tasks->taskedTo    = '';
         $tasks->taskDetail  = $req->taskDetail;
         $tasks->taskResolved= 0 ;
         $tasks->created_at = now();
@@ -66,7 +67,7 @@ class TaskAssignmentController extends Controller
 
                 $assignee = new TaskResolution;
                 $assignee->taskAssignmentID = $taskid;
-                $assignee->resolutionDetails = ' ';
+                $assignee->resolutionDetails = NULL;
                 $assignee->userID = $req->$packstr;
                 $assignee->save();
             }

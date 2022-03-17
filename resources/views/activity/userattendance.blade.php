@@ -61,7 +61,7 @@
                                         <td>{{ $activityattendance->activityDateEnd }}</td>
                                         <td>{{ $activityattendance->shortName }}</td>
                                         <td>{{ $activityattendance->programDescription }}</td>
-                                        <td>{{ $activityattendance->focalPerson }}</td>
+                                        <td>{{ $activityattendance->name }}</td>
                                         <td>
                                             <a href="{{ route('activity', ['id' => $activityattendance->id])  }}"><i class="fa fa-fw fa-th-list"></i></i></a>
 

@@ -21,13 +21,13 @@
             </div>
 
             <div class="card-body">
-            <form action="activity.add" method="POST" class="mt-1 py-3">
+            <form action="ac" method="POST" class="mt-1 py-3">
                 @csrf
                 <div class="row">
                     <div class="col-md-11 pr-1">
                       <div class="form-group">
                         <label for="activityDescription">{{__(" Activity Description")}}</label>
-                        <input type="text" name="activityDescription" class="form-control" placeholder="Enter Activity Description" value="{{ old('activityDescription') }}" required>
+                        <input type="text" name="activityDescription" class="form-control rounded-0" placeholder="Enter Activity Description" value="{{ old('activityDescription') }}" required>
                         @include('alerts.feedback', ['field' => 'activityDescription'])
                       </div>
                     </div>
@@ -36,7 +36,7 @@
                     <div class="col-md-11 pr-1">
                       <div class="form-group">
                         <label for="location">{{__(" Activity Location  ")}}</label>
-                        <input type="text" name="location" class="form-control" placeholder="Enter Activity Location" value="{{ old('location') }}" required>
+                        <input type="text" name="location" class="form-control rounded-0" placeholder="Enter Activity Location" value="{{ old('location') }}" required>
                         @include('alerts.feedback', ['field' => 'location'])
                       </div>
                     </div>
@@ -45,9 +45,9 @@
                     <div class="col-md-11 pr-1">
                       <div class="form-group">
                         <label for="activityDateStart">{{__(" Activity Start Date ")}}</label>
-                        <input class="form-control date" type="date" value="{{ (!empty($program) && $program->activityDateStart) ?
+                        <input class="form-control date  rounded-0" type="date" value="{{ (!empty($program) && $program->activityDateStart) ?
                             \Carbon\Carbon::parse($program->activityDateStart)->format('d/m/Y') : '' }}"  name="activityDateStart"
-                            id="activityDateStart" />
+                            id="activityDateStart" required/>
                       </div>
                     </div>
                 </div>
@@ -56,9 +56,9 @@
                     <div class="col-md-11 pr-1">
                       <div class="form-group">
                         <label for="activityDateEnd">{{__(" Activity End Date ")}}</label>
-                        <input class="form-control date" type="date" value="{{ (!empty($program) && $program->activityDateEnd) ?
+                        <input class="form-control date rounded-0" type="date" value="{{ (!empty($program) && $program->activityDateEnd) ?
                             \Carbon\Carbon::parse($program->activityDateEnd)->format('d/m/Y') : '' }}"  name="activityDateEnd"
-                            id="activityDateEnd" />
+                            id="activityDateEnd" required/>
                       </div>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                     <div class="col-md-11 pr-1">
                       <div class="form-group">
                         <label for="papID">{{__(" Program / Project ")}}</label>
-                        <select name="papID" id="papID">
+                        <select class="form-control rounded-0" name="papID" id="papID" required>
                             @foreach($programs as $program)
                             <option value="{{ $program->id }}">{{ $program->shortName }}</option>
                             @endforeach
@@ -76,7 +76,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-round"> Add  </button>
+                <button type="submit" class="btn btn-info"><i class="fa fa-fw fa-plus"></i>Add Activity  </button>
             </form>
             </div>
             </div>

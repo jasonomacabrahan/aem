@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TaskResolution;
+use App\Models\TaskAssignment;
 use App\Models\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Crypt;
 class TaskResolutionController extends Controller
 {
     /**
@@ -51,7 +53,7 @@ class TaskResolutionController extends Controller
     {
         $responses = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
         ->join('programs', 'programs.id', '=', 'task_assignments.papID')
-        ->where('task_resolutions.taskAssignmentID','=',$taskID)
+        ->where('task_resolutions.id','=',$taskID)
         ->get(['programs.*', 'task_assignments.*','task_assignments.id AS taskid', 'task_resolutions.*'])->first();
         $users = User::all();
        // dd($responses, $taskID);
@@ -107,11 +109,62 @@ class TaskResolutionController extends Controller
         ->join('programs', 'programs.id', '=', 'task_assignments.papID')
         ->join('users', 'users.id', '=', 'task_assignments.taskBy')
         ->where('task_resolutions.userID','=',$id)
-        ->get(['programs.*','users.name AS thesource','task_assignments.id as taskid','task_assignments.created_at AS datecreated','task_assignments.*', 'task_resolutions.*','users.*']);
+        ->get(['programs.*','users.name AS thesource','task_assignments.id as taskid','task_resolutions.id AS resolutionId','task_assignments.created_at AS datecreated','task_assignments.*', 'task_resolutions.*','users.*']);
         return view('tasks.mytasks', ['mytasks'=>$mytasks]);
-        
     }
 
+    public function editmytask($id)
+    {
+        abort_if(Gate::denies('my_task'), Response::HTTP_FORBIDDEN, 'Forbidden');
+        $mytasks = TaskAssignment::where('task_assignments.id','=',$id)
+        ->get(['task_assignments.id as taskid','task_assignments.taskDetail']);
+        return view('tasks.edittaskdetail', ['mytasks'=>$mytasks]);
+    }
+
+    public function savetaskchanges(Request $request)
+    {
+
+        $request->validate([
+            'id' => 'required',
+            'taskDetail' => 'required'
+        ]);
+        $decryptedid= Crypt::decryptString($request->input('id'));
+        $updating = DB::table('task_assignments')
+                    ->where('id',$decryptedid)
+                    ->update([
+                                'taskDetail'=>$request->input('taskDetail'),
+                    ]);
+                    return redirect()->route('mytasks')
+                    ->with('ok', 'Some Event');
+    }
+
+
+    public function editmyresponse($taskID)
+    {
+        $responses = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
+        ->join('programs', 'programs.id', '=', 'task_assignments.papID')
+        ->where('task_resolutions.id','=',$taskID)
+        ->get(['programs.*', 'task_assignments.*','task_assignments.id AS taskid', 'task_resolutions.*', 'task_resolutions.resolutionDetails','task_resolutions.id AS resolutionId'])->first();
+        //dd($responses);
+        $users = User::all();
+        return view('tasks.editresponse', ['responses'=>$responses, 'users'=>$users]);
+    }
+
+
+    public function saveresponse(Request $request)
+    {
+
+        $request->validate([
+            'resolutionDetails' => 'required'
+        ]);
+        $updating = DB::table('task_resolutions')
+                    ->where('id',$request->input('id'))
+                    ->update([
+                                'resolutionDetails'=>$request->input('resolutionDetails'),
+                    ]);
+                    return redirect()->route('mytasks')
+                    ->with('success', 'Some Event');
+    }
 
     public function saverespond(Request $request)
     {

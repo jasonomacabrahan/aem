@@ -57,12 +57,14 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
         Route::resource('todo', DashboardController::class);
         Route::view('programs.add','programs.add')->name('programs.add');
-        Route::view('activity.add','activity.add')->name('acitivity.add');
         Route::view('activity.addexpense','activity.addexpense')->name('activity.addexpense');
         Route::view('tasks.resolutions','tasks.resolutions');
         
         
         Route::controller(ActivityController::class)->group(function () {
+            Route::get('activity.editactivity/{id}','editactivity')->name('editactivity');
+            Route::post('saveactivitychanges','saveactivitychanges')->name('saveactivitychanges');
+            Route::get('newactivity','newactivity')->name('newactivity');
             Route::get('/activity.index', 'index')->name('activity.index');
             Route::post('/activity.add', 'create')->name('activity.add');
         });
@@ -77,17 +79,23 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
 
         Route::controller(ActivityExpenseController::class)->group(function () {
             Route::get('/expenses', 'index')->name('activity.expenses');
-            Route::get('/addexpense', 'create')->name('addexpense');
+            Route::post('/addexpense', 'create')->name('addexpense');
             Route::get('/updateexpenses/{id}', 'updateexpense')->name('updateexpenses');
             Route::post('/saveexpensesupdate', 'saveexpenseupdate')->name('saveexpensesupdate');
         });
 
         Route::controller(ProgramController::class)->group(function () {
+            Route::get('/program.edit/{id}', 'updateprogram')->name('updateprogram');
+            Route::post('/saveprogramupdate', 'saveprogramupdate')->name('saveprogramupdate');
             Route::get('/program.index', 'index')->name('program.index');
             Route::post('/program.add', 'create')->name('program.add');
         });
 
         Route::controller(TaskResolutionController::class)->group(function () {
+            Route::get('/task.edittaskdetail/{id}','editmytask')->name('editmytask');
+            Route::post('/savetaskchanges','savetaskchanges')->name('savetaskchanges');
+            Route::get('/task.editreponse/{id}','editmyresponse')->name('editmyresponse');
+            Route::post('/saveresponse','saveresponse')->name('saveresponse');
             Route::get('/mystasks', 'mytasks')->name('mytasks');
             Route::get('/program.add', 'create')->name('program.add');
             Route::get('/tasksresolutions/{id}', 'responses')->name('tasksresolutions');

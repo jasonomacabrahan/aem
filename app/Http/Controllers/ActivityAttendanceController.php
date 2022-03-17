@@ -51,8 +51,9 @@ class ActivityAttendanceController extends Controller
         $userID = auth()->user()->id;
         $activityattendances = ActivityAttendance::join('activities', 'activities.id', '=', 'activity_attendances.ActivityID')
         ->join('programs', 'programs.id', '=', 'activities.papID')
+        ->join('users', 'users.id', '=', 'programs.focalPerson')
         ->where('activity_attendances.RegisteredID','=', $userID)
-        ->get(['activities.*', 'activity_attendances.*', 'programs.*']);
+        ->get(['activities.*', 'activity_attendances.*', 'programs.*','users.name']);
 
         return view('activity.userattendance',['activityattendances'=>$activityattendances]); 
         
@@ -72,7 +73,9 @@ class ActivityAttendanceController extends Controller
     // }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for
+     * 
+     *  creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
