@@ -1,5 +1,5 @@
 @extends('layouts.app', [
-    'namePage' => 'my tasks LIST',
+    'namePage' => auth()->user()->name. ' - Tasks (*)',
     'class' => 'sidebar-mini',
     'activePage' => 'mytasks',
     'backgroundImage' => asset('assets') . "/img/logo.png",
@@ -30,6 +30,12 @@
                  </script>
                 @endif
 
+                @if ($message = Session::get('ok'))
+                 <script>
+                     swal("Success","Changes Saved...","success");
+                 </script>
+                @endif
+
 
                 @if ($message = Session::get('error'))
                  <script>
@@ -46,21 +52,35 @@
                             <th>Response</th>
                             <th>Resolved</th>
                             <th>Created@</th>
-                            <th><i class="fa fa-fw fa-cog"></i></th>
+                            
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($mytasks as $mytask)
                             <tr>
-                                <td>{{ $mytask->taskDetail }}</a></td>
-                                <td>{{ $mytask->shortName }}</a></td>
+                                <td>
+                                    <?php
+                                        $source = $mytask->thesource; 
+                                        $user = auth()->user()->name;
+                                        if($user==$source AND $mytask->taskResolved==0)
+                                        {
+                                            ?>
+                                                <a href="{{ route('editmytask', ['id' => $mytask->taskid])  }}"><i class="fa fa-fw fa-edit"></i><?php echo $mytask->taskDetail ?></a>
+                                            <?php
+                                        }else{
+                                                echo $mytask->taskDetail;
+                                           
+                                        }
+                                    ?>
+                                </td>
+                                <td>{{ $mytask->shortName }}</td>
                                 <td>
 
                                     <?php 
                                         $source = $mytask->thesource; 
                                         $user = auth()->user()->name;
                                         if ($user==$source) {
-                                            echo "Just You";
+                                            echo $source;
                                         }else{
                                             echo $source;
                                         }
@@ -68,7 +88,28 @@
                                              
                                         
                                 </td>
-                                <td><a href="#" title="Edit response"><i class="fa fa-fw fa-edit"></i>{{ $mytask->resolutionDetails }}</a></td>
+                                <td>
+                                    <?php
+                                        if($mytask->taskResolved==0)
+                                        {
+                                            if ($mytask->resolutionDetails==NULL) {
+                                                ?>
+                                                    <a href="{{ route('respond', ['id' => $mytask->resolutionId])  }}" class="btn btn-info btn-xs"><i class="fa-solid fa-reply"></i></a>
+                                                    <?php
+                                            }else{
+                                                ?>
+                                                    <a href="{{route('editmyresponse', ['id' => $mytask->resolutionId])}}" title="Edit response"><i class="fa fa-fw fa-edit"></i>{{ $mytask->resolutionDetails }}</a>
+                                                    <?php
+                                            }
+                                        }else{
+                                            
+                                            echo $mytask->resolutionDetails;
+
+                                            
+                                        }    
+
+                                    ?>
+                                </td>
                                 <td>
                                     @if ($mytask->taskResolved==0)
                                             {{ "No" }}
@@ -79,9 +120,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $mytask->datecreated }}</td>
-                                <td>
-                                    <a href="{{ route('respond', ['id' => $mytask->taskid])  }}"><i class="fa-solid fa-reply"></i></a>
-                                </td>
+                                
                             </tr>
                         @endforeach
                     </tbody>
@@ -93,7 +132,7 @@
                             <th>Response</th>
                             <th>Resolved</th>
                             <th>Created@</th>
-                            <th><i class="fa fa-fw fa-cog"></i></th>
+                            
                         </tr>
                     </tfoot>
                 </table>

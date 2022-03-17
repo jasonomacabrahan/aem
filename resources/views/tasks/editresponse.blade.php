@@ -21,7 +21,7 @@
             </div>
 
             <div class="card-body">
-            <form action="{{ route('resolved') }}" method="POST" class="mt-1 py-3">
+            <form action="{{ route('saveresponse') }}" method="POST" class="mt-1 py-3">
                 @csrf
                 <div class="row">
                   @if ($message = Session::get('success'))
@@ -44,25 +44,15 @@
                 <div class="row">
                     <div class="col-md-11 pr-1">
                         <div class="form-group">
-                          <label for="resolutionDetails" class="text-dark fw-bolder">{{__(" Mark as Resolved?  ")}}</label>
-                          <input type="hidden" name="id" value="{{ $responses->taskid }}">
-                          <select class="form-control" name="taskResolved">
-                                <option selected hidden value="@if($responses->taskResolved==0){{0}}@else{{1}}@endif">
-                                    @if ($responses->taskResolved==0)
-                                        NO
-                                    @else
-                                        YES
-                                    @endif
-                                </option>
-                                <option value="1">YES</option>
-                                <option value="0">NO</option>
-                          </select>
+                          <label for="resolutionDetails" class="text-dark fw-bolder">{{__("Response")}}</label><br>
+                          <input type="hidden" name="id" value="{{ $responses->resolutionId }}">
+                            <textarea class="form-contol border-info p-3" name="resolutionDetails" id="resolutionDetails" cols="60" rows="10">{{ $responses->resolutionDetails }}</textarea>
                           @include('alerts.feedback', ['field' => 'resolutionDetails'])
                         </div>
                       </div>
                 </div>
 
-                <button type="submit" class="btn btn-info"><i class="fa fa-fw fa-paper-plane"></i> Mark as Resolved  </button>
+                <button type="submit" class="btn btn-info"><i class="fa fa-fw fa-save"></i> Save Changes  </button>
             </form>
             </div>
             </div>

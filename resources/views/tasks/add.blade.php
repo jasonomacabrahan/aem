@@ -31,7 +31,7 @@
             <div class="card-body">
               @if ($message = Session::get('success'))
                         <script>
-                            swal("Success","Task Addedd","success");
+                            swal("Success","Task Added","success");
                         </script>
               @endif
             <form action="{{ route('addtask') }}" method="POST" class="mt-1 py-3">
