@@ -24,6 +24,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         /**
          * Register Routes
          */
+        Route::get('/linkstorage',function(){
+            Artisan::call('storage:link');
+        });
     
         Route::get('/register', 'RegisterController@show')->name('register.show');
         Route::post('/register', 'RegisterController@register')->name('register.perform');
