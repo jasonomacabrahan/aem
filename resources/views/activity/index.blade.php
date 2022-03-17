@@ -16,7 +16,7 @@
           <div class="card">
               <div class="card-header">
                 <h2><i class="fa fa-fw fa-th-list"></i>Activities & Events</h2>
-                <a href="{{ route('activity.add') }}" id="test" class="btn btn-success"><i class="fas fa-plus-circle"></i> New activity </a>
+                <a href="{{ route('newactivity') }}" id="test" class="btn btn-success"><i class="fas fa-plus-circle"></i> New activity </a>
               </div>
             <div class="card-body">
                 <style>
@@ -52,7 +52,7 @@
                     <tbody>
                         @foreach($activitys as $activity)
                             <tr>
-                                <td><a href="#" title="Update activity"></i>{{ $activity->activityDescription }}</a></td>
+                                <td><a href="{{route('editactivity', ['id' => $activity->id])}}" title="Update activity"><i class="fa fa-fw fa-edit"></i>{{ $activity->activityDescription }}</a></td>
                                 <td>{{ $activity->location }}</a></td>
                                 <td>{{ $activity->activityDateStart }}</td>
                                 <td>{{ $activity->activityDateEnd }}</td>

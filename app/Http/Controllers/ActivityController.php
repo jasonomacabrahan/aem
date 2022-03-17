@@ -5,7 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Activity;
 use Illuminate\Http\Request;
 use App\Models\Program;
-
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Crypt;
 class ActivityController extends Controller
 {
     public function __construct()
@@ -24,7 +33,45 @@ class ActivityController extends Controller
         return view('activity.index',['activitys'=>$activitys, 'programs'=>$programs]); //
     }
 
+    public function newactivity()
+    {
+        return view('activity.add'); //
+    }
+
    
+    public function editactivity($id)
+    {
+        //abort_if(Gate::denies('my_task'), Response::HTTP_FORBIDDEN, 'Forbidden');
+        $activities = Activity::where('activities.id','=',$id)
+        ->get(['activities.*']);
+        return view('activity.editactivity', ['activities'=>$activities]);
+    }
+
+    public function saveactivitychanges(Request $request)
+    {
+
+        $request->validate([
+            'id' => 'required',
+            'activityDescription' => 'required',
+            'location' => 'required',
+            'activityDateStart' =>'required',
+            'activityDateEnd' =>'required',
+            'papID' =>'required'
+        ]);
+
+        $decryptedid= Crypt::decryptString($request->input('id'));
+        $updating = DB::table('activities')
+                    ->where('id',$decryptedid)
+                    ->update([
+                                'activityDescription'=>$request->input('activityDescription'),
+                                'location'=>$request->input('location'),
+                                'activityDateStart'=>$request->input('activityDateStart'),
+                                'activityDateEnd'=>$request->input('activityDateEnd'),
+                                'papID'=>$request->input('papID'),
+                    ]);
+                    return redirect()->route('activity.index')
+                    ->with('success', 'Some Event');
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -43,72 +90,5 @@ class ActivityController extends Controller
         $activity->updated_at = now();
         $activity->save();
         return redirect('activity.index');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function reg(Request $id)
-    {
-        dd (' Registration recorded. ', $id);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Activity  $activity
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Activity $activity)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Activity  $activity
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Activity $activity)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Activity  $activity
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Activity $activity)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Activity  $activity
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Activity $activity)
-    {
-        //
     }
 }

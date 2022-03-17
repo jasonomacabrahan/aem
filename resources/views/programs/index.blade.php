@@ -25,7 +25,18 @@
                         font-size: 10pt;!important;
                     }
                 </style>
-                 
+                 @if ($message = Session::get('success'))
+                 <script>
+                     swal("Success","Changes Saved...","success");
+                 </script>
+                @endif
+
+
+                @if ($message = Session::get('error'))
+                    <script>
+                        swal("Oops!","Problem found","error");
+                    </script>
+                @endif
                 <table id="list" class="table table-striped table-hover table-bordered" style="width:100%">
                     <thead >
                         <tr style='font-size: 8pt;'>
@@ -39,12 +50,12 @@
                     <tbody>
                         @foreach($programs as $program)
                             <tr>
-                                <td><a href="#" title="Update program"></i>{{ $program->shortName }}</a></td>
+                                <td><a href="{{route('updateprogram', ['id' => $program->programid ])}}" title="Update program"></i><i class="fa fa-fw fa-edit"></i>{{ $program->shortName }}</a></td>
                                 <td>{{ $program->programDescription }}</a></td>
-                                <td>{{ $program->focalPerson }}</td>
+                                <td>{{ $program->name }}</td>
                                 <td>{{ $program->created_at }}</td>
                                 <td>
-                                    <a href=""><i class="fa fa-fw fa-th-list"></i></i></a>
+                                    <a href=""><i class="fa fa-fw fa-cog"></i></i></a>
 
                                 </td>
                             </tr>

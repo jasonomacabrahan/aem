@@ -9,7 +9,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <!-- Extra details for Live View on GitHub Pages -->
   <title>
-    DICT XI Activity Monitoring System
+    {{ $namePage }}DICT XI Activity Monitoring System
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -101,7 +101,31 @@
     $(document).ready(function() {
 var table = $('#list').DataTable( {
     lengthChange: true,
-    buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
+    buttons: [
+                {
+                  extend: "copy",
+                  className: "btn-sm btn-info"
+                },
+                {
+                  extend: "csv",
+                  className: "btn-sm btn-success"
+                },
+                {
+                  extend: "excel",
+                  className: "btn-sm btn-info"
+                },
+                {
+                  extend: "pdfHtml5",
+                  className: "btn-sm btn-danger",
+                  orientation: 'landscape'
+                },
+                {
+                  extend: "print",
+                  className: "btn-sm btn-info"
+                },
+                  
+              ]
+
 } );
 
 table.buttons().container()

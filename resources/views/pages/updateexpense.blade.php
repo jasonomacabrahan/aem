@@ -85,7 +85,7 @@ $activies = DB::table('activities')->get();
                     </div>
                 </div> --}}
                 @endforeach
-                <a href="/expenses" class="btn btn-danger"><i class="fa-solid fa-fw fa-angle-left"></i>Back</a>
+                <a href="{{ route('activity.expenses') }}" class="btn btn-danger"><i class="fa-solid fa-fw fa-angle-left"></i>Back</a>
                 <button type="submit" class="btn btn-info">Save</button>
             </form>
             </div>

@@ -43,9 +43,7 @@ $activies = DB::table('activities')->get();
                     <div class="col-md-11 pr-1">
                       <div class="form-group">
                         <label class="font-weight-bold text-dark" for="registrationDate">{{__(" Registration Date ")}}</label>
-                        <input class="form-control date" type="date" value="{{ (!empty($program) && $program->registrationDate) ?
-                            \Carbon\Carbon::parse($program->registrationDate)->format('d/m/Y') : '' }}"  name="registrationDate"
-                            id="registrationDate" />
+                        <input class="form-control date" type="date"name="registrationDate" id="registrationDate" required/>
                       </div>
                     </div>
                 </div>
