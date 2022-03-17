@@ -59,7 +59,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         Route::view('programs.add','programs.add')->name('programs.add');
         Route::view('activity.addexpense','activity.addexpense')->name('activity.addexpense');
         Route::view('tasks.resolutions','tasks.resolutions');
-        
+        Route::get('upload-image', 'UploadImageController@index')->name('upload-image');
+        Route::post('save', 'UploadImageController@save')->name('save');
+
         
         Route::controller(ActivityController::class)->group(function () {
             Route::get('activity.editactivity/{id}','editactivity')->name('editactivity');
@@ -126,6 +128,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
             Route::resource('/permissions', 'PermissionController')->except(['show']);
         
         });
+
+        Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
+	    Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
+	    Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
+	    Route::get('{page}', ['as' => 'page.index', 'uses' => 'PageController@index']);
+
     });
 });
 
