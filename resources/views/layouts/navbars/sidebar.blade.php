@@ -95,24 +95,32 @@
                                         </li>  
                                       @endcan()
 
+                                      @can('programs')    
                                       <li class="@if ($activePage == 'programs') active @endif">
-                                          <a href="{{ route('program.index') }}">
-                                            <i class="now-ui-icons shopping_shop"></i>
-                                            <p> {{ __(" Programs ") }} </p>
-                                          </a>
+                                        <a href="{{ route('program.index') }}">
+                                          <i class="now-ui-icons shopping_shop"></i>
+                                          <p> {{ __(" Programs ") }} </p>
+                                        </a>
                                       </li>
+                                      @endcan
+
+                                      @can('activityindex')
                                       <li class="@if ($activePage == 'activitys') active @endif">
                                           <a href="{{ route('activity.index') }}">
                                             <i class="now-ui-icons ui-1_send"></i>
                                             <p> {{ __("Activity Management") }} </p>
                                           </a>
                                       </li>
+                                      @endcan()
+
+                                      @can('expense')
                                       <li class="@if ($activePage == 'expenses') active @endif">
                                           <a href="{{ route('activity.expenses') }}">
                                             <i class="now-ui-icons business_money-coins"></i>
                                             <p> {{ __("Activity Expenses") }} </p>
                                           </a>
                                       </li>
+                                      @endcan()
                                       
                                     </ul>
                                   </div>
