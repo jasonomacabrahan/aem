@@ -25,7 +25,7 @@
                     <div class="col-md-7 pr-1">
                         <div class="form-group">
                             <label>{{__(" Name")}}</label>
-                                <input type="text" name="name" class="form-control" value="{{ old('name', auth()->user()->name) }}">
+                                <input type="text" name="name" class="form-control border-info rounded-0" value="{{ old('name', auth()->user()->name) }}">
                                 @include('alerts.feedback', ['field' => 'name'])
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                   <div class="col-md-7 pr-1">
                     <div class="form-group">
                       <label for="exampleInputEmail1">{{__(" Email address")}}</label>
-                      <input type="email" name="email" class="form-control" placeholder="Email" value="{{ old('email', auth()->user()->email) }}">
+                      <input type="email" name="email" class="form-control border-info rounded-0" placeholder="Email" value="{{ old('email', auth()->user()->email) }}">
                       @include('alerts.feedback', ['field' => 'email'])
                     </div>
                   </div>
@@ -43,7 +43,7 @@
                   <div class="col-md-7 pr-1">
                     <div class="form-group">
                       <label for="exampleInputEmail1">{{__("Agency")}}</label>
-                      <input type="text" name="agency" class="form-control" value="{{ old('agency', auth()->user()->agency) }}">
+                      <input type="text" name="agency" class="form-control border-info rounded-0" value="{{ old('agency', auth()->user()->agency) }}">
                       @include('alerts.feedback', ['field' => 'agency'])
                     </div>
                   </div>
@@ -53,7 +53,7 @@
                   <div class="col-md-7 pr-1">
                     <div class="form-group">
                       <label for="exampleInputEmail1">{{__("Division")}}</label>
-                      <input type="text" name="division" class="form-control" value="{{ old('division', auth()->user()->division) }}">
+                      <input type="text" name="division" class="form-control border-info rounded-0" value="{{ old('division', auth()->user()->division) }}">
                       @include('alerts.feedback', ['field' => 'division'])
                     </div>
                   </div>
@@ -63,7 +63,7 @@
                   <div class="col-md-7 pr-1">
                     <div class="form-group">
                       <label for="exampleInputEmail1">{{__("Designation")}}</label>
-                      <input type="text" name="designation" class="form-control" value="{{ old('designation', auth()->user()->designation) }}">
+                      <input type="text" name="designation" class="form-control border-info rounded-0" value="{{ old('designation', auth()->user()->designation) }}">
                       @include('alerts.feedback', ['field' => 'designation'])
                     </div>
                   </div>
@@ -71,7 +71,7 @@
 
 
               <div class="card-footer ">
-                <button type="submit" class="btn btn-primary btn-round">{{__('Save')}}</button>
+                <button type="submit" class="btn btn-info rounded-0"><i class="fa fa-fw fa-save"></i>{{__('Save')}}</button>
               </div>
               <hr class="half-rule"/>
             </form>
@@ -88,7 +88,7 @@
                 <div class="col-md-7 pr-1">
                   <div class="form-group {{ $errors->has('password') ? ' has-danger' : '' }}">
                     <label>{{__(" Current Password")}}</label>
-                    <input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" name="old_password" placeholder="{{ __('Current Password') }}" type="password"  required>
+                    <input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }} border-info rounded-0 " name="old_password" placeholder="{{ __('Current Password') }}" type="password"  required>
                     @include('alerts.feedback', ['field' => 'old_password'])
                   </div>
                 </div>
@@ -97,7 +97,7 @@
                 <div class="col-md-7 pr-1">
                   <div class="form-group {{ $errors->has('password') ? ' has-danger' : '' }}">
                     <label>{{__(" New password")}}</label>
-                    <input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ __('New Password') }}" type="password" name="password" required>
+                    <input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }} border-info rounded-0" placeholder="{{ __('New Password') }}" type="password" name="password" required>
                     @include('alerts.feedback', ['field' => 'password'])
                   </div>
                 </div>
@@ -106,12 +106,12 @@
               <div class="col-md-7 pr-1">
                 <div class="form-group {{ $errors->has('password') ? ' has-danger' : '' }}">
                   <label>{{__(" Confirm New Password")}}</label>
-                  <input class="form-control" placeholder="{{ __('Confirm New Password') }}" type="password" name="password_confirmation" required>
+                  <input class="form-control border-info rounded-0" placeholder="{{ __('Confirm New Password') }}" type="password" name="password_confirmation" required>
                 </div>
               </div>
             </div>
             <div class="card-footer ">
-              <button type="submit" class="btn btn-primary btn-round ">{{__('Change Password')}}</button>
+              <button type="submit" class="btn btn-info border-info rounded-0">{{__('Change Password')}}</button>
             </div>
           </form>
         </div>
