@@ -25,7 +25,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
          * Register Routes
          */
         Route::get('/linkstorage',function(){
-            Artisan::call('storage:link');
+            Artisan::call('list');
         });
         Route::get('storage/{filename}', function ($filename)
         {
