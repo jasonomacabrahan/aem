@@ -19,7 +19,7 @@
                         <div class="card-body">
                             
                             
-                            <img src="{{asset('storage')}}/images/5bICnj2G5NMXsAenf9uBwOhbsvsfiEQqjvZlcXLD.jpg">
+                            <img src="{{asset('storage')}}/images/s70pqcfdBqT2VY6fMwd6g4fT0dNvGfDmZFiYt9me.jpg">
                             <img src="{{asset('assets')}}/img/bg5.jpg" alt="...">
                             @if(session('status'))
                                 <div class="alert alert-success">
