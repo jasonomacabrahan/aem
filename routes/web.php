@@ -27,7 +27,23 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         Route::get('/linkstorage',function(){
             Artisan::call('storage:link');
         });
-    
+        Route::get('storage/{filename}', function ($filename)
+        {
+            $path = storage_path('public/' . $filename);
+
+            if (!File::exists($path)) {
+                abort(404);
+            }
+
+            $file = File::get($path);
+            $type = File::mimeType($path);
+
+            $response = Response::make($file, 200);
+            $response->header("Content-Type", $type);
+
+            return $response;
+        });
+
         Route::get('/register', 'RegisterController@show')->name('register.show');
         Route::post('/register', 'RegisterController@register')->name('register.perform');
     

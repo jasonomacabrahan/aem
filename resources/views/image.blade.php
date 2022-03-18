@@ -19,7 +19,7 @@
                         <div class="card-body">
                             
                             
-                            <img src="{{ url('storage/images/5bICnj2G5NMXsAenf9uBwOhbsvsfiEQqjvZlcXLD.jpg') }}" alt="" title="" />
+                            <img src="{{ url('storage/5bICnj2G5NMXsAenf9uBwOhbsvsfiEQqjvZlcXLD.jpg') }}" alt="" title="" />
 
                             @if(session('status'))
                                 <div class="alert alert-success">
