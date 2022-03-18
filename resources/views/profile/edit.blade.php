@@ -123,9 +123,12 @@
             <img src="{{asset('assets')}}/img/bg5.jpg" alt="...">
           </div>
           <div class="card-body">
+            
             <div class="author">
               <a href="#">
-                <img class="avatar border-gray" src="{{asset('assets')}}/img/default-avatar.png" alt="...">
+                @foreach ($users as $user)
+                @endforeach
+                <img class="avatar border-gray" src="{{url('/'.$user->location)}}" >
                 <h5 class="title">{{ auth()->user()->name }}</h5>
               </a>
               <p class="description text-left">
@@ -138,15 +141,9 @@
           </div>
           <hr>
           <div class="button-container">
-            <button href="#" class="btn btn-neutral btn-icon btn-round btn-lg">
-              <i class="fab fa-facebook-square"></i>
-            </button>
-            <button href="#" class="btn btn-neutral btn-icon btn-round btn-lg">
-              <i class="fab fa-twitter"></i>
-            </button>
-            <button href="#" class="btn btn-neutral btn-icon btn-round btn-lg">
-              <i class="fab fa-google-plus-square"></i>
-            </button>
+            <a href="{{ route('upload-image') }}" class="btn btn-neutral btn-icon btn-round btn-lg">
+              <i class="fa fa-fw fa-camera"></i>
+            </a>
           </div>
         </div>
       </div>
