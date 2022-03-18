@@ -21,6 +21,7 @@
                             
                             <img src="{{asset('storage')}}/images/s70pqcfdBqT2VY6fMwd6g4fT0dNvGfDmZFiYt9me.jpg">
                             <img src="{{asset('assets')}}/img/bg5.jpg" alt="...">
+                            <img src="{{ storage_path('app/storage/public/images/SwoVwMSGC85IeoutaZOHcH00HpicVu51a41LJSKQ.jpg') }}" style="width: 100%; height: 100%;">
                             @if(session('status'))
                                 <div class="alert alert-success">
                                     {{ session('status') }}
