@@ -128,7 +128,18 @@
               <a href="#">
                 @foreach ($users as $user)
                 @endforeach
-                <img class="avatar border-gray" src="{{url('/'.$user->location)}}" >
+                <?php
+                    if(empty($user->location))
+                    {
+                      ?>
+                        <img class="avatar border-gray" src="{{asset('assets')}}/img/default-avatar.png" alt="...">
+                      <?php
+                    }else{
+                      ?>
+                        <img class="avatar border-gray" src="{{url('/'.$user->location)}}" >
+                      <?php
+                    }
+                ?>
                 <h5 class="title">{{ auth()->user()->name }}</h5>
               </a>
               <p class="description text-left">
