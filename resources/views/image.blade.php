@@ -13,15 +13,12 @@
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header bg-info">
-                            <h5 class="text-white"><i class="fa fa-fw fa-th-list"></i>Image Upload</h5>
+                            <h5 class="text-white"><i class="fa fa-fw fa-camera"></i>Upload your best photo...</h5>
                         </div>
 
                         <div class="card-body">
                             
                             
-                            <img src="{{asset('storage')}}/images/s70pqcfdBqT2VY6fMwd6g4fT0dNvGfDmZFiYt9me.jpg">
-                            <img src="{{asset('assets')}}/img/bg5.jpg" alt="...">
-                            <img src="{{ storage_path('app/storage/public/images/SwoVwMSGC85IeoutaZOHcH00HpicVu51a41LJSKQ.jpg') }}" style="width: 100%; height: 100%;">
                             @if(session('status'))
                                 <div class="alert alert-success">
                                     {{ session('status') }}
@@ -36,14 +33,14 @@
 
                                 <div class="fileinput fileinput-new text-center" data-provides="fileinput">
                                     <div class="fileinput-new thumbnail img-raised">
-                                        <img src="https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png" alt="...">
+                                        <img src="{{url('/images/HUfDdK6tl9NRenCjbiw1ViBpgGiKln1jce8j6CWt.jpg')}}" alt="...">
                                     </div>
                                     <div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
                                     <div>
-                                        <span class="btn btn-raised btn-round btn-default btn-file">
+                                        <span class="btn btn-raised btn-success btn-file">
                                             <input type="file" name="image" id="image">
                                         </span>
-                                        <button type="submit" data-dismiss="fileinput" class="btn btn-danger btn-round fileinput-exists" id="submit">Submit</button>
+                                        <button type="submit" data-dismiss="fileinput" class="btn btn-info btn-block fileinput-exists" id="submit"><i class="fa fa-fw fa-upload"></i>Upload</button>
                                     </div>
                                 </div>
 

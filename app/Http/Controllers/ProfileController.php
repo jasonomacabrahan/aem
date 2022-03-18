@@ -4,9 +4,19 @@ namespace App\Http\Controllers;
 
 use Gate;
 use App\Models\User;
+use App\Models\Image;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
+use App\Http\Requests\UserRequest;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Crypt;
 
 class ProfileController extends Controller
 {
@@ -17,7 +27,11 @@ class ProfileController extends Controller
      */
     public function edit()
     {
-        return view('profile.edit');
+        $id = auth()->user()->id;
+        $users = User::join('images', 'images.user_id', '=', 'users.id')
+        ->where('users.id','=',$id)
+        ->get(['users.*','images.path AS location']);
+        return view('profile.edit',['users'=>$users]);
     }
 
     /**
