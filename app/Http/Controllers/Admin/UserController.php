@@ -20,11 +20,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         abort_if(Gate::denies('users_access'), Response::HTTP_FORBIDDEN, 'Forbidden');
 
-        $users = User::with('role')->paginate(5)->appends($request->query());
+        $users = User::with('role')->get();
         return view('admin.users.index',compact('users'));
 
     }
