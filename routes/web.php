@@ -83,6 +83,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
 
         
         Route::controller(ActivityController::class)->group(function () {
+            Route::get('accomplishment','accomplishment')->name('report');
+            Route::post('generate','generate')->name('generate');
             Route::get('activity.editactivity/{id}','editactivity')->name('editactivity');
             Route::post('saveactivitychanges','saveactivitychanges')->name('saveactivitychanges');
             Route::get('newactivity','newactivity')->name('newactivity');

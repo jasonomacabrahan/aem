@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Activity;
 use Illuminate\Http\Request;
 use App\Models\Program;
+use App\Models\TaskAssignment;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -33,6 +34,23 @@ class ActivityController extends Controller
         return view('activity.index',['activitys'=>$activitys, 'programs'=>$programs]); //
     }
 
+    public function accomplishment()
+    {
+        return view('reports.index');
+    }
+
+    public function generate(Request $request)
+    {
+        $datefrom = $request->input('datefrom');
+        $dateto = $request->input('dateto');
+        $accomplishments = TaskAssignment::whereBetween('created_at', [$datefrom, $dateto])
+         ->get(['task_assignments.*']);
+        return view('reports.generate', [
+                                            'accomplishments'=>$accomplishments,
+                                            'datefrom'=>$datefrom,
+                                            'dateto'=>$dateto
+                                        ]);
+    }
     public function newactivity()
     {
         return view('activity.add'); //
