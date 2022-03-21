@@ -96,6 +96,11 @@
     $('#permissions-select #permission-deselect-all').click(function(){
         permission_select.set([]);
     })
+
+    new SlimSelect({
+      select: '#focalPerson'
+    })
+
 </script>
   <script>
     $(document).ready(function() {

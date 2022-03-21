@@ -88,8 +88,8 @@
                                       </li>
                                       @can('manuallyassignfocal')
                                         <li class="@if ($activePage == 'programs') active @endif">
-                                          <a href="">
-                                            <i class="now-ui-icons shopping_shop"></i>
+                                          <a href="{{ route('addprogram') }}">
+                                            <i class="fa fa-fw fa-user-plus"></i>
                                             <p> {{ __(" Programs/Focal ") }} </p>
                                           </a>
                                         </li>  
@@ -98,7 +98,7 @@
                                       @can('programs')    
                                       <li class="@if ($activePage == 'programs') active @endif">
                                         <a href="{{ route('program.index') }}">
-                                          <i class="now-ui-icons shopping_shop"></i>
+                                          <i class="fa-solid fa-hand-holding-hand"></i>
                                           <p> {{ __(" Programs ") }} </p>
                                         </a>
                                       </li>
@@ -107,7 +107,7 @@
                                       @can('activityindex')
                                       <li class="@if ($activePage == 'activitys') active @endif">
                                           <a href="{{ route('activity.index') }}">
-                                            <i class="now-ui-icons ui-1_send"></i>
+                                            <i class="fa-solid fa-chart-line"></i>
                                             <p> {{ __("Activity Management") }} </p>
                                           </a>
                                       </li>

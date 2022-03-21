@@ -73,6 +73,47 @@ class ProgramController extends Controller
         
     }
 
+    public function addprogram()
+    {
+        abort_if(Gate::denies('manuallyassignfocal'), Response::HTTP_FORBIDDEN, 'Forbidden');
+        $list = User::all();
+        $programs = User::join('programs','programs.focalPerson','=','users.id')
+                    ->get(['programs.*','programs.id AS programid','users.*']);
+        return view('programs.addprogram',[
+                                            'list'=>$list,
+                                            'programs'=>$programs
+                                        ]);
+    }
+
+    public function saveprogram(Request $request)
+    {
+        abort_if(Gate::denies('manuallyassignfocal'), Response::HTTP_FORBIDDEN, 'Forbidden');
+        $validated = $request->validate([
+            'shortName' => 'string|max:50',
+            'focalPerson' => 'string|max:255',
+            'programDescription' =>'string|max:255',
+        ]);
+        
+        $Program = new Program;
+        $Program->shortName             =  $request->shortName;
+        $Program->programDescription    =  $request->programDescription;
+        $Program->focalPerson           =  $request->focalPerson;
+        $Program->created_at = now();
+        $Program->updated_at = now();
+        
+        $program = Program::where('shortName',$Program->shortName )->where('focalPerson', $Program->focalPerson)->first();
+        if ($program) {
+            return redirect()->route('addprogram')
+            ->with('error', 'Event');
+        }else{
+            $Program->save();
+            return redirect()->route('addprogram')
+            ->with('success', 'Event');
+            
+        }
+    }
+
+
     public function updateprogram($id)
     {
         $programid = $id;
