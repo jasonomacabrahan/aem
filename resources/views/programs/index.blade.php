@@ -17,7 +17,9 @@
           <div class="card">
               <div class="card-header">
                 <h2><i class="fa fa-fw fa-th-list"></i>Program & Projects</h2>
-                <a href="programs.add" id="programs" class="btn btn-info"><i class="fas fa-plus-circle"></i> New Program </a>
+                @can('self_program_create')
+                    <a href="programs.add" id="programs" class="btn btn-info"><i class="fas fa-plus-circle"></i> New Program </a>
+                @endcan
               </div>
             <div class="card-body">
                 <style>
