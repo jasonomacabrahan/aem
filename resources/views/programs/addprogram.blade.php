@@ -93,7 +93,7 @@
                             <tbody>
                                 @foreach($programs as $program)
                                     <tr>
-                                        <td><a href="{{route('updateprogram', ['id' => $program->programid ])}}" title="Update program"></i><i class="fa fa-fw fa-edit"></i>{{ $program->shortName }}</a></td>
+                                        <td><a href="{{route('edit', ['id' => $program->programid ])}}" title="Update program"></i><i class="fa fa-fw fa-edit"></i>{{ $program->shortName }}</a></td>
                                         <td>{{ $program->programDescription }}</a></td>
                                         <td>{{ $program->name }}</td>
                                         <td>{{ $program->created_at }}</td>
