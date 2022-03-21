@@ -123,6 +123,41 @@ class ProgramController extends Controller
         return view('programs.edit', ['programs'=>$programs]);
     }
 
+    public function updatesomeoneeleseprogram($id)
+    {
+        $programid = $id;
+        $programs = User::join('programs','programs.focalPerson','=','users.id')
+        ->where('programs.id',$programid)
+        ->get(['programs.*','programs.id AS programid','users.*']);
+        $users = User::all();
+        return view('programs.editprogram', [
+                                                'programs'=>$programs,
+                                                'users'=>$users,
+                                            ]);
+    }
+
+    public function savesomeoneelseprogramupdate(Request $request)
+    {
+        $request->validate([
+            'id'=>'required',
+            'shortName' => 'required',
+            'programDescription' => 'required',
+            'focalPerson' => 'required'
+        ]);
+        $decryptedid= Crypt::decryptString($request->input('id'));
+        $updating = DB::table('programs')
+                    ->where('id',$decryptedid)
+                    ->update([
+                                'shortName'=>$request->input('shortName'),
+                                'programDescription'=>$request->input('programDescription'),
+                                'focalPerson'=>$request->input('focalPerson'),
+                                'updated_at'=> NOW()
+
+                    ]);
+                    return redirect()->route('addprogram')
+                    ->with('success', 'Some Event');
+    }
+
     public function saveprogramupdate(Request $request)
     {
         $request->validate([
