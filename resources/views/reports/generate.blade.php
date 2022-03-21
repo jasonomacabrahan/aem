@@ -8,6 +8,16 @@
 <div class="panel-header panel-header-sm">
 </div>
 <div class="content">
+<style>
+    @page {
+        @page{
+margin-left: 0cm;
+margin-right: 0cm;
+margin-top: 0cm;
+margin-bottom: 0cm;
+}
+}
+</style>
     
     <div class="row mt-4">
         <div class="col-md-12">
@@ -15,17 +25,19 @@
             <div class="card">
                 <div class="card-header">
                 <h5>Report(s)</h5>
+                <button name="b_print" type="button" class="ipt btn btn-info rounded-0" onClick="printdiv('div_print');"><i class="fa fa-fw fa-print"></i>Print</button>
             </div>
-            <div class="card-body">
-                <input name="b_print" type="button" class="ipt" onClick="printdiv('div_print');" value=" Print ">
+            <div class="">
                 <div id="div_print">
-                    {{-- <div style="clear:both;">
-                        <p style="margin-top:0pt; margin-bottom:0pt; text-align:center;"><img src="https://myfiles.space/user_files/115917_565e29541e860fcc/1647771020_ar-february-2022-1/1647771020_ar-february-2022-1-1.png" width="403" height="84" alt="" style="float: left; text-align: left; display: inline-block; "></p>
-                    </div> --}}
+                    <div style="clear:both;">
+                        <p style="margin-top:0pt; margin-bottom:0pt; text-align:center;">
+                            <img width="403" height1="84" alt="" style="float: center; text-align: left; display: inline-block; " src="{{asset('assets')}}/img/dictlogo.png" alt="...">
+                        </p>
+                    </div>
                     <p style="margin-top:0pt; margin-bottom:0pt;">&nbsp;</p>
                     <p style="margin-top:0pt; margin-bottom:0pt;">&nbsp;</p>
                    
-                    <table cellpadding="0" cellspacing="0" style="width:473.25pt; border:0.75pt solid #000000; border-collapse:collapse;">
+                    <table class="table table-bordered">
                         <tbody>
                             <tr style="height:32pt;">
                                 <td colspan="2" style="width:461pt; border-bottom-style:solid; border-bottom-width:0.75pt; padding-right:5.38pt; padding-left:5.38pt; vertical-align:middle; background-color:#9cc3e5;">
@@ -91,10 +103,9 @@
                     <p style="margin-top:0pt; margin-bottom:0pt; font-size:8pt;">&nbsp;</p>
                     <p style="margin-top:0pt; margin-bottom:0pt; font-size:8pt;">NOTE: <strong><em>To ** submitted together with the Daily Time Record every 16</em></strong><strong><em><span style="font-size:5.33pt;"><sup>th</sup></span></em></strong><strong><em>&nbsp;and last day of the month.&nbsp;</em></strong></p>
                     <p style="margin-top:0pt; margin-bottom:0pt;">&nbsp;</p>
-                    <div style="clear:both;">
-                        <p style="margin-top:0pt; margin-bottom:0pt; text-indent:180pt; font-size:9pt;"><span style="color:#0070c0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#0070c0;">DICT Building, F. Torres St.,</span><img src="https://myfiles.space/user_files/115917_565e29541e860fcc/1647771020_ar-february-2022-1/1647771020_ar-february-2022-1-2.png" width="710" height="3" alt="" style="float: left; text-align: left; display: inline-block; "></p>
-                        <p style="margin-top:0pt; margin-bottom:0pt; text-align:center; font-size:9pt;"><span style="color:#0070c0;">Davao City, 8*** Philippines</span></p>
-                        <p style="margin-top:0pt; margin-bottom:0pt; text-align:center; font-size:9pt;"><span style="color:#0070c0;">(082) 224-0646 www.dict.gov.ph</span></p>
+                    <div class="text-center">
+                        <p style="color:#0070c0; font-size: 8pt;">DICT Building, F. Torres St.,<br>Davao City, 8000 Philippines<br>(082) 224-0646 www.dict.gov.ph</p>
+                        
                     </div>
                 </div>
             </div>
