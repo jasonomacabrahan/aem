@@ -77,10 +77,7 @@
       
       
       
-                @if($users->total() > $users->perPage())
-                <br><br>
-                {{$users->links()}}
-                @endif
+                
       
             </div>
         </div>
