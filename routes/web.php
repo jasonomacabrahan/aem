@@ -108,6 +108,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         });
 
         Route::controller(ProgramController::class)->group(function () {
+            Route::get('/addprogram', 'addprogram')->name('addprogram');
+            Route::post('/saveprogram', 'saveprogram')->name('saveprogram');
             Route::get('/program.edit/{id}', 'updateprogram')->name('updateprogram');
             Route::post('/saveprogramupdate', 'saveprogramupdate')->name('saveprogramupdate');
             Route::get('/program.index', 'index')->name('program.index');
