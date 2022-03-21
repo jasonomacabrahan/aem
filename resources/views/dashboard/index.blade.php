@@ -1,6 +1,6 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
-    'namePage' => 'Dashboard',
+    'namePage' => 'Dashboard | ',
     'activePage' => 'dashboard',
     'backgroundImage' => asset('assets') . "/img/logo.png",
 ])
@@ -82,7 +82,21 @@
             </div>
         </div> --}}
     </div>
-    
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-info">
+                        <label class="text-white fw-bolder"><i class="fa fa-fw fa-file"></i>Report(s)</label>
+                    </div>
+                    <div class="card-body">
+                        <a href="{{ route('report') }}" class="text-uppercase"><i class="fa fw-fa fa-angle-right"></i>Accomplishment Report</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div>
+        
+    </div>
 </div>
 
 @endsection
