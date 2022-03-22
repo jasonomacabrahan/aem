@@ -26,7 +26,7 @@
                 </style>
                  @if ($message = Session::get('success'))
                  <script>
-                     swal("Success","Task Addedd","success");
+                     swal("Success","...","success");
                  </script>
                 @endif
 
@@ -55,7 +55,7 @@
                                 <td>{{ $task->shortName }}</a></td>
                                 <td>{{ $task->name}}</td>
                                 <td>
-                                    @if ($task->taskResolved == 0)
+                                    @if ($task->verifiedBy == 0)
                                         {{ "NO" }}
                                     @else
                                         <span><i class="fa fa-fw fa-circle-check"></i>YES</span>    
@@ -63,7 +63,7 @@
                                 </td>
                                 <td>{{ $task->created_at }}</td>
                                 <td>
-                                    <a href="{{route('tasksresolutions', ['id' => $task->taskID])}}"><i class="fa-solid fa-comment-dots"></i></a>
+                                    <a href="{{route('tasksresolutions', ['id' => $task->resoid])}}"><i class="fa-solid fa-comment-dots"></i></a>
 
                                 </td>
                             </tr>

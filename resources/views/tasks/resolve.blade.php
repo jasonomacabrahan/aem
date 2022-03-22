@@ -22,6 +22,7 @@
 
             <div class="card-body">
             <form action="{{ route('resolved') }}" method="POST" class="mt-1 py-3">
+                
                 @csrf
                 <div class="row">
                   @if ($message = Session::get('success'))
@@ -29,40 +30,27 @@
                       swal("Success","response Added","success");
                   </script>
                  @endif
+
                     <div class="col-md-11 pr-1">
-                      <div class="form-group">
-                        <label class="text-dark fw-bolder">{{__(" Task Detail Description")}}</label>
-                          <ul>
-                            <li><strong>Task:</strong> {{ $responses->taskDetail }}</li>
-                            <li><strong>Project</strong> {{ $responses->shortName }}</li>
-                            <li><strong>Date Created:</strong>  {{ $responses->created_at }}</li>
-                          </ul>
-                      </div>
+                      <ul class="list-group">
+                        <li class="list-group-item active">Task: {{ $responses->taskDetail }}</li>
+                        <li class="list-group-item"><i class="fa fa-fw fa-angle-right"></i>Project: {{ $responses->shortName }}</li>
+                        <li class="list-group-item"><i class="fa fa-fw fa-angle-right"></i>Date Created: {{ $responses->created_at }}</li>
+                        <input type="hidden" name="id" value="{{ $responses->resoid }}">
+                        <li class="list-group-item">
+                          <select class="form-control rounded-0 border-info" name="taskResolved" required>
+                            <option></option>
+                            <option value="1">YES</option>
+                            <option value="0">NO</option>
+                          </select>
+                        </li>
+                        <li class="list-group-item active">
+                          <button type="submit" class="btn btn-success"><i class="fa fa-fw fa-thumbs-up"></i></button>
+                        </li>
+                      </ul>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-11 pr-1">
-                        <div class="form-group">
-                          <label for="resolutionDetails" class="text-dark fw-bolder">{{__(" Mark as Resolved?  ")}}</label>
-                          <input type="hidden" name="id" value="{{ $responses->taskid }}">
-                          <select class="form-control" name="taskResolved">
-                                <option selected hidden value="@if($responses->taskResolved==0){{0}}@else{{1}}@endif">
-                                    @if ($responses->taskResolved==0)
-                                        NO
-                                    @else
-                                        YES
-                                    @endif
-                                </option>
-                                <option value="1">YES</option>
-                                <option value="0">NO</option>
-                          </select>
-                          @include('alerts.feedback', ['field' => 'resolutionDetails'])
-                        </div>
-                      </div>
-                </div>
-
-                <button type="submit" class="btn btn-info"><i class="fa fa-fw fa-paper-plane"></i> Mark as Resolved  </button>
             </form>
             </div>
             </div>

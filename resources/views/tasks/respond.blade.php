@@ -44,8 +44,8 @@
                     <div class="col-md-11 pr-1">
                         <div class="form-group">
                           <label for="resolutionDetails" class="text-dark fw-bolder">{{__(" Task Response  ")}}</label>
-                          <input type="hidden" name="id" value="{{ $responses->taskid }}">
-                          <input type="text" name="resolutionDetails" class="form-control round round-0" placeholder="Enter Resolution Details " value="{{ old('resolutionDetails') }}" required>
+                          <input type="hidden" name="id" value="{{ $responses->resoid }}">
+                          <textarea name="resolutionDetails" id="resolutionDetails" class="form-control border border-info form-bordered" cols="30" rows="10"></textarea>
                           @include('alerts.feedback', ['field' => 'resolutionDetails'])
                         </div>
                       </div>

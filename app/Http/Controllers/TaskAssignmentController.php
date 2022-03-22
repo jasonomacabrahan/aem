@@ -28,7 +28,7 @@ class TaskAssignmentController extends Controller
         ->join('users','users.id','=','task_resolutions.userID')
         ->join('programs','programs.id','=','task_assignments.papID')
         ->where('task_assignments.taskBy','=',$id)
-        ->get(['users.*', 'task_assignments.*','task_assignments.id AS taskID','task_resolutions.*','programs.*']);
+        ->get(['users.*', 'task_assignments.*','task_assignments.id AS taskID','task_resolutions.*','task_resolutions.id as resoid','programs.*']);
         return view('tasks.index', ['tasks'=>$tasks]);
     }
     
