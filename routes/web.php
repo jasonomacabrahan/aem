@@ -83,6 +83,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
 
         
         Route::controller(ActivityController::class)->group(function () {
+            Route::get('addexpense_new/{id}/{eventname}/{shortsname}','addexpense_new')->name('addexpense_new');
+            Route::get('activityid/{id}/{name}/{acid}/{shortsname}','expenses')->name('activityid');
+            Route::get('activitymanagement','activitymanagement')->name('activitymanagement');
             Route::get('accomplishment','accomplishment')->name('report');
             Route::post('generate','generate')->name('generate');
             Route::get('activity.editactivity/{id}','editactivity')->name('editactivity');
@@ -90,6 +93,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
             Route::get('newactivity','newactivity')->name('newactivity');
             Route::get('/activity.index', 'index')->name('activity.index');
             Route::post('/activity.add', 'create')->name('activity.add');
+            Route::post('/addactivity', 'addactivity')->name('addactivity');
         });
         
         Route::controller(ActivityAttendanceController::class)->group(function () {
@@ -103,7 +107,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         Route::controller(ActivityExpenseController::class)->group(function () {
             Route::get('/expenses', 'index')->name('activity.expenses');
             Route::post('/addexpense', 'create')->name('addexpense');
+            Route::post('/createexpense_new', 'createexpense_new')->name('createexpense_new');
             Route::get('/updateexpenses/{id}', 'updateexpense')->name('updateexpenses');
+            Route::get('/updateexpenses_new/{id}', 'updateexpense_new')->name('updateexpenses_new');
+            Route::post('/saveexpensesupdate_new', 'saveexpenseupdate_new')->name('saveexpensesupdate_new');
             Route::post('/saveexpensesupdate', 'saveexpenseupdate')->name('saveexpensesupdate');
         });
 

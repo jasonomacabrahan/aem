@@ -40,9 +40,9 @@ class ActivityAttendanceController extends Controller
         $activityattendances = ActivityAttendance::join('activities', 'activities.id', '=', 'activity_attendances.ActivityID')
         ->join('programs', 'programs.id', '=', 'activities.papID')
         ->join('users', 'users.id', '=', 'activity_attendances.RegisteredID')
-        ->where('activities.id','=', $id)
+        ->where('activity_attendances.ActivityID','=',$id)
         ->get(['activities.*', 'activity_attendances.*', 'programs.*', 'users.*'])->all();
-
+        //dd($activityattendances);
         return view('activity.attendance',['activityattendances'=>$activityattendances]); 
     }
 

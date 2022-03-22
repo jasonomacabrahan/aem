@@ -1,5 +1,5 @@
 @extends('layouts.app', [
-    'namePage' => 'ACTIVITY LIST',
+    'namePage' => 'ACTIVITY LIST | ',
     'class' => 'sidebar-mini',
     'activePage' => 'activitys',
 
@@ -50,16 +50,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($activitys as $activity)
+                        @foreach($programs as $program)
                             <tr>
-                                <td><a href="{{route('editactivity', ['id' => $activity->id])}}" title="Update activity"><i class="fa fa-fw fa-edit"></i>{{ $activity->activityDescription }}</a></td>
-                                <td>{{ $activity->location }}</a></td>
-                                <td>{{ $activity->activityDateStart }}</td>
-                                <td>{{ $activity->activityDateEnd }}</td>
-                                <td>{{ $programs[($activity->papID-1)]->shortName }}</td>
-                                <td>{{ $activity->created_at }}</td>
+                                <td><a href="{{route('editactivity', ['id' => $program->activityid])}}" title="Update activity"><i class="fa fa-fw fa-edit"></i>{{ $program->activityDescription }}</a></td>
+                                <td>{{ $program->location }}</a></td>
+                                <td>{{ $program->activityDateStart }}</td>
+                                <td>{{ $program->activityDateEnd }}</td>
+                                <td>{{ $program->shortName }}</td>
+                                <td>{{ $program->created_at }}</td>
                                 <td>
-                                    <a href="activity/{{ $activity->id }}"><i class="fa fa-fw fa-th-list"></i></i></a>
+                                    <a href="{{route('activity', ['id' => $program->activityid])}}"><i class="fa fa-fw fa-th-list"></i></i></a>
+                                    
 
                                 </td>
                             </tr>

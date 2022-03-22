@@ -42,9 +42,10 @@
                      swal("Oops","Something is wrong I cant Identify","error");
                  </script>
                 @endif
+                 <div class="table table-responsive">
 
-                <table id="list" class="table table-striped table-hover table-bordered" style="width:100%">
-                    <thead >
+                     <table id="list" class="table table-striped table-hover table-bordered" style="width:100%">
+                        <thead >
                         <tr style='font-size: 8pt;'>
                             <th>Task Detail</th>
                             <th>Program</th>
@@ -62,7 +63,7 @@
                                     <?php
                                         $source = $mytask->thesource; 
                                         $user = auth()->user()->name;
-                                        if($user==$source AND $mytask->taskResolved==0)
+                                        if($user==$source AND $mytask->isverified==0)
                                         {
                                             ?>
                                                 <a href="{{ route('editmytask', ['id' => $mytask->taskid])  }}"><i class="fa fa-fw fa-edit"></i><?php echo $mytask->taskDetail ?></a>
@@ -90,15 +91,15 @@
                                 </td>
                                 <td>
                                     <?php
-                                        if($mytask->taskResolved==0)
+                                        if($mytask->isverified==0)
                                         {
                                             if ($mytask->resolutionDetails==NULL) {
                                                 ?>
-                                                    <a href="{{ route('respond', ['id' => $mytask->resolutionId])  }}" class="btn btn-info btn-xs"><i class="fa-solid fa-reply"></i></a>
+                                                    <a href="{{ route('respond', ['id' => $mytask->resoid])  }}" class="btn btn-info btn-xs"><i class="fa-solid fa-reply"></i></a>
                                                     <?php
                                             }else{
                                                 ?>
-                                                    <a href="{{route('editmyresponse', ['id' => $mytask->resolutionId])}}" title="Edit response"><i class="fa fa-fw fa-edit"></i>{{ $mytask->resolutionDetails }}</a>
+                                                    <a href="{{route('editmyresponse', ['id' => $mytask->resoid])}}" title="Edit response"><i class="fa fa-fw fa-edit"></i>{{ $mytask->resolutionDetails }}</a>
                                                     <?php
                                             }
                                         }else{
@@ -111,13 +112,36 @@
                                     ?>
                                 </td>
                                 <td>
-                                    @if ($mytask->taskResolved==0)
-                                            {{ "No" }}
-                                                
-                                    @else
-                                            {{ "Yes" }}            
+                                    <?php 
+                                        $source = $mytask->thesource; 
+                                        $user = auth()->user()->name;
+                                        if ($user==$source) {
+                                            if($mytask->resolutionDetails==NULL){
+
+                                            }else{
+                                                if($mytask->isverified==0)
+                                                {
+                                                    ?>
+                                                        <a href="{{route('tasksresolutions', ['id' => $mytask->resoid])}}" class="btn btn-xs btn-info" title="mark as resolved"><i class="fa fa-fw fa-check-circle"></i></a>
+
+                                                    <?php
+                                                }else{
+                                                    echo "Yes";
+                                                }
+                                            }
+                                        }else{
+                                            ?>
+                                                @if ($mytask->isverified==1)
                                             
-                                    @endif
+                                                        {{ "Yes" }}
+                                                @else
+                                                        {{ "No" }}            
+                                                        
+                                                @endif
+                                            <?php
+                                        }
+
+                                    ?>
                                 </td>
                                 <td>{{ $mytask->datecreated }}</td>
                                 
@@ -136,6 +160,7 @@
                         </tr>
                     </tfoot>
                 </table>
+            </div>
             </div>
         </div><!--end of card-->
       </div>

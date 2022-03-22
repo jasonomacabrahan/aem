@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\ActivityExpense;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Program;
 use App\Models\TaskAssignment;
@@ -29,14 +31,52 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        $programs = Program::all();
-        $activitys = Activity::paginate(15);
-        return view('activity.index',['activitys'=>$activitys, 'programs'=>$programs]); //
+        $programs = Program::join('activities','activities.papID','=','programs.id')
+                    ->get(['activities.*','activities.id as activityid','programs.*']);
+        return view('activity.index',['programs'=>$programs]); 
     }
 
     public function accomplishment()
     {
         return view('reports.index');
+    }
+
+    public function activitymanagement()
+    {
+        $id = auth()->user()->id;
+        $activities = Activity::join('programs','programs.id','=','activities.papID')
+                        ->where('programs.focalPerson',$id)
+                        ->get(['activities.id AS activityid','activities.*','programs.*','activities.created_at as activitydate']);
+        return view('activity.activitymanagement',[
+                                                    'activities'=>$activities
+                                                ]); 
+    }
+
+    public function expenses($activityid,$activityname,$acid,$shortsname)
+    {
+        $name = $activityname;
+        $act_id = $acid;
+        
+       
+        $expenses = ActivityExpense::join('activities', 'activities.id', '=', 'activity_expenses.activityID')
+        ->join('programs', 'programs.id', '=', 'activities.papID')
+        ->where('activities.id',$activityid)
+        ->get(['activities.*', 'activity_expenses.*', 'programs.*','activity_expenses.id'])->all();
+        return view('activity.activity_expenses',[
+                                                    'expenses'=>$expenses,
+                                                    'name'=>$name,
+                                                    'act_id'=>$act_id,
+                                                    'shortsname'=>$shortsname
+        ]); 
+    }
+
+    public function addexpense_new($activityid,$eventname,$shortsname)
+    {
+        return view('activity.wizard_add_expense',[
+            'activityid'=>$activityid,
+            'eventname'=>$eventname,
+            'shortsname'=>$shortsname
+        ]); 
     }
 
     public function generate(Request $request)
@@ -51,6 +91,7 @@ class ActivityController extends Controller
                                             'dateto'=>$dateto
                                         ]);
     }
+
     public function newactivity()
     {
         return view('activity.add'); //
@@ -108,5 +149,20 @@ class ActivityController extends Controller
         $activity->updated_at = now();
         $activity->save();
         return redirect('activity.index');
+    }
+
+    public function addactivity(Request $req)
+    {
+        $activity = new Activity;
+        $activity->activityDescription  =  $req->activityDescription;
+        $activity->location             =  $req->location;
+        $activity->activityDateStart    =  $req->activityDateStart;
+        $activity->activityDateEnd      =  $req->activityDateEnd;
+        $activity->papID                =  $req->papID;
+        $activity->created_at = now();
+        $activity->updated_at = now();
+        $activity->save();
+        return redirect()->back()->with('success', 'hahahaha');
+        
     }
 }
