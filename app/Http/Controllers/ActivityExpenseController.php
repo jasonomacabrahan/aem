@@ -56,6 +56,32 @@ class ActivityExpenseController extends Controller
 
     }
 
+    public function createexpense_new(Request $req)
+    {
+        $validated = $req->validate([
+            'fuelLubricants' => 'required|regex:/^\d*(\.\d{1,2})?$/',
+            'travelPerDiem' => 'required|regex:/^\d*(\.\d{1,2})?$/',
+            'foodAccommodation' => 'required|regex:/^\d*(\.\d{1,2})?$/',
+            'miscExpense' => 'required|regex:/^\d*(\.\d{1,2})?$/',
+            'activityNotes' =>'string|max:255',
+        ]);
+
+        $activity = new ActivityExpense;
+        $activity->activityID        =  $req->activityID;
+        $activity->fuelLubricants    =  $req->fuelLubricants;
+        $activity->travelPerDiem     =  $req->travelPerDiem;
+        $activity->foodAccommodation =  $req->foodAccommodation;
+        $activity->miscExpense       =  $req->miscExpense;
+        $activity->activityNotes     =  $req->activityNotes;
+        $activity->created_at = now();
+        $activity->updated_at = now();
+        $activity->save();
+       
+        return redirect()->back()
+                    ->with('success', 'Event');
+
+    }
+
     public function updateexpense($id)
      {
         $expenses = DB::table('activity_expenses')
@@ -63,6 +89,17 @@ class ActivityExpenseController extends Controller
             ->get();
 
         return view('pages.updateexpense',[
+                                         "expenses"=>$expenses,
+                                         ]);
+
+     }
+     public function updateexpense_new($id)
+     {
+        $expenses = DB::table('activity_expenses')
+            ->where('id',$id)
+            ->get();
+
+        return view('pages.updateexpense_new',[
                                          "expenses"=>$expenses,
                                          ]);
 
@@ -89,6 +126,29 @@ class ActivityExpenseController extends Controller
                     return redirect()->route('activity.expenses')
                         ->with('successupdate', 'Changes Saved');
      }
+
+     public function saveexpenseupdate_new(Request $request)
+     {
+        $request->validate([
+            'fuelLubricants' => 'required|regex:/^\d*(\.\d{1,2})?$/',
+            'travelPerDiem' => 'required|regex:/^\d*(\.\d{1,2})?$/',
+            'foodAccommodation' => 'required|regex:/^\d*(\.\d{1,2})?$/',
+            'miscExpense' => 'required|regex:/^\d*(\.\d{1,2})?$/',
+            'activityNotes' => 'required|string|max:255)'
+        ]);
+        $updating = DB::table('activity_expenses')
+                    ->where('id',$request->input('id'))
+                    ->update([
+                                'fuelLubricants'=>$request->input('fuelLubricants'),
+                                'travelPerDiem'=>$request->input('travelPerDiem'),
+                                'foodAccommodation'=>$request->input('foodAccommodation'),
+                                'miscExpense'=>$request->input('miscExpense'),
+                                'activityNotes'=>$request->input('activityNotes'),
+                    ]);
+                    return redirect()->back()
+                        ->with('successupdate', 'Changes Saved');
+     }
+
 
     /**
      * Store a newly created resource in storage.

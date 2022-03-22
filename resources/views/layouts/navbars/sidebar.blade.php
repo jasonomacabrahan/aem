@@ -105,7 +105,7 @@
                                       @endcan
 
                                       @can('activityindex')
-                                      <li class="@if ($activePage == 'activitys') active @endif">
+                                      <li class="@if ($activePage == 'activities') active @endif">
                                           <a href="{{ route('activity.index') }}">
                                             <i class="fa-solid fa-chart-line"></i>
                                             <p> {{ __("Activity Management") }} </p>
@@ -122,6 +122,14 @@
                                       </li>
                                       @endcan()
                                       
+                                      @can('activityandmanagementexpenses')
+                                      <li class="@if ($activePage == 'activitymanagement') active @endif">
+                                        <a href="{{ route('activitymanagement') }}">
+                                          <i class="now-ui-icons business_money-coins"></i>
+                                          <p> {{ __("Activity Mgt & Expenses") }} </p>
+                                        </a>
+                                      </li>
+                                      @endcan()
                                     </ul>
                                   </div>
                                   </li>

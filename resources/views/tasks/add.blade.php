@@ -31,17 +31,17 @@
             <div class="card-body">
               @if ($message = Session::get('success'))
                         <script>
-                            swal("Success","Task Added","success");
+                            swal("Success","Activity Added","success");
                         </script>
               @endif
             <form action="{{ route('addtask') }}" method="POST" class="mt-1 py-3">
                 @csrf
 
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                       <div class="form-group">
                         <label for="" class="fw-bolder text-dark">Program & Projects</label>
-                        <select name='papID'  class="form-control" id='papID'>
+                        <select name='papID'  class="form-control rounded-0 border-info" id='papID'>
                             @php
                             foreach($programs as $program){
                                 echo '<option value="' . $program->id.'" > '. strtoupper($program->shortName) .' ( ' .$program->id . '  ) [ '. $program->programDescription .' ]  </option>';
@@ -51,17 +51,16 @@
                       </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                       <div class="form-group">
                         <label for="taskDetail" class="fw-bolder text-dark">{{__(" Task Detail")}}</label>
-                        <input type="text" class="form-control" name="taskDetail" id="taskDetail" required>
+                        <textarea name="taskDetail" class="form-control border border-info form-bordered" id="taskDetail" cols="50" rows="10" required></textarea>
                         @include('alerts.feedback', ['field' => 'taskDetail'])
                       </div>
                     </div>
                     <div class="col-md-4">
                       <div class="form-group">
-                        <label class="fw-bolder text-dark" for="taskBy">{{__(" Source Name")}}</label>
-                       <input type="text" name="taskBy" class="form-control" placeholder="Enter Source Name" value="{{ auth()->user()->id }}" readonly>
+                        <input type="hidden" name="taskBy" class="form-control" placeholder="Enter Source Name" value="{{ auth()->user()->id }}">
                         @include('alerts.feedback', ['field' => 'taskBy'])
                       </div>
                     </div>
@@ -93,29 +92,8 @@
                 </table>
 
                 </div>
-                <button type="submit" class="btn btn-info"> <i class="fa-solid fa-fw fa-floppy-disk"></i> Save </button>
-                @if (isset($success))
-                        <script>
-                            swal("Thank you","","success");
-                        </script>
-                        {{ $success }}
-                @endif
-
-
-                @if (isset($error))
-                    {{ $error }}
-                          <script>
-                            Swal.fire({
-                              title: 'Press CTRL + P to Print !!!',
-                              showClass: {
-                                popup: 'animate__animated animate__fadeInDown'
-                              },
-                              hideClass: {
-                                popup: 'animate__animated animate__fadeOutUp'
-                              }
-                            })
-                          </script>
-                @endif
+                <button type="submit" class="btn btn-block btn-info"> <i class="fa-solid fa-fw fa-floppy-disk"></i> Save </button>
+                
             </form>
             </div>
             </div>
@@ -128,13 +106,6 @@
 @endsection
 
 @push('js')
-    <script>
-    $(document).ready(function() {
-        // Javascript method's body can be found in assets/js/demos.js
-        demo.initDashboardPageCharts();
-
-    });
-    </script>
 @endpush
 
 

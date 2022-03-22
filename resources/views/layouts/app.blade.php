@@ -30,7 +30,7 @@
 </head>
 
 <body class="{{ $class ?? '' }}">
-  <div class="wrapper">
+  <div class="">
     @auth
       @include('layouts.page_template.auth')
     @endauth
