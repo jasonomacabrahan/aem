@@ -18,7 +18,8 @@ margin-bottom: 0cm;
 }
 }
 </style>
-    
+
+
     <div class="row mt-4">
         <div class="col-md-12">
 
@@ -26,6 +27,9 @@ margin-bottom: 0cm;
                 <div class="card-header">
                 <h5>Report(s)</h5>
                 <button name="b_print" type="button" class="ipt btn btn-info rounded-0" onClick="printdiv('div_print');"><i class="fa fa-fw fa-print"></i>Print</button>
+                <button type="button" class="btn btn-success rounded-0" data-toggle="modal" data-target="#focalModal">
+                    Update Signatory
+                </button>
             </div>
             <div class="">
                 <div id="div_print">
@@ -87,7 +91,7 @@ margin-bottom: 0cm;
                                 <td style="width:158.75pt; border-top-style:solid; border-top-width:0.75pt; border-left-style:solid; border-left-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; padding-right:5.38pt; padding-left:5.38pt; vertical-align:top;">
                                     <p style="margin-top:0pt; margin-bottom:0pt; font-size:10pt;">APPROVED BY:</p>
                                     <p style="margin-top:0pt; margin-bottom:0pt; font-size:10pt;">&nbsp;</p>
-                                    <p style="margin-top:0pt; margin-bottom:0pt; text-align:center; font-size:10pt;"><strong contenteditable="true">ENGR. VIRGIL A. FUENTES</strong><br><span contenteditable="true">MC3 eBPLS Project Focal</span></p>
+                                    <p style="margin-top:0pt; margin-bottom:0pt; text-align:center; font-size:10pt;"><strong id="officer" contenteditable="true">ENGR. VIRGIL A. FUENTES</strong><br><span id="newdesignation" contenteditable="true">MC3 eBPLS Project Focal</span></p>
                                 </td>
                             </tr>
                             <tr style="height:23pt;">
@@ -115,5 +119,45 @@ margin-bottom: 0cm;
     </div>
     
 </div>
+
+<div class="modal fade" id="focalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Supervisor</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Please select your Supervisor</label>
+                <select name="approvingofficer"  id="approvingofficer" class="form-control rounded-0 border-info form-bordered" required>
+                    <option></option>
+                    @foreach($users as $userdata)
+                    <option>{{ $userdata->name }}</option>
+                    @endforeach           
+                </select>    
+            </div>
+            <div class="form-group">
+                <label>Select Designation</label>
+                <select id="designation" class="form-control border-info rounded-0" type="text" name="designation" required>
+                    <option></option>
+                    <option>Project Focal</option>
+                    <option>MC3 eBPLS Project Focal</option>
+                    <option>Chief TOD</option>
+                </select>
+            </div>
+            <div class="alert alert-warning">
+                <p>We are sorry for inconvinience. For now you can manually select your Supervisor and Designation. Next update will be much better.</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" id="selectsupervisor" class="btn btn-info rounded-0">Append</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 @endsection

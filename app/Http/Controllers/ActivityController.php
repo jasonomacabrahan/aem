@@ -83,6 +83,7 @@ class ActivityController extends Controller
     {
         $datefrom = $request->input('datefrom');
         $dateto = $request->input('dateto');
+        $users = User::all();
         $accomplishments = TaskAssignment::join('task_resolutions','task_resolutions.taskAssignmentID','=','task_assignments.id')
          ->whereBetween('task_assignments.created_at', [$datefrom, $dateto])
          ->where('task_resolutions.userID',auth()->user()->id)
@@ -91,7 +92,8 @@ class ActivityController extends Controller
         return view('reports.generate', [
                                             'accomplishments'=>$accomplishments,
                                             'datefrom'=>$datefrom,
-                                            'dateto'=>$dateto
+                                            'dateto'=>$dateto,
+                                            'users'=>$users,
                                         ]);
     }
 
