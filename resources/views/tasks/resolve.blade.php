@@ -35,7 +35,7 @@
                       <ul class="list-group">
                         <li class="list-group-item active">Task: {{ $responses->taskDetail }}</li>
                         <li class="list-group-item"><i class="fa fa-fw fa-angle-right"></i>Project: {{ $responses->shortName }}</li>
-                        <li class="list-group-item"><i class="fa fa-fw fa-angle-right"></i>Date Created: {{ $responses->created_at }}</li>
+                        <li class="list-group-item"><i class="fa fa-fw fa-angle-right"></i>Date Created: {{ $responses->resodate }}</li>
                         <input type="hidden" name="id" value="{{ $responses->resoid }}">
                         <li class="list-group-item">
                           <select class="form-control rounded-0 border-info" name="taskResolved" required>
