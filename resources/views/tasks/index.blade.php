@@ -61,7 +61,7 @@
                                         <span><i class="fa fa-fw fa-circle-check"></i>YES</span>    
                                     @endif
                                 </td>
-                                <td>{{ $task->created_at }}</td>
+                                <td>{{ $task->resodate }}</td>
                                 <td>
                                     <a href="{{route('tasksresolutions', ['id' => $task->resoid])}}"><i class="fa-solid fa-comment-dots"></i></a>
 
