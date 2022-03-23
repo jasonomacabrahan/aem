@@ -45,7 +45,7 @@ class TaskResolutionController extends Controller
         ->join('programs', 'programs.id', '=', 'task_assignments.papID')
         ->join('users', 'users.id', '=', 'task_resolutions.userID')
         ->where('task_resolutions.id','=',$resoid)
-        ->get(['programs.*', 'task_assignments.*','task_assignments.id AS taskID','task_resolutions.*','task_resolutions.id as resoid','users.*', 'users.name as fullname']);
+        ->get(['programs.*', 'task_assignments.*','task_assignments.id AS taskID','task_resolutions.*','task_resolutions.id as resoid','users.*','task_resolutions.created_at as resodate','users.name as fullname']);
         return view('tasks.resolutions', ['responses'=>$responses]);
     }
 
@@ -71,7 +71,7 @@ class TaskResolutionController extends Controller
         ->join('programs', 'programs.id', '=', 'task_assignments.papID')
         ->join('users', 'users.id', '=', 'task_assignments.taskBy')
         ->where('task_resolutions.id','=',$resoid)
-        ->get(['task_assignments.*','task_assignments.id AS taskid','task_resolutions.*','task_resolutions.id as resoid','programs.*'])->first();
+        ->get(['task_assignments.*','task_assignments.id AS taskid','task_resolutions.*','task_resolutions.id as resoid','task_resolutions.created_at as resodate','programs.*'])->first();
         return view('tasks.resolve', ['responses'=>$responses]);
     }
 

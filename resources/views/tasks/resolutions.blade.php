@@ -38,7 +38,7 @@
                 @endif
                 <ul class="list-group">
                     @foreach($responses as $response)
-                        <li class="list-group-item active">{{ $response->taskDetail }} | <label class="badge badge-warning text-white">{{ $response->created_at }}</label> </li>
+                        <li class="list-group-item active">{{ $response->taskDetail }} | <label class="badge badge-warning text-white">{{ $response->resodate }}</label> </li>
                         <li class="list-group-item"><i class="fa fa-fw fa-angle-right"></i>Project: {{ $response->shortName }}</li>
                         <li class="list-group-item"><i class="fa fa-fw fa-angle-right"></i>Source: {{ $response->name }}</li>
                         <li class="list-group-item"><i class="fa fa-fw fa-angle-right"></i>Response: {{ $response->resolutionDetails }}</li>
