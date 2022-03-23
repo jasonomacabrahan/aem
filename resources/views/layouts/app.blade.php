@@ -75,7 +75,20 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.1/slimselect.min.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.1/slimselect.min.css" rel="stylesheet">
   <!--end of datatable-->
+  <script type="text/javascript">
+    $(window).on('load', function() {
+        $('#focalModal').modal('show');
+    });
+    $("#selectsupervisor").click(function(){
+        var officer = $('#approvingofficer').val()
+        var designation = $('#designation').val()
+        $("#officer").text(officer);
+        $("#newdesignation").text(designation);
+        $('#focalModal').modal('hide');
+    });
+  </script>
   <script>
+
     var permission_select = new SlimSelect({
         select: '#permissions-select select',
         //showSearch: false,
@@ -104,7 +117,8 @@
 </script>
   <script>
     $(document).ready(function() {
-var table = $('#list').DataTable( {
+    
+    var table = $('#list').DataTable( {
     lengthChange: true,
     buttons: [
                 {
