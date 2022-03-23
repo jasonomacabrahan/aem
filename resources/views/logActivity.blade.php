@@ -27,8 +27,8 @@
                                         <th>Method</th>
                                         <th>Ip</th>
                                         <th width="300px">User Agent</th>
-                                        <th>User Id</th>
-                                        <th>Action</th>
+                                        <th>Name</th>
+                                        
                                     </tr>
                             </thead>
                                 @if($logs->count())
@@ -40,8 +40,8 @@
                                         <td><label class="label label-info">{{ $log->method }}</label></td>
                                         <td class="text-warning">{{ $log->ip }}</td>
                                         <td class="text-danger">{{ $log->agent }}</td>
-                                        <td>{{ $log->user_id }}</td>
-                                        <td><button class="btn btn-danger btn-sm">Delete</button></td>
+                                        <td>{{ $log->name }}</td>
+                                        
                                     </tr>
                                     @endforeach
                                 @endif

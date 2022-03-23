@@ -3,6 +3,7 @@
 
 namespace App\Helpers;
 use Request;
+use App\Models\User;
 use App\Models\LogActivity as LogActivityModel;
 
 
@@ -25,7 +26,8 @@ class LogActivity
 
     public static function logActivityLists()
     {
-    	return LogActivityModel::latest()->get();
+    	return LogActivityModel::join('users','users.id','=','log_activities.user_id')
+								->get(['log_activities.*','users.*','log_activities.created_at as logdate']);
     }
 
 
