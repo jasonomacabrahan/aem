@@ -21,13 +21,14 @@
                                 <thead>
 
                                     <tr>
-                                        <th>No</th>
-                                        <th>Subject</th>
-                                        <th>URL</th>
-                                        <th>Method</th>
-                                        <th>Ip</th>
-                                        <th width="300px">User Agent</th>
-                                        <th>Name</th>
+                                        <th style="font-size: 9pt; font-weight: bolder;">No</th>
+                                        <th style="font-size: 9pt; font-weight: bolder;">Subject</th>
+                                        <th style="font-size: 9pt; font-weight: bolder;">URL</th>
+                                        <th style="font-size: 9pt; font-weight: bolder;">Method</th>
+                                        <th style="font-size: 9pt; font-weight: bolder;">Ip</th>
+                                        <th style="font-size: 9pt; font-weight: bolder;" width="300px">User Agent</th>
+                                        <th style="font-size: 9pt; font-weight: bolder;">Name</th>
+                                        <th style="font-size: 9pt; font-weight: bolder;">Log Date</th>
                                         
                                     </tr>
                             </thead>
@@ -41,6 +42,7 @@
                                         <td class="text-warning">{{ $log->ip }}</td>
                                         <td class="text-danger">{{ $log->agent }}</td>
                                         <td>{{ $log->name }}</td>
+                                        <td>{{ $log->logdate }}</td>
                                         
                                     </tr>
                                     @endforeach
