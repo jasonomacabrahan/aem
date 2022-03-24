@@ -7,10 +7,10 @@ use App\Models\TaskResolution;
 use App\Models\Program;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Mail;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Response;
-
+use Illuminate\Support\Facades\DB;
 class TaskAssignmentController extends Controller
 {
     /**
@@ -41,12 +41,34 @@ class TaskAssignmentController extends Controller
         return view('tasks.add', ['programs'=>$programs, 'users'=>$users]);    
     }
 
-   
+    
+    
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
+    public function sendmail($useremail,$name,$task) {
+        $data = array('name'=>$name,'email'=>$useremail,'task'=>$task);
+        Mail::send('mail', $data, function($message) use ($data){
+           $message->to($data['email'], 'Your Task')->subject
+              ('A new task is added to your account');
+           $message->from('jsceon@gmail.com','iMC3 Portal');
+        });
+    }
+
+    public function getuseremail($id,$t)
+    {
+        $userlist = DB::table('users')
+            ->where('id',$id)
+            ->get();
+            foreach($userlist as $list)
+            {   
+                $this->sendmail($list->email,$list->name,$t);
+            }
+        
+    }
+
     public function create(Request $req)
     {
         // dd($req);
@@ -70,10 +92,13 @@ class TaskAssignmentController extends Controller
                 $assignee->resolutionDetails = NULL;
                 $assignee->userID = $req->$packstr;
                 $assignee->save();
+                $this->getuseremail($assignee->userID = $req->$packstr,$tasks->taskDetail  = $req->taskDetail);
+            
             }
             $a++;
         }
+        
         return redirect()->route('taskform')
-                ->with('success', 'event');
+                 ->with('success', 'event');
     }
 }
