@@ -6,16 +6,24 @@ use Response;
 use App\Models\Todo;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\TaskAssignment;
+use Illuminate\Support\Facades\Gate;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 class DashboardController extends Controller
 {
-    public function index() 
+    public function index(Request $request) 
     {
         $id = auth()->user()->id;
         $todo = Todo::all();
+        $tasks = TaskAssignment::join('task_resolutions','task_resolutions.taskAssignmentID','=','task_assignments.id')
+                                ->where('task_resolutions.userID',auth()->user()->id)
+                                ->paginate(5)->appends($request->query());
         $user = User::join('roles','roles.id','=','users.role_id')
                 ->where('users.id',$id)
                 ->get();
-        return view('dashboard.index')->with(compact('todo','user'));
+        return view('dashboard.index')->with(compact('todo','user','tasks'));
         //return view('dashboard.index');
     }
 

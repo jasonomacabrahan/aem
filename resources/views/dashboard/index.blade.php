@@ -86,10 +86,35 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header bg-info">
-                        <label class="text-white fw-bolder"><i class="fa fa-fw fa-file"></i>Report(s)</label>
+                        <h5 class="text-white fw-bolder"><i class="fa fa-fw fa-th-list"></i>Task(s)</h5>
                     </div>
                     <div class="card-body">
-                        <a href="{{ route('report') }}" class="text-uppercase"><i class="fa fw-fa fa-angle-right"></i>Accomplishment Report</a>
+                        <ul class="list-group">
+                            @forelse ($tasks as $item)
+                                @if ($item->verifiedBy==1)
+                                    <li class="list-group-item"><del>{{ $item->taskDetail }}</del><span class="badge badge-success"><i class="fa fa-fw fa-check-circle"></i>done</span></li>
+                                @else
+                                    <li class="list-group-item">{{ $item->taskDetail }}</li>
+                                @endif
+                            @empty
+                            @endforelse 
+                        </ul>
+                        
+                    </div>
+                    <div class="card-footer">
+                        @if($tasks->total() > $tasks->perPage())
+                            {{$tasks->links()}}
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-info">
+                        <h5 class="text-white fw-bolder"><i class="fa fa-fw fa-folder"></i>Report(s)</h5>
+                    </div>
+                    <div class="card-body">
+                        <a href="{{ route('report') }}" class="badge badge-info text-uppercase"><i class="fa fa-fw fa-file"></i>Accomplishment Report</a>
                     </div>
                 </div>
             </div>

@@ -77,6 +77,7 @@ margin-bottom: 0cm;
                                         
                                                 <li style="margin-left:31.35pt; line-height:115%; padding-left:4.65pt; font-size:11pt; background-color:#ffffff;">{{ $reports->taskDetail }}</li>
                                         @endforeach    
+                                                <li style="margin-left:31.35pt; line-height:115%; padding-left:4.65pt; font-size:11pt; background-color:#ffffff;">Other duties and responsibilities tasked by the immediate supervisor.</li>
                                     </ol>
                                     <p style="margin-top:0pt; margin-left:18pt; margin-bottom:0pt; line-height:150%; font-size:12.5pt; background-color:#ffffff;">&nbsp;</p>
                                 </td>
