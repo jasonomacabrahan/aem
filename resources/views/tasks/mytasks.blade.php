@@ -36,6 +36,12 @@
                  </script>
                 @endif
 
+                @if(Session::has('status-success'))
+                    <div class="alert alert-success">
+                        {{Session::get('status-success')}}
+                    </div>
+                @endif
+
 
                 @if ($message = Session::get('error'))
                  <script>
@@ -46,13 +52,14 @@
 
                      <table id="list" class="table table-striped table-hover table-bordered" style="width:100%">
                         <thead >
-                        <tr style='font-size: 8pt;'>
-                            <th>Task Detail</th>
-                            <th>Program</th>
-                            <th>Source</th>
-                            <th>Response</th>
-                            <th>Resolved</th>
-                            <th>Created@</th>
+                        <tr>
+                            <th style='font-size: 9pt; font-weight: bold;'>Task Detail</th>
+                            <th style='font-size: 9pt; font-weight: bold;'>Program</th>
+                            <th style='font-size: 9pt; font-weight: bold;'>Source</th>
+                            <th style='font-size: 9pt; font-weight: bold;'>Response</th>
+                            <th style='font-size: 9pt; font-weight: bold;'>Resolved</th>
+                            <th style='font-size: 9pt; font-weight: bold;'>Created@</th>
+                            <th><i class="fa fa-fw fa-cog"></i></th>
                             
                         </tr>
                     </thead>
@@ -144,6 +151,12 @@
                                     ?>
                                 </td>
                                 <td>{{ $mytask->datecreated }}</td>
+                                <td>
+                                    @can('deletetask')
+                                        <a href="{{ route('destroy', $mytask->taskid) }}" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i></a>
+                                    @endcan
+                                    
+                                </td>
                                 
                             </tr>
                         @endforeach
@@ -156,6 +169,7 @@
                             <th>Response</th>
                             <th>Resolved</th>
                             <th>Created@</th>
+                            <th><i class="fa fa-fw fa-cog"></i></th>
                             
                         </tr>
                     </tfoot>
