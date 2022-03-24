@@ -101,4 +101,11 @@ class TaskAssignmentController extends Controller
         return redirect()->route('taskform')
                  ->with('success', 'event');
     }
+
+    public function destroy($id)
+    {
+
+        TaskAssignment::where('id',$id)->delete();
+        return redirect()->back()->with(['status-success' => "Task Deleted"]);
+    }
 }
