@@ -148,6 +148,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         
         Route::controller(TaskAssignmentController::class)->group(function(){
             Route::get('/tasks.index','index')->name('tasks.index');
+            Route::get('/destroy/{id}','destroy')->name('destroy');
             Route::get('/taskindex', 'index')->name('taskindex');
             Route::get('/taskform', 'taskform')->name('taskform');
             Route::post('/addtask', 'create')->name('addtask');

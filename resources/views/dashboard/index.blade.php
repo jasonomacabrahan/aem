@@ -97,6 +97,9 @@
                                     <li class="list-group-item">{{ $item->taskDetail }}</li>
                                 @endif
                             @empty
+                                <div class="alert alert-info">
+                                    No task added
+                                </div>
                             @endforelse 
                         </ul>
                         
