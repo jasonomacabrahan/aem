@@ -53,7 +53,7 @@ class TaskAssignmentController extends Controller
         Mail::send('mail', $data, function($message) use ($data){
            $message->to($data['email'], 'Your Task')->subject
               ('A new task is added to your account');
-           $message->from('jason.omac@dict.gov.ph','iMC3 Portal');
+           $message->from('customerservice@imc3.linkage.pw','iMC3 Portal');
         });
     }
 
