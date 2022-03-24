@@ -27,6 +27,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         Route::get('/linkstorage',function(){
             Artisan::call('list');
         });
+
+        //for basic sending email...
+        Route::get('sendbasicemail','MailController@basic_email');
+        Route::get('sendhtmlemail','MailController@html_email');
+        //end of sending experimental mail...    
+
         Route::get('storage/{filename}', function ($filename)
         {
             $path = storage_path('public/' . $filename);
@@ -82,6 +88,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         Route::post('save', 'UploadImageController@save')->name('save');
 
         
+
         Route::controller(ActivityController::class)->group(function () {
             Route::get('addexpense_new/{id}/{eventname}/{shortsname}','addexpense_new')->name('addexpense_new');
             Route::get('activityid/{id}/{name}/{acid}/{shortsname}','expenses')->name('activityid');
