@@ -168,7 +168,8 @@ class TaskResolutionController extends Controller
     public function saverespond(Request $request)
     {
         $request->validate([
-            'resolutionDetails' => 'required'
+            'resolutionDetails' => 'required',
+            'name.*'=>'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ]);
 
         $files = [];

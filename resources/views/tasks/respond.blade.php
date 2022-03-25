@@ -63,7 +63,10 @@
 
                 <div class="row">
                     <div class="col-md-11 pr-1">
-                      
+                      @error('name')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                      @enderror
+
                       <div class="btn-file input-group hdtuto control-group lst increment rounded-0" >
                         <input type="file" name="name[]" class="myfrm form-control">
                         <div class="input-group-btn  rounded-0"> 
@@ -80,18 +83,7 @@
                         </div>
                       </div>
 
-                      {{-- <div class="fileinput fileinput-new rounded-0" data-provides="fileinput">
-                        <div class="fileinput-new thumbnail img-circle img-raised">
-                        </div>
-                        <div class="fileinput-preview fileinput-exists thumbnail img-circle img-raised"></div>
-                        <div>
-                          <span class="btn btn-raised rounded-0 btn-default btn-file">
-                              <span class="fileinput-new">Upload Photo or</span>
-                              <span class="fileinput-exists">Screenshot</span>
-                              <input type="file" name="image[]" />
-                          </span>
-                        </div>
-                    </div> --}}
+                      
                     </div>
                 </div>
                 <button type="submit" class="btn btn-info"><i class="fa fa-fw fa-paper-plane"></i> Submit  </button>
