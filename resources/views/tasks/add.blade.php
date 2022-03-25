@@ -31,7 +31,7 @@
             <div class="card-body">
               @if ($message = Session::get('success'))
                         <script>
-                            swal("Success","Activity Added","success");
+                            swal("Success","Task Added","success");
                         </script>
               @endif
             <form action="{{ route('addtask') }}" method="POST" class="mt-1 py-3">
@@ -124,12 +124,14 @@
     <tr class="delete_add_more_item" id="delete_add_more_item">
 
         <td>
-            <select name='user@{{ newcount }}'  class="form-control" id='user@{{ newcount }}'>
-                @php
+            <select name='user@{{ newcount }}'  class="form-control rounded-0" id='user@{{ newcount }}'>
+                <?php
                 foreach($users as $user){
-                    echo '<option value="' . $user->id . '" > '. strtoupper($user->name) . ' [ '. $user->designation .' ]  </option>';
+                  ?>
+                  <option value="<?php echo $user->id; ?>"><?php if($user->name==auth()->user()->name){ echo strtoupper($user->name).'(me)'; }else{ echo strtoupper($user->name).'('.$user->designation.')'; }?></option>
+                  <?php
                 }
-                @endphp
+                ?>
             </select>
         </td>
         <td>
@@ -165,19 +167,7 @@
       $(this).closest('.delete_add_more_item').remove();
  //     total_ammount_price();
     });
-/*
-    function total_ammount_price() {
-      var sum = 0;
-      $('.unitQty').each(function(){
-        var value = $(this).val();
-        if(value.length != 0)
-        {
-          sum += parseFloat(value);
-        }
-      });
-      $('#estimated_ammount').val(sum);
-    }
-*/
+
   </script>
 
 

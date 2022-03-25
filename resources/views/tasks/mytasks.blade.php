@@ -49,7 +49,6 @@
                  </script>
                 @endif
                  <div class="table table-responsive">
-
                      <table id="list" class="table table-striped table-hover table-bordered" style="width:100%">
                         <thead >
                         <tr>
@@ -59,7 +58,7 @@
                             <th style='font-size: 9pt; font-weight: bold;'>Response</th>
                             <th style='font-size: 9pt; font-weight: bold;'>Resolved</th>
                             <th style='font-size: 9pt; font-weight: bold;'>Created@</th>
-                            <th><i class="fa fa-fw fa-cog"></i></th>
+                            <th style='font-size: 9pt; font-weight: bold;'><i class="fa fa-fw fa-cog"></i></th>
                             
                         </tr>
                     </thead>
@@ -130,10 +129,20 @@
                                                 {
                                                     ?>
                                                         <a href="{{route('tasksresolutions', ['id' => $mytask->resoid])}}" class="btn btn-xs btn-info" title="mark as resolved"><i class="fa fa-fw fa-check-circle"></i></a>
+                                                        
+                                                        <?php
+                                                }
 
-                                                    <?php
-                                                }else{
+                                                if($mytask->isverified==1)
+                                                {
                                                     echo "Yes";
+                                                }
+
+                                                if($mytask->isverified==2)
+                                                {
+                                                    ?>
+                                                        <a href="{{route('tasksresolutions', ['id' => $mytask->resoid])}}" title="mark as resolved"><span class="badge badge-warning"><i class="fa-solid fa-chart-bar"></i> Progress</span></a>
+                                                    <?php
                                                 }
                                             }
                                         }else{

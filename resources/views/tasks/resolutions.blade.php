@@ -55,6 +55,28 @@
         </div><!--end of card-->
       </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Submitted Screenshots || Photos</h5>
+                </div>
+                <div class="card-body">
+                    @forelse ($evidence as $evi)
+                      
+                        <a href="{{asset('images')}}/{{$evi->path}}" target="_blank">
+                            <img class="img-thumbnail" width="500" src="{{asset('images')}}/{{$evi->path}}" alt="{{ $evi->name }}">
+                        </a>
+                    @empty
+                        <div class="alert alert-warning">
+                            No images found...
+                        </div>    
+                    @endforelse
+                    
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 

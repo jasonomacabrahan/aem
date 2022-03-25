@@ -20,7 +20,16 @@
               <h5 class="title">{{__(" Task Response")}}</h5>
             </div>
             <div class="card-body">
-            <form action="{{ route('saverespond') }}" method="POST" class="mt-1 py-3">
+              @if(session('status'))
+                  <div class="alert alert-success">
+                      {{ session('status') }}
+                  </div>
+              @endif
+
+              @error('image')
+                  <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+              @enderror
+            <form action="{{ route('saverespond') }}" enctype="multipart/form-data" id="upload-image" method="POST" class="mt-1 py-3">
                 @csrf
                 <div class="row">
                   @if ($message = Session::get('success'))
@@ -42,13 +51,48 @@
 
                 <div class="row">
                     <div class="col-md-11 pr-1">
+
                         <div class="form-group">
                           <label for="resolutionDetails" class="text-dark fw-bolder">{{__(" Task Response  ")}}</label>
                           <input type="hidden" name="id" value="{{ $responses->resoid }}">
-                          <textarea name="resolutionDetails" id="resolutionDetails" class="form-control border border-info form-bordered" cols="30" rows="10"></textarea>
+                          <textarea name="resolutionDetails" id="resolutionDetails" class="form-control border border-info form-bordered" cols="30" rows="10" required></textarea>
                           @include('alerts.feedback', ['field' => 'resolutionDetails'])
                         </div>
                       </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-11 pr-1">
+                      
+                      <div class="btn-file input-group hdtuto control-group lst increment rounded-0" >
+                        <input type="file" name="name[]" class="myfrm form-control">
+                        <div class="input-group-btn  rounded-0"> 
+                          <button class="btn btn-success" type="button"><i class="fldemo fa fa-fw fa-plus"></i></button>
+                        </div>
+                      </div>
+
+                      <div class="clone hide">
+                        <div class="hdtuto control-group lst input-group" style="margin-top:10px">
+                          <input type="file" name="name[]" class="myfrm form-control">
+                          <div class="input-group-btn"> 
+                            <button class="btn btn-danger" type="button"><i class="fldemo fa fa-fw fa-x"></i></button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {{-- <div class="fileinput fileinput-new rounded-0" data-provides="fileinput">
+                        <div class="fileinput-new thumbnail img-circle img-raised">
+                        </div>
+                        <div class="fileinput-preview fileinput-exists thumbnail img-circle img-raised"></div>
+                        <div>
+                          <span class="btn btn-raised rounded-0 btn-default btn-file">
+                              <span class="fileinput-new">Upload Photo or</span>
+                              <span class="fileinput-exists">Screenshot</span>
+                              <input type="file" name="image[]" />
+                          </span>
+                        </div>
+                    </div> --}}
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-info"><i class="fa fa-fw fa-paper-plane"></i> Submit  </button>
             </form>
@@ -83,3 +127,4 @@
     });
 });
 </script>
+
