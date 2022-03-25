@@ -41,11 +41,18 @@ margin-bottom: 0cm;
                     <p style="margin-top:0pt; margin-bottom:0pt;">&nbsp;</p>
                     <p style="margin-top:0pt; margin-bottom:0pt;">&nbsp;</p>
                    
-                    <table class="table table-bordered">
+                    <style>
+                        table,th,tr,td{
+                            width: 100%;
+                            border: 1px solid black;
+                            padding: 1%;
+                        }
+                    </style>
+                    <table>
                         <tbody>
                             <tr style="height:32pt;">
                                 <td colspan="2" style="width:461pt; border-bottom-style:solid; border-bottom-width:0.75pt; padding-right:5.38pt; padding-left:5.38pt; vertical-align:middle; background-color:#9cc3e5;">
-                                    <p style="margin-top:0pt; margin-bottom:0pt; text-align:center; font-size:10pt;"><strong>ACCOMPLISHMENT REPORT</strong></p>
+                                    <p style="margin-top:0pt; margin-bottom:0pt; text-align:center; font-size:12pt;"><strong>ACCOMPLISHMENT REPORT</strong></p>
                                     <?php
                                         $from = strtotime($datefrom);
                                         $to = strtotime($dateto);    
@@ -75,9 +82,9 @@ margin-bottom: 0cm;
                                     <ol style="margin:0pt; padding-left:0pt;" type="1">
                                         @foreach($accomplishments as $reports)
                                         
-                                                <li style="margin-left:31.35pt; line-height:115%; padding-left:4.65pt; font-size:11pt; background-color:#ffffff;">{{ $reports->taskDetail }}</li>
+                                                <li style="margin-left:31.35pt; line-height:135%; padding-left:4.65pt; font-size:12pt; background-color:#ffffff;">{{ $reports->taskDetail }}</li>
                                         @endforeach    
-                                                <li style="margin-left:31.35pt; line-height:115%; padding-left:4.65pt; font-size:11pt; background-color:#ffffff;">Other duties and responsibilities tasked by the immediate supervisor.</li>
+                                                <li style="margin-left:31.35pt; line-height:135%; padding-left:4.65pt; font-size:12pt; background-color:#ffffff;">Other duties and responsibilities tasked by the immediate supervisor.</li>
                                     </ol>
                                     <p style="margin-top:0pt; margin-left:18pt; margin-bottom:0pt; line-height:150%; font-size:12.5pt; background-color:#ffffff;">&nbsp;</p>
                                 </td>
