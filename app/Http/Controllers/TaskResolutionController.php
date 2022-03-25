@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TaskResolution;
 use App\Models\TaskAssignment;
 use App\Models\User;
+use App\Models\Evidences;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Crypt;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 class TaskResolutionController extends Controller
 {
     /**
@@ -46,7 +49,8 @@ class TaskResolutionController extends Controller
         ->join('users', 'users.id', '=', 'task_resolutions.userID')
         ->where('task_resolutions.id','=',$resoid)
         ->get(['programs.*', 'task_assignments.*','task_assignments.id AS taskID','task_resolutions.*','task_resolutions.id as resoid','users.*','task_resolutions.created_at as resodate','users.name as fullname']);
-        return view('tasks.resolutions', ['responses'=>$responses]);
+        $evidence = Evidences::where('task_id',$resoid)->get();
+        return view('tasks.resolutions', ['responses'=>$responses,'evidence'=>$evidence]);
     }
 
     public function respond($taskID)
@@ -163,18 +167,59 @@ class TaskResolutionController extends Controller
 
     public function saverespond(Request $request)
     {
-
-        //dd($request);
         $request->validate([
             'resolutionDetails' => 'required'
         ]);
-        $updating = DB::table('task_resolutions')
-                    ->where('id',$request->input('id'))
-                    ->update([
-                                'resolutionDetails'=>$request->input('resolutionDetails'),
-                    ]);
-                    return redirect()->route('mytasks')
-                    ->with('success', 'Some Event');
+
+        $files = [];
+        if($request->hasfile('name'))
+        {
+            foreach($request->file('name') as $file)
+            {
+                $name = time().rand(1,100).'.'.$file->extension();
+                $file->move(public_path('images'), $name);  
+                $files[] = $name;  
+            }
+            foreach($files as $imago) 
+            {
+                $data = array('task_id'=>$request->input('id'),'name' => $imago, 'path' => $imago,'created_at'=>NOW());
+                Evidences::insert($data);    
+            }
+            $updating = DB::table('task_resolutions')
+            ->where('id',$request->input('id'))
+            ->update([
+                'resolutionDetails'=>$request->input('resolutionDetails'),
+            ]);
+            
+            return redirect()->route('mytasks')
+            ->with('success', 'Some Event');
+            
+        }else{
+            if($request->hasfile('name'))
+            {
+                    foreach($request->file('name') as $file)
+                    {  
+                        $name = time().rand(1,100).'.'.$file->extension();
+                        $file->move(public_path('images'), $name);  
+                        $files[] = $name;  
+                    }
+                    foreach($files as $imago) 
+                    {
+                        $data = array('task_id'=>$request->input('id'),'name' => $imago, 'path' => $imago,'created_at'=>NOW());
+                        Evidences::insert($data);    
+                    }
+                
+            }
+            $updating = DB::table('task_resolutions')
+            ->where('id',$request->input('id'))
+            ->update([
+                'resolutionDetails'=>$request->input('resolutionDetails'),
+            ]);
+            return redirect()->route('mytasks')
+            ->with('success', 'Some Event');
+        }
+
+        
     }
     
     

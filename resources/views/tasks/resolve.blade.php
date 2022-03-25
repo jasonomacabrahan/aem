@@ -1,6 +1,6 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
-    'namePage' => 'Add Response',
+    'namePage' => 'Add Response | ',
     'activePage' => 'respond',
     'activeNav' => '',
     'backgroundImage' => asset('now') . "/img/logo.png",
@@ -42,6 +42,7 @@
                             <option></option>
                             <option value="1">YES</option>
                             <option value="0">NO</option>
+                            <option value="2">Progress</option>
                           </select>
                         </li>
                         <li class="list-group-item active">

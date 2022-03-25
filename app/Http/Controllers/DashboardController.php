@@ -19,11 +19,28 @@ class DashboardController extends Controller
         $todo = Todo::all();
         $tasks = TaskAssignment::join('task_resolutions','task_resolutions.taskAssignmentID','=','task_assignments.id')
                                 ->where('task_resolutions.userID',auth()->user()->id)
+                                ->where('task_resolutions.verifiedBy',0)
                                 ->paginate(5)->appends($request->query());
+
+        $taskdone = TaskAssignment::join('task_resolutions','task_resolutions.taskAssignmentID','=','task_assignments.id')
+                                ->where('task_resolutions.userID',auth()->user()->id)
+                                ->where('task_resolutions.verifiedBy',1)
+                                ->paginate(5)->appends($request->query());
+
+        $taskprogress = TaskAssignment::join('task_resolutions','task_resolutions.taskAssignmentID','=','task_assignments.id')
+                                ->where('task_resolutions.userID',auth()->user()->id)
+                                ->where('task_resolutions.verifiedBy',2)
+                                ->paginate(5)->appends($request->query());
+
         $user = User::join('roles','roles.id','=','users.role_id')
                 ->where('users.id',$id)
                 ->get();
-        return view('dashboard.index')->with(compact('todo','user','tasks'));
+
+        $userprofile = User::join('images', 'images.user_id', '=', 'users.id')
+                ->where('users.id','=',$id)
+                ->get(['users.*','images.path AS location']);
+
+        return view('dashboard.index')->with(compact('todo','user','tasks','userprofile','taskdone','taskprogress'));
         //return view('dashboard.index');
     }
 
