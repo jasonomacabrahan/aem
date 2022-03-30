@@ -32,9 +32,9 @@
                                 @csrf
 
                                 <div class="fileinput fileinput-new text-center" data-provides="fileinput">
-                                    <div class="fileinput-new thumbnail img-raised">
+                                    {{-- <div class="fileinput-new thumbnail img-raised">
                                         <img src="{{url('/images/HUfDdK6tl9NRenCjbiw1ViBpgGiKln1jce8j6CWt.jpg')}}" alt="...">
-                                    </div>
+                                    </div> --}}
                                     <div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
                                     <div>
                                         <span class="btn btn-raised btn-success btn-file">
