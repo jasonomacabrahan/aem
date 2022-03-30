@@ -101,6 +101,19 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         Route::get('upload-image', 'UploadImageController@index')->name('upload-image');
         Route::post('save', 'UploadImageController@save')->name('save');
 
+        Route::get('/clear',function(){
+            Artisan::call('config:cache');
+        });
+
+        Route::get('/step_one',function(){
+            Artisan::call('livewire:publish --config');
+        });
+        Route::get('/step_two',function(){
+            Artisan::call('livewire:publish --assets');
+        });
+        Route::get('/step_two',function(){
+            Artisan::call('livewire:publish --assets');
+        });
         
 
         Route::controller(ActivityController::class)->group(function () {
