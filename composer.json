@@ -13,7 +13,10 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
-        "simplesoftwareio/simple-qrcode": "^4.2"
+        "livewire/livewire": "^2.10",
+        "nexmo/client": "^2.4",
+        "simplesoftwareio/simple-qrcode": "^4.2",
+        "vonage/client": "^3.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

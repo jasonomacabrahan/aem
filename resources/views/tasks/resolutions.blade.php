@@ -43,7 +43,36 @@
                         <li class="list-group-item"><i class="fa fa-fw fa-angle-right"></i>Source: {{ $response->name }}</li>
                         <li class="list-group-item"><i class="fa fa-fw fa-angle-right"></i>Response: {{ $response->resolutionDetails }}</li>
                         @if ($response->taskResolved==0)
-                            <li class="list-group-item active"><a href="{{ route('markasresolved', ['id' => $response->resoid]) }}" class="btn btn-xs btn-success"><i class="fa fa-fw fa-thumbs-up"></i>Mark as YES</a></li>
+                            <li class="list-group-item">
+                                <strong>Resolved?</strong>
+                                <div class="row">
+                                    <div class="col-md-1">
+                                            <form class="form-inline" action="{{ route('resolved') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="verifiedBy" value="1">
+                                                <input type="hidden" name="id" value="{{ $response->resoid }}">
+                                                <button class="btn  btn-block btn-success" type="submit">YES</button>
+                                            </form>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <form action="{{ route('resolved') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="verifiedBy" value="2">
+                                                <input type="hidden" name="id" value="{{ $response->resoid }}">
+                                                <button class="btn  btn-block btn-success" type="submit">Progress</button>
+                                            </form>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <form action="{{ route('resolved') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="verifiedBy" value="0">
+                                                <input type="hidden" name="id" value="{{ $response->resoid }}">
+                                                <button class="btn btn-block btn-success" type="submit">NO</button>
+                                            </form>
+                                        </div>
+                                </div>
+                            </div>
+                        </li>
                         @else
                             <li class="list-group-item active"><a href="{{ route('markasresolved', ['id' => $response->resoid]) }}" class="btn btn-xs btn-success"><i class="fa fa-fw fa-thumbs-up"></i>Yes</a></li>
                             

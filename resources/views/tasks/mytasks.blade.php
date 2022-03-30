@@ -16,8 +16,10 @@
           <div class="card">
               <div class="card-header">
                 <h2><i class="fa fa-fw fa-th-list"></i>My Tasks Assignments</h2>
+                @can('assign_task')
                 <a href="{{ route('taskform') }}" class="btn btn-info"><i class="fa fa-fw fa-plus"></i>New Task</a>
-              </div>
+                @endcan
+            </div>
             <div class="card-body">
                 <style>
                     table,th,td,tr,thead{
@@ -69,6 +71,8 @@
                                     <?php
                                         $source = $mytask->thesource; 
                                         $user = auth()->user()->name;
+                                        $datewithtime = $mytask->resodate;
+                                        $datewotime = date("Y-m-d",strtotime($datewithtime));
                                         if($user==$source AND $mytask->isverified==0)
                                         {
                                             ?>
@@ -78,7 +82,13 @@
                                                 echo $mytask->taskDetail;
                                            
                                         }
-                                    ?>
+                                        ?>
+                                        @if($datewotime == date('Y-m-d'))
+                                            <sup><label class="badge badge-success text-white">new</label></sup>
+                                        @else
+                                            
+                                        @endif
+                                        
                                 </td>
                                 <td>{{ $mytask->shortName }}</td>
                                 <td>
@@ -159,7 +169,7 @@
 
                                     ?>
                                 </td>
-                                <td>{{ $mytask->datecreated }}</td>
+                                <td>{{ $mytask->resodate }}</td>
                                 <td>
                                     @can('deletetask')
                                         <a href="{{ route('destroy', $mytask->taskid) }}" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i></a>

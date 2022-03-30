@@ -28,6 +28,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
             Artisan::call('list');
         });
 
+        //for sending sms
+        Route::get('sendSMS','NexmoSMSController@index');
+        //--end of sending sms--
         //for basic sending email...
         Route::get('sendbasicemail','MailController@basic_email');
         Route::get('sendhtmlemail','MailController@html_email');
