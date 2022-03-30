@@ -105,6 +105,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
             Artisan::call('config:cache');
         });
 
+        Route::get('/dump',function(){
+            Artisan::call('composer dump-autoload');
+        });
+
         Route::get('/step_one',function(){
             Artisan::call('livewire:publish --config');
         });
@@ -114,7 +118,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         Route::get('/step_two',function(){
             Artisan::call('livewire:publish --assets');
         });
-        
+
 
         Route::controller(ActivityController::class)->group(function () {
             Route::get('addexpense_new/{id}/{eventname}/{shortsname}','addexpense_new')->name('addexpense_new');
