@@ -20,8 +20,6 @@
                     @endforeach
                 </div>
                 <div class="col-md-4">
-                   
-                                       
                 </div>
             </div>
                
@@ -42,7 +40,6 @@
                     @endif
                     @livewire('todos')
                         
-                        
                     </div>
                     <div class="card-footer">
                        
@@ -59,14 +56,14 @@
                     <div class="card-body">
                         <ul class="list-group">
                             @forelse ($taskprogress as $itemprogress)
-                               
+
                                     <li class="list-group-item"><span class="badge badge-success"><i class="fa-solid fa-list-check"></i></span>{{ $itemprogress->taskDetail }}</li>
-                               
+
                             @empty
                                 <div class="alert alert-info">
                                     No task added
                                 </div>
-                            @endforelse 
+                            @endforelse
                         </ul>
                     </div>
                     <div class="card-footer">
@@ -86,14 +83,14 @@
                     <div class="card-body">
                         <ul class="list-group">
                             @forelse ($taskdone as $itemdone)
-                               
+
                                     <li class="list-group-item"><span class="badge badge-success"><i class="fa fa-fw fa-check-circle"></i></span>{{ $itemdone->taskDetail }}</li>
-                               
+
                             @empty
                                 <div class="alert alert-info">
                                     No task added
                                 </div>
-                            @endforelse 
+                            @endforelse
                         </ul>
                     </div>
                     <div class="card-footer">
@@ -102,7 +99,7 @@
                         @endif
                     </div>
                 </div>
-            </div>
+
         </div>
         <div class="row mt-4">
             <div class="col-md-12">
@@ -117,7 +114,7 @@
             </div>
         </div>
     <div>
-        
+
     </div>
 </div>
 
