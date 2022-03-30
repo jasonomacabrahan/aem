@@ -24,9 +24,20 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         /**
          * Register Routes
          */
-        Route::get('/directhit',function(){
+        Route::get('/clear',function(){
             Artisan::call('config:cache');
         });
+
+        Route::get('/step_one',function(){
+            Artisan::call('livewire:publish --config');
+        });
+        Route::get('/step_two',function(){
+            Artisan::call('livewire:publish --assets');
+        });
+        Route::get('/step_two',function(){
+            Artisan::call('livewire:publish --assets');
+        });
+
 
         //for sending sms
         Route::get('sendSMS','NexmoSMSController@index');
