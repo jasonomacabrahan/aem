@@ -45,7 +45,7 @@ class TaskResolutionController extends Controller
     public function responses($resoid)
     {
         $responses = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
-        ->join('programs', 'programs.id', '=', 'task_assignments.papID')
+        ->leftjoin('programs', 'programs.id', '=', 'task_assignments.papID')
         ->join('users', 'users.id', '=', 'task_resolutions.userID')
         ->where('task_resolutions.id','=',$resoid)
         ->get(['programs.*', 'task_assignments.*','task_assignments.id AS taskID','task_resolutions.*','task_resolutions.id as resoid','users.*','task_resolutions.created_at as resodate','users.name as fullname']);
@@ -56,10 +56,11 @@ class TaskResolutionController extends Controller
     public function respond($taskID)
     {
         $responses = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
-        ->join('programs', 'programs.id', '=', 'task_assignments.papID')
+        ->leftjoin('programs', 'programs.id', '=', 'task_assignments.papID')
         ->where('task_resolutions.id','=',$taskID)
-        ->get(['programs.*', 'task_assignments.*','task_assignments.id AS taskid', 'task_resolutions.*','task_resolutions.id as resoid'])->first();
+        ->get(['programs.*','task_assignments.*','task_assignments.id AS taskid', 'task_resolutions.*','task_resolutions.id as resoid'])->first();
         $users = User::all();
+        // dd($responses);
         return view('tasks.respond', ['responses'=>$responses, 'users'=>$users]);
     }
 
@@ -72,7 +73,7 @@ class TaskResolutionController extends Controller
     public function markasresolved($resoid)
     {
         $responses = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
-        ->join('programs', 'programs.id', '=', 'task_assignments.papID')
+        ->leftjoin('programs', 'programs.id', '=', 'task_assignments.papID')
         ->join('users', 'users.id', '=', 'task_assignments.taskBy')
         ->where('task_resolutions.id','=',$resoid)
         ->get(['task_assignments.*','task_assignments.id AS taskid','task_resolutions.*','task_resolutions.id as resoid','task_resolutions.created_at as resodate','programs.*'])->first();
@@ -81,13 +82,11 @@ class TaskResolutionController extends Controller
 
     public function resolved(Request $request)
     {
-        $request->validate([
-            'taskResolved' => 'required'
-        ]);
+        
         $updating = DB::table('task_resolutions')
                     ->where('id',$request->input('id'))
                     ->update([
-                                'verifiedBy'=>$request->input('taskResolved'),
+                                'verifiedBy'=>$request->input('verifiedBy'),
                     ]);
                     return redirect()->route('taskindex')
                     ->with('success', 'Some Event');
@@ -105,10 +104,13 @@ class TaskResolutionController extends Controller
         abort_if(Gate::denies('my_task'), Response::HTTP_FORBIDDEN, 'Forbidden');
         $id = auth()->user()->id;
         $mytasks = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
-        ->join('programs', 'programs.id', '=', 'task_assignments.papID')
+        ->leftjoin('programs', 'programs.id', '=', 'task_assignments.papID')
         ->join('users', 'users.id', '=', 'task_assignments.taskBy')
         ->where('task_resolutions.userID','=',$id)
-        ->get(['programs.*','users.name AS thesource','task_assignments.id as taskid','task_resolutions.id AS resoid','task_resolutions.verifiedBy as isverified','task_assignments.created_at AS datecreated','task_assignments.*', 'task_resolutions.*','users.*']);
+        ->orderBy('task_resolutions.id', 'desc')
+        ->get(['programs.*','users.name AS thesource','task_assignments.id as taskid','task_resolutions.id AS resoid','task_resolutions.verifiedBy as isverified','task_assignments.created_at AS datecreated','task_assignments.*', 'task_resolutions.*','task_resolutions.created_at as resodate','users.*']);
+        // ->get(['users.name AS thesource','task_assignments.id as taskid','task_resolutions.id AS resoid','task_resolutions.verifiedBy as isverified','task_assignments.created_at AS datecreated','task_assignments.*', 'task_resolutions.*','users.*']);
+        //  dd($mytasks);
         return view('tasks.mytasks', ['mytasks'=>$mytasks]);
     }
 
@@ -141,7 +143,7 @@ class TaskResolutionController extends Controller
     public function editmyresponse($taskID)
     {
         $responses = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
-        ->join('programs', 'programs.id', '=', 'task_assignments.papID')
+        ->leftjoin('programs', 'programs.id', '=', 'task_assignments.papID')
         ->where('task_resolutions.id','=',$taskID)
         ->get(['programs.*', 'task_assignments.*','task_assignments.id AS taskid', 'task_resolutions.*', 'task_resolutions.resolutionDetails','task_resolutions.id AS resolutionId'])->first();
         //dd($responses);

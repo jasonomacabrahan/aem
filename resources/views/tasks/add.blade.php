@@ -127,9 +127,17 @@
             <select name='user@{{ newcount }}'  class="form-control rounded-0" id='user@{{ newcount }}'>
                 <?php
                 foreach($users as $user){
-                  ?>
-                  <option value="<?php echo $user->id; ?>"><?php if($user->name==auth()->user()->name){ echo strtoupper($user->name).'(me)'; }else{ echo strtoupper($user->name).'('.$user->designation.')'; }?></option>
-                  <?php
+                  if($user->name==auth()->user()->name)
+                  {
+                    ?>
+                    <option hidden value="<?php echo $user->id; ?>"><?php if($user->name==auth()->user()->name){ echo strtoupper($user->name).'(me)'; }else{ echo strtoupper($user->name).'('.$user->designation.')'; }?></option>
+
+                    <?php
+                  }else{
+                    ?>
+                    <option value="<?php echo $user->id; ?>"><?php if($user->name==auth()->user()->name){ echo strtoupper($user->name).'(me)'; }else{ echo strtoupper($user->name).'('.$user->designation.')'; }?></option>
+                    <?php
+                  }
                 }
                 ?>
             </select>
