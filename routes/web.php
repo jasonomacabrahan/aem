@@ -24,8 +24,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         /**
          * Register Routes
          */
-        Route::get('/linkstorage',function(){
-            Artisan::call('list');
+        Route::get('/directhit',function(){
+            Artisan::call('config:cache');
         });
 
         //for sending sms
