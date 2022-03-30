@@ -20,7 +20,7 @@
                     @endforeach
                 </div>
                 <div class="col-md-4">
-                    
+
                 </div>
             </div>
                 <div class="modal fade" id="formModal" aria-hidden="true">
@@ -90,7 +90,7 @@
         </div> --}}
     </div>
         <div class="row mt-4">
-            <div class="col-md-4">
+
                 <div class="card">
                     <div class="card-header bg-info">
                         <h5 class="text-white fw-bolder"><i class="fa fa-fw fa-th-list"></i>Task(s)</h5>
@@ -98,16 +98,16 @@
                     <div class="card-body">
                         <ul class="list-group">
                             @forelse ($tasks as $item)
-                                
+
                                     <li class="list-group-item">{{ $item->taskDetail }}</li>
-                                
+
                             @empty
                                 <div class="alert alert-info">
                                     No task added
                                 </div>
-                            @endforelse 
+                            @endforelse
                         </ul>
-                        
+
                     </div>
                     <div class="card-footer">
                         @if($tasks->total() > $tasks->perPage())
@@ -115,8 +115,8 @@
                         @endif
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4">
+
+
                 <div class="card">
                     <div class="card-header bg-info">
                         <h5 class="text-white fw-bolder"><i class="fa fa-fw fa-th-list"></i>On Progress</h5>
@@ -124,14 +124,14 @@
                     <div class="card-body">
                         <ul class="list-group">
                             @forelse ($taskprogress as $itemprogress)
-                               
+
                                     <li class="list-group-item"><span class="badge badge-success"><i class="fa-solid fa-list-check"></i></span>{{ $itemprogress->taskDetail }}</li>
-                               
+
                             @empty
                                 <div class="alert alert-info">
                                     No task added
                                 </div>
-                            @endforelse 
+                            @endforelse
                         </ul>
                     </div>
                     <div class="card-footer">
@@ -140,9 +140,9 @@
                         @endif
                     </div>
                 </div>
-            </div>
 
-            <div class="col-md-4">
+
+
                 <div class="card">
                     <div class="card-header bg-info">
                         <h5 class="text-white fw-bolder"><i class="fa fa-fw fa-th-list"></i>Completed</h5>
@@ -150,14 +150,14 @@
                     <div class="card-body">
                         <ul class="list-group">
                             @forelse ($taskdone as $itemdone)
-                               
+
                                     <li class="list-group-item"><span class="badge badge-success"><i class="fa fa-fw fa-check-circle"></i></span>{{ $itemdone->taskDetail }}</li>
-                               
+
                             @empty
                                 <div class="alert alert-info">
                                     No task added
                                 </div>
-                            @endforelse 
+                            @endforelse
                         </ul>
                     </div>
                     <div class="card-footer">
@@ -166,7 +166,7 @@
                         @endif
                     </div>
                 </div>
-            </div>
+
         </div>
         <div class="row mt-4">
             <div class="col-md-4">
@@ -181,7 +181,7 @@
             </div>
         </div>
     <div>
-        
+
     </div>
 </div>
 
