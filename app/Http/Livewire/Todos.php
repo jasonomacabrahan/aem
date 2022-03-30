@@ -11,11 +11,11 @@ use Livewire\WithPagination;
 
 class Todos extends Component
 {
-    use WithPagination;
+    //use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
     public  $title,$taskDetail,$resolutionDetails,$userID,$verifiedBy,$data,$taskBy,$taskedTo,
-            $taskResolved,$taskAssignmentID,$created_at,$updated_at;
+            $taskResolved,$taskAssignmentID,$created_at,$updated_at,$tid;
 
     public $updateMode = false;
     public function render()
@@ -23,7 +23,9 @@ class Todos extends Component
        
         return view('livewire.todos',[
                                     'tasks'=>TaskResolution::join('task_assignments','task_assignments.id','=','task_resolutions.taskAssignmentID')
-                                    ->where('task_resolutions.userID',auth()->user()->id)->paginate(5),
+                                    ->where('task_resolutions.userID',auth()->user()->id)
+                                    ->orderBy('task_resolutions.id', 'desc')
+                                    ->paginate(10),
                                     'program'=>Program::all(),
         ]);
     }

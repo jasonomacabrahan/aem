@@ -3,7 +3,7 @@
   
         @if (session()->has('message'))
             <div class="alert alert-success">
-                {{ session('message') }}
+                <i class="fa fa-fw fa-check-circle"></i><strong>{{ session('message') }}</strong>
             </div>
         @endif
       
@@ -14,13 +14,14 @@
         @endif
       
         <ul class="list-group">
-            @foreach($tasks as $task)
-                <li class="list-group-item">{{ $task->taskDetail }}<a href="#" class="float-right" wire:click="delete({{ $task->tid }})"><i class="fa fa-fw fa-x"></i></a></li>
-            @endforeach
-            
-            <div class="livewire-pagination">{{ $tasks->onEachSide(2)->links() }}</div>
-            
-            
+            @forelse ($tasks as $task)
+                <li class="list-group-item">{{ $task->taskDetail }}<a href="#" class="float-right" wire:click="delete({{ $task->id }})"><i class="fa fa-fw fa-trash"></i></a></li>
+            @empty
+                    <span class="badge badge-success">No task added...</span>
+                                
+            @endforelse
+
         </ul>
+        <div class="livewire-pagination">{{ $tasks->onEachSide(2)->links() }}</div>
     </div>
 </div>
