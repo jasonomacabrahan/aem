@@ -101,8 +101,14 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         Route::get('upload-image', 'UploadImageController@index')->name('upload-image');
         Route::post('save', 'UploadImageController@save')->name('save');
 
+        Route::get('/updateapp', function()
+        {
+            exec('composer dump-autoload');
+            echo 'composer dump-autoload complete';
+        });
+
         Route::get('/clear',function(){
-            Artisan::call('config:cache');
+             Artisan::call('config:cache');
         });
 
         Route::get('/dump',function(){
