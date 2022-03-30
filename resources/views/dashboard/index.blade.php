@@ -20,7 +20,13 @@
                     @endforeach
                 </div>
                 <div class="col-md-4">
-                    
+                    @if (session()->has('message'))
+                        <div class="alert alert-success">
+                            {{ session('message') }}
+                        </div>
+                    @endif
+                    @livewire('todos')
+                    @livewire('task-list')                   
                 </div>
             </div>
                 <div class="modal fade" id="formModal" aria-hidden="true">

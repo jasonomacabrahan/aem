@@ -26,6 +26,7 @@
   <script type="text/javascript" src="{{ asset('sweet') }}/sweetalert-dev.js"></script>
   <link rel="stylesheet" type="text/css" href="{{ asset('sweet') }}/sweetalert.css"/>
   <script src="https://kit.fontawesome.com/c9033f3c51.js" crossorigin="anonymous"></script>
+  @livewireStyles
   
 </head>
 
@@ -44,6 +45,7 @@
   <!--   Core JS Files   -->
   {{-- <script src="{{ asset('assets') }}/js/core/jquery.min.js"></script> --}}
   {{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> --}}
+  @livewireScripts
   <script src="{{ asset('admin_assets/plugins/jquery/dist/jquery.min.js') }}"></script>
   <script src="{{ asset('assets') }}/js/core/popper.min.js"></script>
   <script src="{{ asset('assets') }}/js/core/bootstrap.min.js"></script>
