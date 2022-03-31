@@ -12,19 +12,21 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navigation">
       <ul class="navbar-nav">
+        
+        
         <li class="nav-item">
-          <a href="{{ route('home.index') }}" class="nav-link">
-            <i class="now-ui-icons design_app"></i> {{ __(" Home ") }}
+          <a href="https://app.dict-mc3.online/" class="nav-link">
+            <i class="fa fa-fw fa-home"></i> {{ __(" Home ") }}
           </a>
         </li>
         <li class="nav-item @if ($activePage == 'register') active @endif">
           <a href="{{ route('register.show') }}" class="nav-link">
-            <i class="now-ui-icons tech_mobile"></i> {{ __("Register") }}
+            <i class="fa fa-fw fa-user-plus"></i> {{ __("Register") }}
           </a>
         </li>
         <li class="nav-item @if ($activePage == 'login') active @endif ">
           <a href="{{ route('login.show') }}" class="nav-link">
-            <i class="now-ui-icons users_circle-08"></i> {{ __("Login") }}
+            <i class="fa fa-fw fa-sign-in"></i> {{ __("Login") }}
           </a>
         </li>
       </ul>
