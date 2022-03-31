@@ -37,7 +37,7 @@
                         <div class="card card-login">
                             <div class="card-header ">
                             <div class="logo-container">
-                                <img src="{{ asset('assets/img/favicon.png') }}" alt="">
+                                <a href="{{ route('home.index') }}"><img src="{{ asset('assets/img/favicon.png') }}" alt=""></a>
                             </div>
                             </div>
                             <div class="card-body ">
