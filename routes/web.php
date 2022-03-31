@@ -107,6 +107,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
             echo 'composer dump-autoload complete';
         });
 
+        Route::get('/config', function()
+        {
+            exec('php artisan vendor:publish --tag=livewire:config');
+            echo 'composer dump-autoload complete';
+        });
+
         Route::get('/clear',function(){
              Artisan::call('config:cache');
         });
@@ -124,6 +130,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         Route::get('/step_two',function(){
             Artisan::call('livewire:publish --assets');
         });
+        Route::get('/step_three',function(){
+            Artisan::call('vendor:publish --tag=livewire:config');
+        });
+
 
 
         Route::controller(ActivityController::class)->group(function () {
