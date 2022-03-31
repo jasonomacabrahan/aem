@@ -24,6 +24,7 @@ class Todos extends Component
         return view('livewire.todos',[
                                     'tasks'=>TaskResolution::join('task_assignments','task_assignments.id','=','task_resolutions.taskAssignmentID')
                                     ->where('task_resolutions.userID',auth()->user()->id)
+                                    ->where('task_resolutions.verifiedBy',0)
                                     ->orderBy('task_resolutions.id', 'desc')
                                     ->paginate(10),
                                     'program'=>Program::all(),
