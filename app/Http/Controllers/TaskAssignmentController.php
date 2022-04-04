@@ -24,11 +24,13 @@ class TaskAssignmentController extends Controller
     {       
         abort_if(Gate::denies('master_tables'), Response::HTTP_FORBIDDEN, 'Forbidden');
         $id = auth()->user()->id;
-        $tasks = TaskAssignment::join('task_resolutions', 'task_resolutions.taskAssignmentID', '=', 'task_assignments.id')
-        ->join('users','users.id','=','task_resolutions.userID')
-        ->join('programs','programs.id','=','task_assignments.papID')
+        $tasks = TaskAssignment::join('programs','programs.id','=','task_assignments.papID')
+        ->join('users','users.id','=','task_assignments.taskedTo')
+        ->leftjoin('task_resolutions','task_resolutions.taskAssignmentID','=','task_assignments.id')
         ->where('task_assignments.taskBy','=',$id)
-        ->get(['users.*', 'task_assignments.*','task_assignments.id AS taskID','task_resolutions.*','task_resolutions.id as resoid','task_resolutions.created_at as resodate','programs.*']);
+        ->groupBy('taskDetail','taskedTo')
+        ->get(['users.*','task_assignments.*','task_assignments.id AS taskID','task_assignments.created_at as assignmentdate','programs.*','task_resolutions.*']);
+        // dd($tasks);
         return view('tasks.index', ['tasks'=>$tasks]);
     }
     
@@ -71,35 +73,23 @@ class TaskAssignmentController extends Controller
 
     public function create(Request $req)
     {
-        // dd($req);
-        $tasks = new TaskAssignment;
-        $tasks->papID       =$req->papID;
-        $tasks->taskBy      = $req->taskBy;
-        $tasks->taskedTo    = '';
-        $tasks->taskDetail  = $req->taskDetail;
-        $tasks->taskResolved= 0 ;
-        $tasks->created_at = now();
-        $tasks->updated_at = now();
-        $tasks->save();
-        $taskid = $tasks->id;
-        $a = 1;
-        while ($a <= $req->rowCount) {
-            $packstr = 'user'.$a ;
-            if (isset($req->$packstr)) {
-
-                $assignee = new TaskResolution;
-                $assignee->taskAssignmentID = $taskid;
-                $assignee->resolutionDetails = NULL;
-                $assignee->userID = $req->$packstr;
-                $assignee->save();
-                $this->getuseremail($assignee->userID = $req->$packstr,$tasks->taskDetail  = $req->taskDetail);
-            
-            }
-            $a++;
+        $data = $req->validate([
+            'papID' => 'required',
+            'users' => 'required',
+            'taskDetail' => 'required',
+        ]);
+        foreach($req->users as $d)
+        {
+            $assignment = TaskAssignment::create([
+                                    'papID'=>$req->papID,
+                                    'taskBy'=>auth()->user()->id,
+                                    'taskedTo'=>$d,
+                                    'taskDetail'=>$req->taskDetail,
+                                    'taskResolved'=>0,
+                                ]);
         }
+        return redirect()->back()->with('success', 'event');
         
-        return redirect()->route('taskform')
-                 ->with('success', 'event');
     }
 
     public function destroy($id)

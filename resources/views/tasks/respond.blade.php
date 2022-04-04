@@ -43,7 +43,7 @@
                           <ul>
                             <li><strong>Task:</strong> {{ ucfirst($responses->taskDetail) }}</li>
                             <li><strong>Project</strong> {{ $responses->shortName }}</li>
-                            <li><strong>Date Created:</strong>  {{ $responses->created_at }}</li>
+                            <li><strong>Date Created:</strong>  {{ $responses->assignmentdate }}</li>
                           </ul>
                       </div>
                     </div>
@@ -54,7 +54,7 @@
 
                         <div class="form-group">
                           <label for="resolutionDetails" class="text-dark fw-bolder">{{__(" Task Response  ")}}</label>
-                          <input type="hidden" name="id" value="{{ $responses->resoid }}">
+                          <input type="hidden" name="id" value="{{ $responses->taskid }}">
                           <textarea name="resolutionDetails" id="resolutionDetails" class="form-control border border-info form-bordered" cols="30" rows="10" required></textarea>
                           @include('alerts.feedback', ['field' => 'resolutionDetails'])
                         </div>
@@ -69,19 +69,10 @@
 
                       <div class="btn-file input-group hdtuto control-group lst increment rounded-0" >
                         <input type="file" name="name[]" class="myfrm form-control">
-                        <div class="input-group-btn  rounded-0"> 
-                          <button class="btn btn-success" type="button"><i class="fldemo fa fa-fw fa-plus"></i></button>
-                        </div>
+                        
                       </div>
 
-                      <div class="clone hide">
-                        <div class="hdtuto control-group lst input-group" style="margin-top:10px">
-                          <input type="file" name="name[]" class="myfrm form-control">
-                          <div class="input-group-btn"> 
-                            <button class="btn btn-danger" type="button"><i class="fldemo fa fa-fw fa-x"></i></button>
-                          </div>
-                        </div>
-                      </div>
+                      
 
                       
                     </div>
@@ -105,18 +96,5 @@
     </script>
 @endpush
 
-<script>
-    $(document).ready(function() {
-    $('.date').datepicker({
-        firstDayOfWeek: 1, // The first day of week is Monday
-        weekDayFormat: 'narrow', // Only first letter for the weekday names
-        inputFormat: 'd/M/y',
-        outputFormat: 'd/M/y',
-        titleFormat: 'EEEE d MMMM y',
-        markup: 'bootstrap4',
-        theme: 'bootstrap',
-        modal: false
-    });
-});
-</script>
+
 

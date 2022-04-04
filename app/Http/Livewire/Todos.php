@@ -22,10 +22,9 @@ class Todos extends Component
     {
        
         return view('livewire.todos',[
-                                    'tasks'=>TaskResolution::join('task_assignments','task_assignments.id','=','task_resolutions.taskAssignmentID')
-                                    ->where('task_resolutions.userID',auth()->user()->id)
-                                    ->where('task_resolutions.verifiedBy',0)
-                                    ->orderBy('task_resolutions.id', 'desc')
+                                    'tasks'=>TaskAssignment::where('task_assignments.taskedTo',auth()->user()->id)
+                                    ->where('taskResolved',0)
+                                    ->orderBy('task_assignments.id', 'desc')
                                     ->paginate(10),
                                     'program'=>Program::all(),
         ]);
@@ -45,19 +44,12 @@ class Todos extends Component
         $assign = new TaskAssignment;
         $assign->papID       = 0;
         $assign->taskBy      = auth()->user()->id;
-        $assign->taskedTo    = '';
+        $assign->taskedTo    = auth()->user()->id;
         $assign->taskDetail  = $this->taskDetail;
         $assign->taskResolved= 0 ;
         $assign->created_at = now();
         $assign->updated_at = now();
         $assign->save();
-        $taskid = $assign->id;
-
-        $reso = new TaskResolution;
-        $reso->taskAssignmentID = $taskid;
-        $reso->resolutionDetails = NULL;
-        $reso->userID = auth()->user()->id;
-        $reso->save();
         session()->flash('message', 'Task Added');
         $this->resetInputFields();
     }

@@ -15,7 +15,11 @@
       
         <ul class="list-group">
             @forelse ($tasks as $task)
-                <li class="list-group-item">{{ $task->taskDetail }}<a href="#" class="float-right" wire:click="delete({{ $task->id }})"><i class="fa fa-fw fa-trash"></i></a></li>
+                @if ($task->taskedTo==auth()->user()->id AND $task->taskBy==auth()->user()->id)
+                    <li class="list-group-item">{{ $task->taskDetail }}<a href="#" class="float-right" wire:click="delete({{ $task->id }})"><i class="fa fa-fw fa-trash"></i></a></li>
+                @else
+                    <li class="list-group-item">{{ $task->taskDetail }}</li>
+                @endif
             @empty
                     <span class="badge badge-success">No task added...</span>
                                 

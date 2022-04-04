@@ -19,17 +19,17 @@ class DashboardController extends Controller
         $todo = Todo::all();
         $tasks = TaskAssignment::join('task_resolutions','task_resolutions.taskAssignmentID','=','task_assignments.id')
                                 ->where('task_resolutions.userID',auth()->user()->id)
-                                ->where('task_resolutions.verifiedBy',0)
+                                ->where('task_assignments.taskResolved',0)
                                 ->paginate(5)->appends($request->query());
 
         $taskdone = TaskAssignment::join('task_resolutions','task_resolutions.taskAssignmentID','=','task_assignments.id')
                                 ->where('task_resolutions.userID',auth()->user()->id)
-                                ->where('task_resolutions.verifiedBy',1)
+                                ->where('task_assignments.taskResolved',1)
                                 ->paginate(5)->appends($request->query());
 
         $taskprogress = TaskAssignment::join('task_resolutions','task_resolutions.taskAssignmentID','=','task_assignments.id')
                                 ->where('task_resolutions.userID',auth()->user()->id)
-                                ->where('task_resolutions.verifiedBy',2)
+                                ->where('task_assignments.taskResolved',2)
                                 ->paginate(5)->appends($request->query());
 
         $user = User::join('roles','roles.id','=','users.role_id')

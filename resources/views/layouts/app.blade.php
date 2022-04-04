@@ -27,7 +27,22 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('sweet') }}/sweetalert.css"/>
   <script src="https://kit.fontawesome.com/c9033f3c51.js" crossorigin="anonymous"></script>
   
-  <livewire:styles />
+<livewire:styles />
+<style>
+  #show_image_popup{
+  position: absolute; /*  so that not take place   */
+  top: 50%;
+  left: 50%;
+  z-index: 1000; /*  adobe all elements   */
+  transform: translate(-50%, -50%); /*  make center   */
+
+  display: none; /*  to hide first time   */
+}
+#show_image_popup img{
+  max-width: 90%;
+  height: auto;
+}
+</style>
 </head>
 
 <body class="{{ $class ?? '' }}">
@@ -61,6 +76,7 @@
   <script src="{{ asset('assets') }}/js/now-ui-dashboard.min.js?v=1.3.0" type="text/javascript"></script>
   <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
   <script src="{{ asset('assets') }}/demo/demo.js"></script>
+  
   @stack('js')
 
   <!--for datatables-->
@@ -78,6 +94,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.1/slimselect.min.css" rel="stylesheet">
   <!--end of datatable-->
   <script type="text/javascript">
+    
     $(window).on('load', function() {
         $('#focalModal').modal('show');
     });
@@ -117,6 +134,62 @@
     })
 
 </script>
+
+<script>
+
+  var user_select = new SlimSelect({
+      select: '#users-select select',
+      //showSearch: false,
+      placeholder: 'Select Permissions',
+      deselectLabel: '<span>&times;</span>',
+      hideSelectedOption: true,
+  })
+
+  $('#users-select #users-select-all').click(function(){
+      var options = [];
+      $('#users-select select option').each(function(){
+          options.push($(this).attr('value'));
+      });
+
+      user_select.set(options);
+  })
+
+  $('#users-select #users-deselect-all').click(function(){
+    user_select.set([]);
+  })
+
+ 
+
+</script>
+
+<script>
+
+  var program_select = new SlimSelect({
+      select: '#program-select select',
+      //showSearch: false,
+      placeholder: 'Select Program',
+      deselectLabel: '<span>&times;</span>',
+      hideSelectedOption: true,
+  })
+
+  $('#program-select #program-select-all').click(function(){
+      var options = [];
+      $('#program-select select option').each(function(){
+          options.push($(this).attr('value'));
+      });
+
+      user_select.set(options);
+  })
+
+  $('#program-select #program-deselect-all').click(function(){
+    user_select.set([]);
+  })
+
+ 
+
+</script>
+
+
   <script>
     $(document).ready(function() {
     
