@@ -39,9 +39,9 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                      <div class="form-group">
-                        <label for="" class="fw-bolder text-dark">Program & Projects</label>
-                        <select name='papID'  class="form-control rounded-0 border-info" id='papID'>
+                      <div class="form-group" id="program-select">
+                        <strong for="" class="fw-bolder text-dark">Program & Projects</strong>
+                        <select name='papID'  class="form-control rounded-0 border-info" id='program-select'>
                             @php
                             foreach($programs as $program){
                                 echo '<option value="' . $program->id.'" > '. strtoupper($program->shortName) .' ( ' .$program->id . '  ) [ '. $program->programDescription .' ]  </option>';
@@ -53,7 +53,7 @@
 
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label for="taskDetail" class="fw-bolder text-dark">{{__(" Task Detail")}}</label>
+                        <strong for="taskDetail" class="fw-bolder text-dark">{{__(" Task Detail")}}</strong>
                         <textarea name="taskDetail" class="form-control border border-info form-bordered" id="taskDetail" cols="50" rows="10" required></textarea>
                         @include('alerts.feedback', ['field' => 'taskDetail'])
                       </div>
@@ -64,17 +64,39 @@
                         @include('alerts.feedback', ['field' => 'taskBy'])
                       </div>
                     </div>
+                    <div class="col-md-12" id="users-select">
+                        <strong>Select Recipient</strong>
+                        <select name="users[]" id="users-select" class="form-control border-info rounded-0"  multiple required>
+                            @foreach ($users as $user)
+                                  @if ($user->name == auth()->user()->name)
+                                      <option style="display:none;" hidden value="<?php echo $user->id; ?>"><?php if($user->name==auth()->user()->name){ echo strtoupper($user->name).'(me)'; }else{ echo strtoupper($user->name).'('.$user->designation.')'; }?></option>
+                                  @else
+                                      <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                  @endif  
+                                
+                                
+                            @endforeach
+                        </select>
+                        
+                        @error('permissions')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+  
+                    </div>
+                    
 
                 </div>                
 
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col-md-7 pr-1">
                       <div class="form-group">
                         <button type="button" id="addMore" class="btn btn-success btn-sm"><i class="fa-solid fa-plus"></i> Add Recipient </button>
                         <input type="hidden" name="rowCount" id="rowCount" class="form-control" value="0">
                       </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="form-group">
 

@@ -42,26 +42,77 @@ class TaskResolutionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function responses($resoid)
+    public function responses($assignmentid,$taskto)
     {
-        $responses = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
+        $responses = TaskAssignment::join('task_resolutions', 'task_resolutions.taskAssignmentID', '=', 'task_assignments.id')
         ->leftjoin('programs', 'programs.id', '=', 'task_assignments.papID')
+        ->leftjoin('evidences','evidences.task_id','=','task_resolutions.id')
         ->join('users', 'users.id', '=', 'task_resolutions.userID')
-        ->where('task_resolutions.id','=',$resoid)
-        ->get(['programs.*', 'task_assignments.*','task_assignments.id AS taskID','task_resolutions.*','task_resolutions.id as resoid','users.*','task_resolutions.created_at as resodate','users.name as fullname']);
-        $evidence = Evidences::where('task_id',$resoid)->get();
-        return view('tasks.resolutions', ['responses'=>$responses,'evidence'=>$evidence]);
+        ->where('task_resolutions.taskAssignmentID',$assignmentid)
+        ->orderBy('task_resolutions.id', 'desc')
+        ->get(['evidences.*','programs.*', 'task_assignments.*','task_assignments.id AS taskID','task_resolutions.*','task_resolutions.id as resoid','users.*','task_resolutions.created_at as resodate','users.name as fullname']);
+        $verifiedby = "";
+        $resoid = "";
+        foreach($responses as $r)
+        {
+            $resoid = $r->resoid;
+            $verifiedby = $r->verifiedBy;
+        }
+        $evidence = Evidences::where('task_id',$resoid)
+                    ->get();
+        // dd($evidence);
+        return view('tasks.resolutions', [
+                                            'responses'=>$responses,
+                                            'assignmentid'=>$assignmentid,
+                                            'verifiedby'=>$verifiedby,
+                                            'evidence'=>$evidence,
+                                        ]);
+        
     }
 
     public function respond($taskID)
     {
-        $responses = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
+        $responses = TaskAssignment::leftjoin('task_resolutions', 'task_resolutions.taskAssignmentID', '=', 'task_assignments.id')
         ->leftjoin('programs', 'programs.id', '=', 'task_assignments.papID')
-        ->where('task_resolutions.id','=',$taskID)
-        ->get(['programs.*','task_assignments.*','task_assignments.id AS taskid', 'task_resolutions.*','task_resolutions.id as resoid'])->first();
+        ->where('task_assignments.id','=',$taskID)
+        ->get(['programs.*','task_assignments.*','task_assignments.created_at as assignmentdate','task_assignments.id AS taskid', 'task_resolutions.*','task_resolutions.id as resoid'])->first();
         $users = User::all();
-        // dd($responses);
         return view('tasks.respond', ['responses'=>$responses, 'users'=>$users]);
+    }
+
+    public function responsethread($id,$taskby)
+    {
+        $responses = TaskResolution::join('task_assignments','task_assignments.id','=','task_resolutions.taskAssignmentID')
+        ->leftjoin('evidences','evidences.task_id','=','task_resolutions.id')
+        ->where('task_assignments.taskBy','=',$taskby)
+        ->where('task_resolutions.taskAssignmentID','=',$id)
+        ->orderBy('task_resolutions.id', 'desc')
+        ->get(['task_assignments.id as taskid','task_resolutions.id as resoid','task_assignments.*','task_resolutions.*','evidences.*']);
+        $resolution = TaskResolution::where('taskAssignmentID',$id)
+                        ->where('userID',$taskby)
+                        ->get();
+                        
+                        
+        $resoid = "";
+        $assignmentid = "";
+        $isresolved = "";
+        foreach($responses as $key)
+        {
+            $resoid = $key->resoid;
+            $assignmentid = $key->taskAssignmentID;
+            $isresolved = $key->taskResolved;
+        }
+        $evidence = Evidences::where('task_id',$resoid)
+                    ->get();
+    
+        return view('tasks.responsethread', [
+                                                'responses'=>$responses,
+                                                'assignmentid'=>$assignmentid,
+                                                'resoid'=>$resoid,
+                                                'isresolved'=>$isresolved,
+                                                'evidence'=>$evidence
+                                            ]);
+        
     }
 
     /**
@@ -83,10 +134,10 @@ class TaskResolutionController extends Controller
     public function resolved(Request $request)
     {
         
-        $updating = DB::table('task_resolutions')
+        $updating = DB::table('task_assignments')
                     ->where('id',$request->input('id'))
                     ->update([
-                                'verifiedBy'=>$request->input('verifiedBy'),
+                                'taskResolved'=>$request->input('verifiedBy'),
                     ]);
                     return redirect()->route('taskindex')
                     ->with('success', 'Some Event');
@@ -103,14 +154,14 @@ class TaskResolutionController extends Controller
     {
         abort_if(Gate::denies('my_task'), Response::HTTP_FORBIDDEN, 'Forbidden');
         $id = auth()->user()->id;
-        $mytasks = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
-        ->leftjoin('programs', 'programs.id', '=', 'task_assignments.papID')
-        ->join('users', 'users.id', '=', 'task_assignments.taskBy')
-        ->where('task_resolutions.userID','=',$id)
-        ->orderBy('task_resolutions.id', 'desc')
-        ->get(['programs.*','users.name AS thesource','task_assignments.id as taskid','task_resolutions.id AS resoid','task_resolutions.verifiedBy as isverified','task_assignments.created_at AS datecreated','task_assignments.*', 'task_resolutions.*','task_resolutions.created_at as resodate','users.*']);
-        // ->get(['users.name AS thesource','task_assignments.id as taskid','task_resolutions.id AS resoid','task_resolutions.verifiedBy as isverified','task_assignments.created_at AS datecreated','task_assignments.*', 'task_resolutions.*','users.*']);
-        //  dd($mytasks);
+        $mytasks = TaskAssignment::join('users', 'users.id', '=', 'task_assignments.taskBy')
+        ->leftjoin('task_resolutions','task_resolutions.taskAssignmentID','=','task_assignments.id')
+        ->leftjoin('programs','programs.id','=','task_assignments.papID')
+        ->where('task_assignments.taskedTo','=',$id)
+        ->groupBy('task_assignments.id')
+        ->orderBy('task_assignments.id', 'desc')
+        ->get(['programs.*','task_resolutions.*','users.name AS thesource','task_assignments.id as taskid','task_assignments.taskResolved as isresolved','task_assignments.created_at AS datecreated','task_assignments.*','users.*']);
+        // dd($mytasks);
         return view('tasks.mytasks', ['mytasks'=>$mytasks]);
     }
 
@@ -144,7 +195,7 @@ class TaskResolutionController extends Controller
     {
         $responses = TaskResolution::join('task_assignments', 'task_assignments.id', '=', 'task_resolutions.taskAssignmentID')
         ->leftjoin('programs', 'programs.id', '=', 'task_assignments.papID')
-        ->where('task_resolutions.id','=',$taskID)
+        ->where('task_resolutions.taskAssignmentID','=',$taskID)
         ->get(['programs.*', 'task_assignments.*','task_assignments.id AS taskid', 'task_resolutions.*', 'task_resolutions.resolutionDetails','task_resolutions.id AS resolutionId'])->first();
         //dd($responses);
         $users = User::all();
@@ -169,7 +220,10 @@ class TaskResolutionController extends Controller
 
     public function saverespond(Request $request)
     {
+
+      
         $request->validate([
+            'id' => 'required',
             'resolutionDetails' => 'required',
             'name.*'=>'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ]);
@@ -183,47 +237,103 @@ class TaskResolutionController extends Controller
                 $file->move(public_path('images'), $name);  
                 $files[] = $name;  
             }
+            $taskreso = new TaskResolution;
+            $taskreso->taskAssignmentID = $request->id;
+            $taskreso->resolutionDetails = $request->resolutionDetails;
+            $taskreso->userID = auth()->user()->id;
+            $taskreso->verifiedBy = 0;
+            $taskreso->save();
+            $resoid = $taskreso->id;
+
             foreach($files as $imago) 
             {
-                $data = array('task_id'=>$request->input('id'),'name' => $imago, 'path' => $imago,'created_at'=>NOW());
+                $data = array('task_id'=>$resoid,'name' => $imago, 'path' => $imago,'created_at'=>NOW());
                 Evidences::insert($data);    
             }
-            $updating = DB::table('task_resolutions')
-            ->where('id',$request->input('id'))
-            ->update([
-                'resolutionDetails'=>$request->input('resolutionDetails'),
-            ]);
+            
             
             return redirect()->route('mytasks')
             ->with('success', 'Some Event');
             
         }else{
-            if($request->hasfile('name'))
-            {
-                    foreach($request->file('name') as $file)
-                    {  
-                        $name = time().rand(1,100).'.'.$file->extension();
-                        $file->move(public_path('images'), $name);  
-                        $files[] = $name;  
-                    }
-                    foreach($files as $imago) 
-                    {
-                        $data = array('task_id'=>$request->input('id'),'name' => $imago, 'path' => $imago,'created_at'=>NOW());
-                        Evidences::insert($data);    
-                    }
+            // if($request->hasfile('name'))
+            // {
+            //         foreach($request->file('name') as $file)
+            //         {  
+            //             $name = time().rand(1,100).'.'.$file->extension();
+            //             $file->move(public_path('images'), $name);  
+            //             $files[] = $name;  
+            //         }
+            //         foreach($files as $imago) 
+            //         {
+            //             $data = array('task_id'=>$request->input('id'),'name' => $imago, 'path' => $imago,'created_at'=>NOW());
+            //             Evidences::insert($data);    
+            //         }
                 
-            }
-            $updating = DB::table('task_resolutions')
-            ->where('id',$request->input('id'))
-            ->update([
-                'resolutionDetails'=>$request->input('resolutionDetails'),
-            ]);
+            // }
+            $resolution = array(
+                'taskAssignmentID'=>$request->input('id'),
+                'resolutionDetails' => $request->input('resolutionDetails'), 
+                'userID' => auth()->user()->id,
+                'verifiedBy'=>0,
+                'created_at'=>NOW(),
+                'updated_at'=>NOW()
+            );
+            TaskResolution::insert($resolution);
             return redirect()->route('mytasks')
             ->with('success', 'Some Event');
+        }
+        
+    }
+    
+    public function savethreadrespond(Request $request)
+    {
+        $request->validate([
+            'resolutionDetails' => 'required',
+            'taskAssignmentID' => 'required',
+            'name.*'=>'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+        ]);
+
+        $files = [];
+        if($request->hasfile('name'))
+        {
+            foreach($request->file('name') as $file)
+            {
+                $name = time().rand(1,100).'.'.$file->extension();
+                $file->move(public_path('images'), $name);  
+                $files[] = $name;  
+            }
+            $taskreso = new TaskResolution;
+            $taskreso->taskAssignmentID = $request->taskAssignmentID;
+            $taskreso->resolutionDetails = $request->resolutionDetails;
+            $taskreso->userID = auth()->user()->id;
+            $taskreso->verifiedBy = 0;
+            $taskreso->save();
+            $resoid = $taskreso->id;
+
+            foreach($files as $imago) 
+            {
+                //task_id is referring to reso id
+                $data = array('task_id'=>$resoid,'name' => $imago, 'path' => $imago,'created_at'=>NOW());
+                Evidences::insert($data);    
+            }
+            return redirect()->back()
+            ->with('success', 'Some Event');
+            
+        }else{
+                    $taskreso = new TaskResolution;
+                    $taskreso->taskAssignmentID = $request->taskAssignmentID;
+                    $taskreso->resolutionDetails = $request->resolutionDetails;
+                    $taskreso->userID = auth()->user()->id;
+                    $taskreso->verifiedBy = 0;
+                    $taskreso->save();
+                    return redirect()->back()
+                    ->with('success', 'Some Event');
+                
+            
         }
 
         
     }
-    
-    
+
 }

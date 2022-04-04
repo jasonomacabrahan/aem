@@ -57,7 +57,6 @@
                             <th style='font-size: 9pt; font-weight: bold;'>Task Detail</th>
                             <th style='font-size: 9pt; font-weight: bold;'>Program</th>
                             <th style='font-size: 9pt; font-weight: bold;'>Source</th>
-                            <th style='font-size: 9pt; font-weight: bold;'>Response</th>
                             <th style='font-size: 9pt; font-weight: bold;'>Resolved</th>
                             <th style='font-size: 9pt; font-weight: bold;'>Created@</th>
                             <th style='font-size: 9pt; font-weight: bold;'><i class="fa fa-fw fa-cog"></i></th>
@@ -71,15 +70,15 @@
                                     <?php
                                         $source = $mytask->thesource; 
                                         $user = auth()->user()->name;
-                                        $datewithtime = $mytask->resodate;
+                                        $datewithtime = $mytask->datecreated;
                                         $datewotime = date("Y-m-d",strtotime($datewithtime));
-                                        if($user==$source AND $mytask->isverified==0)
+                                        if($user==$source AND $mytask->isresolved==0)
                                         {
                                             ?>
                                                 <a href="{{ route('editmytask', ['id' => $mytask->taskid])  }}"><i class="fa fa-fw fa-edit"></i><?php echo $mytask->taskDetail ?></a>
                                             <?php
                                         }else{
-                                                echo $mytask->taskDetail;
+                                                echo $mytask->taskDetail; 
                                            
                                         }
                                         ?>
@@ -106,58 +105,141 @@
                                         
                                 </td>
                                 <td>
-                                    <?php
-                                        if($mytask->isverified==0)
-                                        {
-                                            if ($mytask->resolutionDetails==NULL) {
-                                                ?>
-                                                    <a href="{{ route('respond', ['id' => $mytask->resoid])  }}" class="btn btn-info btn-xs"><i class="fa-solid fa-reply"></i></a>
-                                                    <?php
-                                            }else{
-                                                ?>
-                                                    <a href="{{route('editmyresponse', ['id' => $mytask->resoid])}}" title="Edit response"><i class="fa fa-fw fa-edit"></i>{{ $mytask->resolutionDetails }}</a>
-                                                    <?php
-                                            }
-                                        }else{
-                                            
-                                            echo $mytask->resolutionDetails;
-
-                                            
-                                        }    
-
-                                    ?>
-                                </td>
-                                <td>
                                     <?php 
                                         $source = $mytask->thesource; 
                                         $user = auth()->user()->name;
                                         if ($user==$source) {
-                                            if($mytask->resolutionDetails==NULL){
+                                            if($mytask->isresolved==1){
+                                                ?>
+                                                <div class="row">
+                                                    <div class="col-md-1">
+                                                        <form class="form-inline" action="{{ route('resolved') }}" method="post">
+                                                            @csrf
+                                                            <input type="hidden" name="verifiedBy" value="1">
+                                                            <input type="hidden" name="id" value="{{ $mytask->taskid }}">
+                                                            <button type="submit" disabled><i class="fa fa-fw fa-thumbs-up"></i></button>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <form action="{{ route('resolved') }}" method="post">
+                                                            @csrf
+                                                            <input type="hidden" name="verifiedBy" value="2">
+                                                            <input type="hidden" name="id" value="{{ $mytask->taskid }}">
+                                                            <button type="submit"><i class="fa fa-fw fa-person-running"></i></button>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <form action="{{ route('resolved') }}" method="post">
+                                                            @csrf
+                                                            <input type="hidden" name="verifiedBy" value="0">
+                                                            <input type="hidden" name="id" value="{{ $mytask->taskid }}">
+                                                            <button type="submit"><i class="fa fa-fw fa-thumbs-down"></i></button>
+                                                        </form>
+                                                    </div>
+
+                                                </div>
+                                                    <?php
+                                            }
+                                            else if($mytask->isresolved==2)
+                                            {
+                                                ?>
+
+                                                    <div class="row">
+                                                        <div class="col-md-1">
+                                                            <form class="form-inline" action="{{ route('resolved') }}" method="post">
+                                                                @csrf
+                                                                <input type="hidden" name="verifiedBy" value="1">
+                                                                <input type="hidden" name="id" value="{{ $mytask->taskid }}">
+                                                                <button type="submit"><i class="fa fa-fw fa-thumbs-up"></i></button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <form action="{{ route('resolved') }}" method="post">
+                                                                @csrf
+                                                                <input type="hidden" name="verifiedBy" value="2">
+                                                                <input type="hidden" name="id" value="{{ $mytask->taskid }}">
+                                                                <button type="submit" disabled><i class="fa fa-fw fa-person-running"></i></button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <form action="{{ route('resolved') }}" method="post">
+                                                                @csrf
+                                                                <input type="hidden" name="verifiedBy" value="0">
+                                                                <input type="hidden" name="id" value="{{ $mytask->taskid }}">
+                                                                <button type="submit"><i class="fa fa-fw fa-thumbs-down"></i></button>
+                                                            </form>
+                                                        </div>
+
+                                                    </div>
+
+                                                <?php
+
+                                            }
+                                            else if($mytask->isresolved==0)
+                                            {
+                                                ?>
+                                                    <div class="row">
+                                                        <div class="col-md-1">
+                                                            <form class="form-inline" action="{{ route('resolved') }}" method="post">
+                                                                @csrf
+                                                                <input type="hidden" name="verifiedBy" value="1">
+                                                                <input type="hidden" name="id" value="{{ $mytask->taskid }}">
+                                                                <button type="submit"><i class="fa fa-fw fa-thumbs-up"></i></button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <form action="{{ route('resolved') }}" method="post">
+                                                                @csrf
+                                                                <input type="hidden" name="verifiedBy" value="2">
+                                                                <input type="hidden" name="id" value="{{ $mytask->taskid }}">
+                                                                <button type="submit"><i class="fa fa-fw fa-person-running"></i></button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <form action="{{ route('resolved') }}" method="post">
+                                                                @csrf
+                                                                <input type="hidden" name="verifiedBy" value="0">
+                                                                <input type="hidden" name="id" value="{{ $mytask->taskid }}">
+                                                                <button type="submit" disabled><i class="fa fa-fw fa-thumbs-down"></i></button>
+                                                            </form>
+                                                        </div>
+
+                                                    </div>
+                                                <?php
 
                                             }else{
-                                                if($mytask->isverified==0)
-                                                {
-                                                    ?>
-                                                        <a href="{{route('tasksresolutions', ['id' => $mytask->resoid])}}" class="btn btn-xs btn-info" title="mark as resolved"><i class="fa fa-fw fa-check-circle"></i></a>
-                                                        
-                                                        <?php
-                                                }
-
-                                                if($mytask->isverified==1)
-                                                {
-                                                    echo "Yes";
-                                                }
-
-                                                if($mytask->isverified==2)
-                                                {
-                                                    ?>
-                                                        <a href="{{route('tasksresolutions', ['id' => $mytask->resoid])}}" title="mark as resolved"><span class="badge badge-warning"><i class="fa-solid fa-chart-bar"></i> Progress</span></a>
-                                                    <?php
-                                                }
+                                                ?>
+                                                <div class="row">
+                                                        <div class="col-md-1">
+                                                            <form class="form-inline" action="{{ route('resolved') }}" method="post">
+                                                                @csrf
+                                                                <input type="hidden" name="verifiedBy" value="1">
+                                                                <input type="hidden" name="id" value="{{ $mytask->taskid }}">
+                                                                <button type="submit"><i class="fa fa-fw fa-thumbs-up"></i></button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <form action="{{ route('resolved') }}" method="post">
+                                                                @csrf
+                                                                <input type="hidden" name="verifiedBy" value="2">
+                                                                <input type="hidden" name="id" value="{{ $mytask->taskid }}">
+                                                                <button type="submit"><i class="fa fa-fw fa-person-running"></i></button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <form action="{{ route('resolved') }}" method="post">
+                                                                @csrf
+                                                                <input type="hidden" name="verifiedBy" value="0">
+                                                                <input type="hidden" name="id" value="{{ $mytask->taskid }}">
+                                                                <button type="submit"><i class="fa fa-fw fa-thumbs-down"></i></button>
+                                                            </form>
+                                                        </div>
+                                                </div>
+                                                <?php
                                             }
                                         }else{
                                             ?>
-                                                @if ($mytask->isverified==1)
+                                                @if ($mytask->isresolved==1)
                                             
                                                         {{ "Yes" }}
                                                 @else
@@ -169,8 +251,48 @@
 
                                     ?>
                                 </td>
-                                <td>{{ $mytask->resodate }}</td>
+                                <td>{{ $mytask->datecreated }}</td>
                                 <td>
+                                    @can('responsethread')
+                                    <?php
+                                        if($mytask->isresolved==0)
+                                        {
+                                            if ($mytask->resolutionDetails==NULL) {
+                                                ?>
+                                                <?php
+                                            }else{
+                                                ?>
+                                                        <a href="{{route('responsethread', ['id' => $mytask->taskid,'taskby'=>$mytask->taskBy])}}" class="btn btn-xs btn-success" title="thread response"><i class="fa fa-fw fa-comment"></i><i class="fa fa-fw fa-users"></i></a>
+                                                <?php
+                                            }
+                                        }else{
+                                            
+                                               
+                                        }
+                                    ?>
+                                    @endcan
+                                    <?php
+                                    if($mytask->isresolved==0)
+                                    {
+                                        if ($mytask->resolutionDetails==null) {
+                                            ?>
+                                                <a href="{{ route('respond', ['id' => $mytask->taskid])  }}" class="btn btn-info btn-xs"><i class="fa-solid fa-reply"></i></a>
+                                                <?php
+                                        }else{
+                                            ?>
+                                            
+                                                {{-- <a href="{{route('editmyresponse', ['id' => $mytask->taskid])}}" title="Edit response"><i class="fa fa-fw fa-edit"></i>{{ $mytask->resolutionDetails }}</a> --}}
+                                                {{-- <a href="#" title="Edit response"><i class="fa fa-fw fa-edit"></i>{{ $mytask->resolutionDetails }}</a> --}}
+                                            <?php
+                                        }
+                                    }else{
+                                        
+                                        // echo $mytask->resolutionDetails;
+
+                                        
+                                    }    
+
+                                ?> 
                                     @can('deletetask')
                                         <a href="{{ route('destroy', $mytask->taskid) }}" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i></a>
                                     @endcan
@@ -185,7 +307,6 @@
                             <th>Task Detail</th>
                             <th>Program</th>
                             <th>Source</th>
-                            <th>Response</th>
                             <th>Resolved</th>
                             <th>Created@</th>
                             <th><i class="fa fa-fw fa-cog"></i></th>

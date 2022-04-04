@@ -36,53 +36,61 @@
                      swal("Oops","Something is wrong I cant Identify","error");
                  </script>
                 @endif
-
-                <table id="list" class="table table-striped table-hover table-bordered" style="width:100%">
-                    <thead >
-                        <tr style='font-size: 8pt;'>
-                            <th>Task</th>
-                            <th>Program</th>
-                            <th>Tasked to</th>
-                            <th>Resolved</th>
-                            <th>Created@</th>
+                 <div class="table-responsive">
+                     <table id="list" class="table table-striped table-hover table-bordered" style="width:100%">
+                        <thead >
+                            <tr style='font-size: 8pt; font-weight: bolder;'>
+                                <th style='font-size: 8pt; font-weight: bolder;'>Program</th>
+                            <th style='font-size: 8pt; font-weight: bolder;'>Task</th>
+                            <th style='font-size: 8pt; font-weight: bolder;'>Tasked to</th>
+                            <th style='font-size: 8pt; font-weight: bolder;'>Resolved</th>
+                            <th style='font-size: 8pt; font-weight: bolder;'>Created@</th>
                             <th><i class="fa fa-fw fa-cog"></i></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($tasks as $task)
-                            <tr>
-                                <td><a href="#" title="Update task"></i>{{ $task->taskDetail }}</a></td>
-                                <td>{{ $task->shortName }}</a></td>
-                                <td>{{ $task->name}}</td>
-                                <td>
-                                    @if ($task->verifiedBy == 0)
-                                        {{ "NO" }}
-                                    @else
-                                        <span><i class="fa fa-fw fa-circle-check"></i>YES</span>    
-                                    @endif
-                                </td>
-                                <td>{{ $task->resodate }}</td>
-                                <td>
-                                    <a href="{{route('tasksresolutions', ['id' => $task->resoid])}}" class="btn btn-info"><i class="fa-solid fa-reply"></i></a>
-
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>{{ $task->shortName }}</a></td>
+                            <td><a href="#" title="Update task"></i>{{ $task->taskDetail }}</a></td>
+                            <td>{{ $task->name}}</td>
+                            <td>
+                                @if ($task->taskResolved == 0)
+                                    <span class="badge badge-danger text-white"><i class="fa-solid fa-circle-xmark"></i> No</span>    
+                                @endif
+                                @if ($task->taskResolved == 1)
+                                    <span class="badge badge-success text-white"><i class="fa fa-fw fa-check-circle"></i>Yes</span>    
+                                @endif
+                                @if ($task->taskResolved == 2)
+                                    <span class="badge badge-warning text-white"><i class="fa fa-fw fa-flag"></i>Progress</span>
+                                @endif
+                            </td>
+                            <td>{{ $task->assignmentdate }}</td>
+                            <td>
+                                @if ($task->resolutionDetails==null)
+                                {{ $task->name}} is not responding.
+                                @else
+                                    <a href="{{route('tasksresolutions', ['assignmentid'=>$task->taskID,'taskto'=>$task->taskedTo])}}" class="btn btn-info"><i class="fa-solid fa-reply"></i></a>
+                                @endif
+                            </td>
+                        </tr>
                         @endforeach
                     </tbody>
                     <tfoot style='font-size: 8pt;'>
                         <tr>
-                            <th>Task</th>
-                            <th>Program</th>
-                            <th>Task to</th>
-                            <th>Resolved</th>
-                            <th>Created@</th>
+                            <th style='font-size: 8pt; font-weight: bolder;'>Task</th>
+                            <th style='font-size: 8pt; font-weight: bolder;'>Program</th>
+                            <th style='font-size: 8pt; font-weight: bolder;'>Task to</th>
+                            <th style='font-size: 8pt; font-weight: bolder;'>Resolved</th>
+                            <th style='font-size: 8pt; font-weight: bolder;'>Created@</th>
                             <th><i class="fa fa-fw fa-cog"></i></th>
                         </tr>
                     </tfoot>
                 </table>
             </div>
+            </div>
         </div><!--end of card-->
-      </div>
+    </div>
     </div>
 </div>
 @endsection

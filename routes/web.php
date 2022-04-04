@@ -180,17 +180,20 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         });
 
         Route::controller(TaskResolutionController::class)->group(function () {
+
+            Route::get('/responsethread/{id}/{taskby}','responsethread')->name('responsethread');
             Route::get('/task.edittaskdetail/{id}','editmytask')->name('editmytask');
             Route::post('/savetaskchanges','savetaskchanges')->name('savetaskchanges');
             Route::get('/task.editreponse/{id}','editmyresponse')->name('editmyresponse');
             Route::post('/saveresponse','saveresponse')->name('saveresponse');
             Route::get('/mystasks', 'mytasks')->name('mytasks');
             Route::get('/program.add', 'create')->name('program.add');
-            Route::get('/tasksresolutions/{id}', 'responses')->name('tasksresolutions');
+            Route::get('/tasksresolutions/{assignmentid}/{taskto}', 'responses')->name('tasksresolutions');
             Route::get('/respond/{id}', 'respond')->name('respond');
             Route::get('/markasresolved/{id}', 'markasresolved')->name('markasresolved');
             Route::post('/resolved', 'resolved')->name('resolved');
             Route::post('/saverespond', 'saverespond')->name('saverespond');
+            Route::post('/savethreadrespond', 'savethreadrespond')->name('savethreadrespond');
         });
         
         Route::controller(TaskAssignmentController::class)->group(function(){
