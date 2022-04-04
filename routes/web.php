@@ -24,6 +24,17 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         /**
          * Register Routes
          */
+        Route::get('/down', function()
+        {
+            exec('php artisan down');
+            echo 'success';
+        });
+        Route::get('/up', function()
+        {
+            exec('php artisan up');
+            echo 'success';
+        });
+
         Route::get('/clear',function(){
             Artisan::call('config:cache');
         });
