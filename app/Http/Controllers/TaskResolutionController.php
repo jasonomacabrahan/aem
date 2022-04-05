@@ -53,10 +53,12 @@ class TaskResolutionController extends Controller
         ->get(['evidences.*','programs.*', 'task_assignments.*','task_assignments.id AS taskID','task_resolutions.*','task_resolutions.id as resoid','users.*','task_resolutions.created_at as resodate','users.name as fullname']);
         $verifiedby = "";
         $resoid = "";
+        $taskresolved = "";
         foreach($responses as $r)
         {
             $resoid = $r->resoid;
             $verifiedby = $r->verifiedBy;
+            $taskresolved = $r->taskResolved;
         }
         $evidence = Evidences::where('task_id',$resoid)
                     ->get();
@@ -66,6 +68,7 @@ class TaskResolutionController extends Controller
                                             'assignmentid'=>$assignmentid,
                                             'verifiedby'=>$verifiedby,
                                             'evidence'=>$evidence,
+                                            'taskresolved'=>$taskresolved,
                                         ]);
         
     }
