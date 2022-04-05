@@ -69,7 +69,7 @@
                         <select name="users[]" id="users-select" class="form-control border-info rounded-0"  multiple required>
                             @foreach ($users as $user)
                                   @if ($user->name == auth()->user()->name)
-                                      <option style="display:none;" hidden value="<?php echo $user->id; ?>"><?php if($user->name==auth()->user()->name){ echo strtoupper($user->name).'(me)'; }else{ echo strtoupper($user->name).'('.$user->designation.')'; }?></option>
+                                      <option value="{{ $user->id }}"><?php if($user->name==auth()->user()->name){ echo strtoupper($user->name).'(me)'; }else{ echo strtoupper($user->name).'('.$user->designation.')'; }?></option>
                                   @else
                                       <option value="{{ $user->id }}">{{ $user->name }}</option>
                                   @endif  
