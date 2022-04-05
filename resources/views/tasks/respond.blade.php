@@ -69,7 +69,6 @@
 
                       <div class="btn-file input-group hdtuto control-group lst increment rounded-0" >
                         <input type="file" name="name[]" class="myfrm form-control">
-                        
                       </div>
 
                       
