@@ -259,7 +259,7 @@
                                         {
                                             if ($mytask->resolutionDetails==NULL) {
                                                 ?>
-                                                    <a href="{{route('responsethread', ['id' => $mytask->taskid,'taskby'=>$mytask->taskBy])}}" class="btn btn-xs btn-success" title="thread response"><i class="fa fa-fw fa-comment"></i><i class="fa fa-fw fa-users"></i></a>
+                                                    {{-- <a href="{{route('responsethread', ['id' => $mytask->taskid,'taskby'=>$mytask->taskBy])}}" class="btn btn-xs btn-success" title="thread response"><i class="fa fa-fw fa-comment"></i><i class="fa fa-fw fa-users"></i></a> --}}
                                                     <?php
                                             }else{
                                                 ?>

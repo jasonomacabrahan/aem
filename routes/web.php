@@ -193,6 +193,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         Route::controller(TaskResolutionController::class)->group(function () {
 
             Route::get('/responsethread/{id}/{taskby}','responsethread')->name('responsethread');
+            Route::get('/deletemymessage/{id}','deletemymessage')->name('deletemymessage');
             Route::get('/task.edittaskdetail/{id}','editmytask')->name('editmytask');
             Route::post('/savetaskchanges','savetaskchanges')->name('savetaskchanges');
             Route::get('/task.editreponse/{id}','editmyresponse')->name('editmyresponse');
