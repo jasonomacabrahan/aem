@@ -115,8 +115,8 @@
                             ?>
                             </ul>
                         </div><!--end of card-->
-    </div>
-</div>
+    
+
                         <?php
                             if($isresolved==0){
                                 ?>
@@ -188,7 +188,7 @@
                                 <?php
                             }
                         ?>
-                        </div>
+
 <div class="row">
     <div class="col-md-12" >
           <div class="card">

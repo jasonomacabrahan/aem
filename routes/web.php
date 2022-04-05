@@ -24,6 +24,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         /**
          * Register Routes
          */
+        Route::get('checknull','TaskResolutionController@checknull');
+        Route::get('overrideelete/{id}','TaskResolutionController@overrideelete')->name('delete');
         Route::get('/down', function()
         {
             exec('php artisan down');
