@@ -259,15 +259,17 @@
                                         {
                                             if ($mytask->resolutionDetails==NULL) {
                                                 ?>
-                                                <?php
+                                                    <a href="{{route('responsethread', ['id' => $mytask->taskid,'taskby'=>$mytask->taskBy])}}" class="btn btn-xs btn-success" title="thread response"><i class="fa fa-fw fa-comment"></i><i class="fa fa-fw fa-users"></i></a>
+                                                    <?php
                                             }else{
                                                 ?>
                                                         <a href="{{route('responsethread', ['id' => $mytask->taskid,'taskby'=>$mytask->taskBy])}}" class="btn btn-xs btn-success" title="thread response"><i class="fa fa-fw fa-comment"></i><i class="fa fa-fw fa-users"></i></a>
-                                                <?php
+                                                        <?php
                                             }
                                         }else{
-                                            
-                                               
+                                            ?>
+                                            <a href="{{route('responsethread', ['id' => $mytask->taskid,'taskby'=>$mytask->taskBy])}}" class="btn btn-xs btn-success" title="thread response"><i class="fa fa-fw fa-comment"></i><i class="fa fa-fw fa-users"></i></a>
+                                            <?php 
                                         }
                                     ?>
                                     @endcan
