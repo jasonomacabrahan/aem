@@ -253,48 +253,12 @@
                                 </td>
                                 <td>{{ $mytask->datecreated }}</td>
                                 <td>
-                                    @can('responsethread')
-                                    <?php
-                                        if($mytask->isresolved==0)
-                                        {
-                                            if ($mytask->resolutionDetails==NULL) {
-                                                ?>
-                                                    {{-- <a href="{{route('responsethread', ['id' => $mytask->taskid,'taskby'=>$mytask->taskBy])}}" class="btn btn-xs btn-success" title="thread response"><i class="fa fa-fw fa-comment"></i><i class="fa fa-fw fa-users"></i></a> --}}
-                                                    <?php
-                                            }else{
-                                                ?>
-                                                        <a href="{{route('responsethread', ['id' => $mytask->taskid,'taskby'=>$mytask->taskBy])}}" class="btn btn-xs btn-success" title="thread response"><i class="fa fa-fw fa-comment"></i><i class="fa fa-fw fa-users"></i></a>
-                                                        <?php
-                                            }
-                                        }else{
-                                            ?>
+                                     @if ($mytask->resolutionDetails==null)
+                                            <a href="{{ route('respond', ['id' => $mytask->taskid])  }}" class="btn btn-info btn-xs"><i class="fa-solid fa-reply"></i></a>
+                                     @else
                                             <a href="{{route('responsethread', ['id' => $mytask->taskid,'taskby'=>$mytask->taskBy])}}" class="btn btn-xs btn-success" title="thread response"><i class="fa fa-fw fa-comment"></i><i class="fa fa-fw fa-users"></i></a>
-                                            <?php 
-                                        }
-                                    ?>
-                                    @endcan
-                                    <?php
-                                    if($mytask->isresolved==0)
-                                    {
-                                        if ($mytask->resolutionDetails==null) {
-                                            ?>
-                                                <a href="{{ route('respond', ['id' => $mytask->taskid])  }}" class="btn btn-info btn-xs"><i class="fa-solid fa-reply"></i></a>
-                                                <?php
-                                        }else{
-                                            ?>
-                                            
-                                                {{-- <a href="{{route('editmyresponse', ['id' => $mytask->taskid])}}" title="Edit response"><i class="fa fa-fw fa-edit"></i>{{ $mytask->resolutionDetails }}</a> --}}
-                                                {{-- <a href="#" title="Edit response"><i class="fa fa-fw fa-edit"></i>{{ $mytask->resolutionDetails }}</a> --}}
-                                            <?php
-                                        }
-                                    }else{
-                                        
-                                        // echo $mytask->resolutionDetails;
-
-                                        
-                                    }    
-
-                                ?> 
+                                     @endif
+                                     
                                     @can('deletetask')
                                         <a href="{{ route('destroy', $mytask->taskid) }}" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i></a>
                                     @endcan

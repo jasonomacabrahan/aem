@@ -37,6 +37,14 @@ class TaskResolutionController extends Controller
                 return view('tasks.resolution', ['responses'=>$responses]);
     }
 
+    public function checknull()
+    {
+        $responses = TaskResolution::where('resolutionDetails', '=', '')
+                                    ->orWhereNull('resolutionDetails')
+                                    ->get();
+        return view('tasks.checknull',['responses'=>$responses]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -153,6 +161,12 @@ class TaskResolutionController extends Controller
                     ->with('delete', 'Some Event');
     }
 
+    public function overrideelete($id)
+    {
+        TaskResolution::where('id',$id)->delete();
+        return redirect()->back();
+    }
+
 
     
         /**
@@ -171,7 +185,7 @@ class TaskResolutionController extends Controller
         ->groupBy('task_assignments.id')
         ->orderBy('task_assignments.id', 'desc')
         ->get(['programs.*','task_resolutions.*','users.name AS thesource','task_assignments.id as taskid','task_assignments.taskResolved as isresolved','task_assignments.created_at AS datecreated','task_assignments.*','users.*']);
-        // dd($mytasks);
+         //dd($mytasks);
         return view('tasks.mytasks', ['mytasks'=>$mytasks]);
     }
 
