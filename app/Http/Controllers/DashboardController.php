@@ -29,7 +29,9 @@ class DashboardController extends Controller
 
         $taskprogress = TaskAssignment::join('task_resolutions','task_resolutions.taskAssignmentID','=','task_assignments.id')
                                 ->where('task_resolutions.userID',auth()->user()->id)
+                                ->where('task_assignments.taskedTo',auth()->user()->id)
                                 ->where('task_assignments.taskResolved',2)
+                                ->groupby('task_assignments.taskDetail')
                                 ->paginate(5)->appends($request->query());
 
         $user = User::join('roles','roles.id','=','users.role_id')

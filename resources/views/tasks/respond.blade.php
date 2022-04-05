@@ -62,20 +62,30 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-11 pr-1">
-                      @error('name')
-                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                      @enderror
+                  <div class="col-md-11 pr-1">
+                    @error('name')
+                              <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                    @enderror
 
-                      <div class="btn-file input-group hdtuto control-group lst increment rounded-0" >
-                        <input type="file" name="name[]" class="myfrm form-control">
+                    <div class="btn-file input-group hdtuto control-group lst increment rounded-0" >
+                      <input type="file" name="name[]" class="myfrm form-control">
+                      <div class="input-group-btn  rounded-0"> 
+                        <button class="btn btn-success" type="button"><i class="fldemo fa fa-fw fa-plus"></i></button>
                       </div>
-
-                      
-
-                      
                     </div>
-                </div>
+
+                    <div class="clone hide">
+                      <div class="hdtuto control-group lst input-group" style="margin-top:10px">
+                        <input type="file" name="name[]" class="myfrm form-control">
+                        <div class="input-group-btn"> 
+                          <button class="btn btn-danger" type="button"><i class="fldemo fa fa-fw fa-x"></i></button>
+                        </div>
+                      </div>
+                    </div>
+
+                    
+                  </div>
+              </div>
                 <button type="submit" class="btn btn-info"><i class="fa fa-fw fa-paper-plane"></i> Submit  </button>
             </form>
             </div>
