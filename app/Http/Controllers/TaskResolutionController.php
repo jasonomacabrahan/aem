@@ -146,6 +146,13 @@ class TaskResolutionController extends Controller
                     ->with('success', 'Some Event');
     }
 
+    public function deletemymessage($id)
+    {
+        TaskResolution::where('id',$id)->delete();
+        return redirect()->back()
+                    ->with('delete', 'Some Event');
+    }
+
 
     
         /**

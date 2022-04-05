@@ -36,47 +36,88 @@
                 @endif
                 <ul class="list-group">
                     @foreach($responses as $response)@endforeach
-                        @if ($taskresolved==0)
-                            <li class="list-group-item">
-                                <strong>Resolved?</strong>
-                                <div class="row">
-                                    <div class="col-md-1">
-                                            <form class="form-inline" action="{{ route('resolved') }}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="verifiedBy" value="1">
-                                                <input type="hidden" name="id" value="{{ $assignmentid }}">
-                                                <button class="btn  btn-block btn-success" type="submit">YES</button>
-                                            </form>
+                        <?php
+                            if($taskresolved==0){
+                                ?>
+                                    <li class="list-group-item">
+                                        <strong>Resolved?</strong>
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                    <form class="form-inline" action="{{ route('resolved') }}" method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="verifiedBy" value="1">
+                                                        <input type="hidden" name="id" value="{{ $assignmentid }}">
+                                                        <button class="btn  btn-block btn-success" type="submit">YES</button>
+                                                    </form>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <form action="{{ route('resolved') }}" method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="verifiedBy" value="2">
+                                                        <input type="hidden" name="id" value="{{ $assignmentid }}">
+                                                        <button class="btn  btn-block btn-success" type="submit">Progress</button>
+                                                    </form>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <form action="{{ route('resolved') }}" method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="verifiedBy" value="0">
+                                                        <input type="hidden" name="id" value="{{ $assignmentid }}">
+                                                        <button class="btn btn-block btn-success" type="submit">NO</button>
+                                                    </form>
+                                                </div>
                                         </div>
-                                        <div class="col-md-2">
-                                            <form action="{{ route('resolved') }}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="verifiedBy" value="2">
-                                                <input type="hidden" name="id" value="{{ $assignmentid }}">
-                                                <button class="btn  btn-block btn-success" type="submit">Progress</button>
-                                            </form>
-                                        </div>
+                                    </div>
+                                </li>
+                                <?php
+                            }
+                            elseif($taskresolved==2)
+                            {
+                                ?>
+                               
+                                <li class="list-group-item">
+                                    <strong>Resolved?</strong>
+                                    <div class="row">
                                         <div class="col-md-1">
-                                            <form action="{{ route('resolved') }}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="verifiedBy" value="0">
-                                                <input type="hidden" name="id" value="{{ $assignmentid }}">
-                                                <button class="btn btn-block btn-success" type="submit">NO</button>
-                                            </form>
-                                        </div>
+                                                <form class="form-inline" action="{{ route('resolved') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="verifiedBy" value="1">
+                                                    <input type="hidden" name="id" value="{{ $assignmentid }}">
+                                                    <button class="btn  btn-block btn-success" type="submit">YES</button>
+                                                </form>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <form action="{{ route('resolved') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="verifiedBy" value="2">
+                                                    <input type="hidden" name="id" value="{{ $assignmentid }}">
+                                                    <button class="btn  btn-block btn-success" type="submit">Progress</button>
+                                                </form>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <form action="{{ route('resolved') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="verifiedBy" value="0">
+                                                    <input type="hidden" name="id" value="{{ $assignmentid }}">
+                                                    <button class="btn btn-block btn-success" type="submit">NO</button>
+                                                </form>
+                                            </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        @else
-                        <li class="list-group-item active">You cannot respond to this thread anymore...</li>
-                       
-                        @endif    
+                            </li>
+                                <?php
+                            }else{
+                                ?>
+                                    <li class="list-group-item active">You cannot respond to this thread anymore...</li>
+                                <?php
+                            }
+                        ?>
                     </ul>
                     
                 
             </div><!--end of card-->
         </div>
-        
+</div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
