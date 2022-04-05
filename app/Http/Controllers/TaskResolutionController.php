@@ -98,11 +98,11 @@ class TaskResolutionController extends Controller
         ->where('task_assignments.taskBy','=',$taskby)
         ->where('task_resolutions.taskAssignmentID','=',$id)
         ->orderBy('task_resolutions.id', 'desc')
+        ->groupBy('resolutionDetails')
         ->get(['task_assignments.id as taskid','task_resolutions.id as resoid','task_assignments.*','task_resolutions.*','evidences.*']);
         $resolution = TaskResolution::where('taskAssignmentID',$id)
                         ->where('userID',$taskby)
                         ->get();
-                        
                         
         $resoid = "";
         $assignmentid = "";
@@ -116,6 +116,7 @@ class TaskResolutionController extends Controller
         $evidence = Evidences::where('task_id',$resoid)
                     ->get();
     
+        // dd($responses);            
         return view('tasks.responsethread', [
                                                 'responses'=>$responses,
                                                 'assignmentid'=>$assignmentid,
@@ -183,7 +184,7 @@ class TaskResolutionController extends Controller
         ->leftjoin('programs','programs.id','=','task_assignments.papID')
         ->where('task_assignments.taskedTo','=',$id)
         ->groupBy('task_assignments.id')
-        ->orderBy('task_assignments.id', 'desc')
+        ->orderBy('task_assignments.created_at', 'asc')
         ->get(['programs.*','task_resolutions.*','users.name AS thesource','task_assignments.id as taskid','task_assignments.taskResolved as isresolved','task_assignments.created_at AS datecreated','task_assignments.*','users.*']);
          //dd($mytasks);
         return view('tasks.mytasks', ['mytasks'=>$mytasks]);

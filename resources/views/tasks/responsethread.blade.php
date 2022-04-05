@@ -19,6 +19,15 @@
                   {{-- <a href="tasks.resolutions/{{ auth()->user()->id  }}" class="btn btn-success"><i class="fas fa-plus-circle"></i> New response </a> --}}
                 </div>
               <div class="card-body">
+                <div class="form-group">
+                    @foreach ($responses as $det)
+                        
+                    @endforeach
+                    <ul>
+                      <li><strong>Task:</strong> {{ $det->taskDetail }}</li>
+                      <li><strong>Date Created:</strong>  {{ $det->created_at }}</li>
+                    </ul>
+                </div>
                   <style>
                       table,th,td,tr,thead{
                           font-size: 10pt;!important;
@@ -208,53 +217,28 @@
                  @endif
                  
                     <div class="col-md-12">
-                        <div class="form-group">
-                            {{-- <ul>
-                              <li><strong>Task:</strong> {{ $responses->taskDetail }}</li>
-                              <li><strong>Project</strong> {{ $responses->shortName }}</li>
-                              <li><strong>Date Created:</strong>  {{ $responses->created_at }}</li>
-                            </ul> --}}
-                        </div>
+                        
                         @foreach ($responses as $item)
+                                
                             @if ($item->userID==auth()->user()->id)
                             <div class="row">
                                 <div class="col-md-9">
 
                                 </div>
+                                
                                 <div class="col-md-9">
                                     <blockquote class="blockquote alert alert-info rounded-0">
-                                        <a href="{{route('deletemymessage', ['id' => $item->resoid])}}" class="float-right"><i class="fa fa-fw fa-trash fa-xs"></i></a>
+                                        {{-- <a href="{{route('deletemymessage', ['id' => $item->resoid])}}" class="float-right"><i class="fa fa-fw fa-trash fa-xs"></i></a> --}}
                                         <p class="mb-0">{{ $item->resolutionDetails}}</p>
-                                        @if ($item->path==null)
                                             
-                                        @else
-                                        <span style="font-size: 8pt;">Attachment Available:</span> 
-                                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-xl" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Attachment</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <img src="{{asset('images')}}/{{ $item->path}}">
-                                                    <a href="{{asset('images')}}/{{ $item->path}}" target="_blank"><i class="fa fa-fw fa-download"></i>Download</a>
-                                                </div>
-                                                <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
-
-                                            <a href="javacript:void(0)"data-toggle="modal" data-target="#exampleModal">
-                                                <i class="fas fa-image"></i>
-                                            </a>
+                                            @if (empty($item->path))
                                             
-                                            
-                                        @endif
+                                            @else
+                                                @foreach ($evidence as $item)
+                                                    <a href="{{asset('images')}}/{{ $item->path}}" class="badge badge-success text-white" target="_blank"><img src="{{asset('images')}}/{{ $item->path}}" alt="" class="img-thumbnail" width="200"></a>
+                                                @endforeach
+                                            @endif
+                                        
                                         
                                         <footer class="blockquote-footer  text-white">{{ auth()->user()->name }} | <cite title="">{{ $item->created_at}}</cite></footer>
                                     </blockquote>
@@ -265,37 +249,9 @@
                                     <div class="col-md-9">
                                         <blockquote class="blockquote rounded-0">
                                             <p class="mb-0">{{ $item->resolutionDetails}}</p>
-                                            @if ($item->path==null)
-                                            
-                                            @else
-                                                <span>Attachment Available:</span>
-                                               
-                                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog modal-xl" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">Attachment</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <img src="{{asset('images')}}/{{ $item->path}}">
-                                                            <a href="{{asset('images')}}/{{ $item->path}}" target="_blank"><i class="fa fa-fw fa-download"></i>Download</a>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        </div>
-                                                    </div>
-                                                    </div>
-                                                </div>
-        
-                                                    <a href="javacript:void(0)"data-toggle="modal" data-target="#exampleModal">
-                                                        <i class="fas fa-image"></i>
-                                                    </a>
-                                                
-                                                
-                                            @endif
+                                            @foreach ($responses as $ev)
+                                                <a href="{{asset('images')}}/{{ $ev->path}}" class="badge badge-success text-white" target="_blank">{{ $ev->path}}</a><br>
+                                            @endforeach
                                             <footer class="blockquote-footer">{{ $item->userID }} | <cite title="">{{ $item->created_at}}</cite></footer>
                                         </blockquote>
                                     </div>
