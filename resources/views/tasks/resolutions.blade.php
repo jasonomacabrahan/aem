@@ -10,8 +10,6 @@
 
   </div>
 <div class="container-fluid">
-    
-
     <div class="row">
       <div class="col-md-12">
           <div class="card">
@@ -26,11 +24,10 @@
                     }
                 </style>
                  @if ($message = Session::get('success'))
-                 <script>
+                <script>
                      swal("Success","response Addedd","success");
-                     </script>
+                </script>
                 @endif
-                
                 
                 @if ($message = Session::get('error'))
                 <script>
@@ -39,7 +36,7 @@
                 @endif
                 <ul class="list-group">
                     @foreach($responses as $response)@endforeach
-                        @if ($verifiedby==0)
+                        @if ($taskresolved==0)
                             <li class="list-group-item">
                                 <strong>Resolved?</strong>
                                 <div class="row">
@@ -71,12 +68,12 @@
                             </div>
                         </li>
                         @else
-                        {{-- <li class="list-group-item active"><a href="{{ route('markasresolved', ['id' => $response->resoid]) }}" class="btn btn-xs btn-success"><i class="fa fa-fw fa-thumbs-up"></i>Yes</a></li> --}}
-                        <a href="#" class="btn btn-success"><i class="fa fa-fw fa-check-circle"></i></a>
+                        <li class="list-group-item active">You cannot respond to this thread anymore...</li>
+                       
                         @endif    
                     </ul>
                     
-                </div>
+                
             </div><!--end of card-->
         </div>
         
@@ -202,10 +199,7 @@
             </div>
         </div>
       </div>
-
-
     </div>
-    
 </div>
 @endsection
 
