@@ -54,7 +54,7 @@
                                 <td>{{  $activityattendance->agency }}</td>
                                 <td>{{  $activityattendance->division }}</td>
                                 <td>{{ $activityattendance->registrationDate }}</td>
-                                <td>{{ $activityattendance->created_at }}</td>
+                                <td>{{ $activityattendance->attendancedate }}</td>
                             </tr>
                         @endforeach
                     </tbody>

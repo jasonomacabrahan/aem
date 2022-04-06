@@ -30,6 +30,13 @@
                  </script>
                 @endif
 
+                @if ($message = Session::get('indexsuccess'))
+                 <script>
+                     swal("Success","New Activity Added","success");
+                 </script>
+                @endif
+
+
 
                 @if ($message = Session::get('error'))
                  <script>
