@@ -16,19 +16,30 @@
           <div class="card">
               <div class="card-header">
                 <h2><i class="fa fa-fw fa-th-list"></i>My Tasks Assignments</h2>
-                @can('assign_task')
-                <a href="{{ route('taskform') }}" class="btn btn-info"><i class="fa fa-fw fa-plus"></i>New Task</a>
+                @can('createmytask')
+                    <a href="{{ route('addmytask') }}" class="btn btn-info"><i class="fa fa-fw fa-plus"></i>Create My Task</a>
                 @endcan
+
+                {{-- @can('assign_task')
+                    <a href="{{ route('taskform') }}" class="btn btn-info"><i class="fa fa-fw fa-plus"></i>New Task</a>
+                @endcan --}}
             </div>
             <div class="card-body">
+                
                 <style>
                     table,th,td,tr,thead{
                         font-size: 10pt;!important;
                     }
                 </style>
+
                  @if ($message = Session::get('success'))
                  <script>
                      swal("Success","Response Added","success");
+                 </script>
+                @endif
+                 @if ($message = Session::get('createsuccess'))
+                 <script>
+                     swal("Success","Task Added","success");
                  </script>
                 @endif
 
@@ -96,7 +107,7 @@
                                         $source = $mytask->thesource; 
                                         $user = auth()->user()->name;
                                         if ($user==$source) {
-                                            echo $source;
+                                            echo $source.''.'<strong>(me)</strong>';
                                         }else{
                                             echo $source;
                                         }
@@ -111,100 +122,20 @@
                                         if ($user==$source) {
                                             if($mytask->isresolved==1){
                                                 ?>
-                                                <div class="row">
-                                                    <div class="col-md-1">
-                                                        <form class="form-inline" action="{{ route('resolved') }}" method="post">
-                                                            @csrf
-                                                            <input type="hidden" name="verifiedBy" value="1">
-                                                            <input type="hidden" name="id" value="{{ $mytask->taskid }}">
-                                                            <button type="submit" disabled><i class="fa fa-fw fa-thumbs-up"></i></button>
-                                                        </form>
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <form action="{{ route('resolved') }}" method="post">
-                                                            @csrf
-                                                            <input type="hidden" name="verifiedBy" value="2">
-                                                            <input type="hidden" name="id" value="{{ $mytask->taskid }}">
-                                                            <button type="submit"><i class="fa fa-fw fa-person-running"></i></button>
-                                                        </form>
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <form action="{{ route('resolved') }}" method="post">
-                                                            @csrf
-                                                            <input type="hidden" name="verifiedBy" value="0">
-                                                            <input type="hidden" name="id" value="{{ $mytask->taskid }}">
-                                                            <button type="submit"><i class="fa fa-fw fa-thumbs-down"></i></button>
-                                                        </form>
-                                                    </div>
-
-                                                </div>
-                                                    <?php
+                                                <label class="badge badge-success text-white">Yes</label>
+                                                <?php
                                             }
                                             else if($mytask->isresolved==2)
                                             {
                                                 ?>
-
-                                                    <div class="row">
-                                                        <div class="col-md-1">
-                                                            <form class="form-inline" action="{{ route('resolved') }}" method="post">
-                                                                @csrf
-                                                                <input type="hidden" name="verifiedBy" value="1">
-                                                                <input type="hidden" name="id" value="{{ $mytask->taskid }}">
-                                                                <button type="submit"><i class="fa fa-fw fa-thumbs-up"></i></button>
-                                                            </form>
-                                                        </div>
-                                                        <div class="col-md-1">
-                                                            <form action="{{ route('resolved') }}" method="post">
-                                                                @csrf
-                                                                <input type="hidden" name="verifiedBy" value="2">
-                                                                <input type="hidden" name="id" value="{{ $mytask->taskid }}">
-                                                                <button type="submit" disabled><i class="fa fa-fw fa-person-running"></i></button>
-                                                            </form>
-                                                        </div>
-                                                        <div class="col-md-1">
-                                                            <form action="{{ route('resolved') }}" method="post">
-                                                                @csrf
-                                                                <input type="hidden" name="verifiedBy" value="0">
-                                                                <input type="hidden" name="id" value="{{ $mytask->taskid }}">
-                                                                <button type="submit"><i class="fa fa-fw fa-thumbs-down"></i></button>
-                                                            </form>
-                                                        </div>
-
-                                                    </div>
-
+                                                <label class="badge badge-warning text-white">In Progress</label>
                                                 <?php
 
                                             }
                                             else if($mytask->isresolved==0)
                                             {
                                                 ?>
-                                                    <div class="row">
-                                                        <div class="col-md-1">
-                                                            <form class="form-inline" action="{{ route('resolved') }}" method="post">
-                                                                @csrf
-                                                                <input type="hidden" name="verifiedBy" value="1">
-                                                                <input type="hidden" name="id" value="{{ $mytask->taskid }}">
-                                                                <button type="submit"><i class="fa fa-fw fa-thumbs-up"></i></button>
-                                                            </form>
-                                                        </div>
-                                                        <div class="col-md-1">
-                                                            <form action="{{ route('resolved') }}" method="post">
-                                                                @csrf
-                                                                <input type="hidden" name="verifiedBy" value="2">
-                                                                <input type="hidden" name="id" value="{{ $mytask->taskid }}">
-                                                                <button type="submit"><i class="fa fa-fw fa-person-running"></i></button>
-                                                            </form>
-                                                        </div>
-                                                        <div class="col-md-1">
-                                                            <form action="{{ route('resolved') }}" method="post">
-                                                                @csrf
-                                                                <input type="hidden" name="verifiedBy" value="0">
-                                                                <input type="hidden" name="id" value="{{ $mytask->taskid }}">
-                                                                <button type="submit" disabled><i class="fa fa-fw fa-thumbs-down"></i></button>
-                                                            </form>
-                                                        </div>
-
-                                                    </div>
+                                                <label class="badge badge-danger text-white"><i class="fas fa-exclamation-circle"></i>No</label>    
                                                 <?php
 
                                             }else{

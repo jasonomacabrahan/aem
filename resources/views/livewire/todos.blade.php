@@ -18,7 +18,15 @@
                 @if ($task->taskedTo==auth()->user()->id AND $task->taskBy==auth()->user()->id)
                     <li class="list-group-item">{{ $task->taskDetail }}<a href="#" class="float-right" wire:click="delete({{ $task->id }})"><i class="fa fa-fw fa-trash"></i></a></li>
                 @else
-                    <li class="list-group-item">{{ $task->taskDetail }}</li>
+                    <li class="list-group-item">
+                                                {{ $task->taskDetail }} 
+                                                @php
+                                                    $data = App\Models\User::Select('name')->where('id',$task->taskBy)->get();
+                                                @endphp
+                                                @foreach($data as $element)
+                                                    <span style="" class="badge badge-info float-right">TASKED BY: {{ $element->name ?? '' }}</span>
+                                                @endforeach
+                    </li>
                 @endif
             @empty
                     <span class="badge badge-success">No task added...</span>

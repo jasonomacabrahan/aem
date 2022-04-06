@@ -83,7 +83,7 @@
                                       <li class="@if ($activePage == 'tasks') active @endif">
                                           <a href="{{ route('tasks.index') }}">
                                             <i class="now-ui-icons shopping_shop"></i>
-                                            <p> {{ __(" Tasks ") }} </p>
+                                            <p> {{ __(" Task Assignment") }} </p>
                                           </a>
                                       </li>
                                       @can('manuallyassignfocal')

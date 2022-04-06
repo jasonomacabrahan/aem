@@ -194,18 +194,11 @@
     $(document).ready(function() {
     
     var table = $('#list').DataTable( {
+      
     lengthChange: true,
     buttons: [
                 {
                   extend: "copy",
-                  className: "btn-sm btn-info"
-                },
-                {
-                  extend: "csv",
-                  className: "btn-sm btn-success"
-                },
-                {
-                  extend: "excel",
                   className: "btn-sm btn-info"
                 },
                 {
@@ -218,7 +211,8 @@
                   className: "btn-sm btn-info"
                 },
                   
-              ]
+              ],
+      "order": [[ 4, "desc" ]]
 
 } );
 

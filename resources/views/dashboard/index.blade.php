@@ -26,19 +26,20 @@
             </div>
         </div>
     </div>
-        <div class="row mt-4">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header bg-info">
-                        <h5 class="text-white fw-bolder"><i class="fa fa-fw fa-th-list"></i>Task(s)</h5>
+    @can('dashboardtask')
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <h5 class="text-white fw-bolder"><i class="fa fa-fw fa-th-list"></i>Task(s)</h5>
                     </div>
                     <div class="card-body">
                         @if (session()->has('message'))
                         <div class="alert alert-success">
                             {{ session('message') }}
                         </div>
-                    @endif
-                    @livewire('todos')
+                        @endif
+                        @livewire('todos')
                         
                     </div>
                     <div class="card-footer">
@@ -68,7 +69,7 @@
                     </div>
                     <div class="card-footer">
                         @if($taskprogress->total() > $taskprogress->perPage())
-                            {{$taskprogress->links()}}
+                        {{$taskprogress->links()}}
                         @endif
                     </div>
                 </div>
@@ -90,8 +91,8 @@
                                 <div class="alert alert-info">
                                     No task added
                                 </div>
-                            @endforelse
-                        </ul>
+                                @endforelse
+                            </ul>
                     </div>
                     <div class="card-footer">
                         @if($taskdone->total() > $taskdone->perPage())
@@ -99,8 +100,8 @@
                         @endif
                     </div>
                 </div>
-
-        </div>
+                
+            </div>
     </div>
         <div class="row mt-4">
             <div class="col-md-12">
@@ -115,6 +116,7 @@
             </div>
         </div>
     <div>
+        @endcan
 
     </div>
 </div>

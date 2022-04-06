@@ -38,26 +38,100 @@
                        swal("Success","response Addedd","success");
                   </script>
                   @endif
+
+                  @if ($message = Session::get('resolved'))
+                        <script>
+                            swal("Success","Successfully change your resolved status","success");
+                        </script>
+                  @endif
                   
                   @if ($message = Session::get('error'))
                   <script>
                       swal("Oops","Something is wrong I cant Identify","error");
                       </script>
                   @endif
-                  <ul class="list-group">
+                  
                       @foreach($responses as $response)@endforeach
-    <?php
-                            if($isresolved==0){
-                                ?>
-                                    <li class="list-group-item">
-                                        <strong>Resolved?</strong>
+                        @if ($response->taskBy==auth()->user()->id)
+                                <?php
+                                    if($isresolved==0){
+                                        ?>
+                                                <strong>Resolved?</strong>
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                            <form class="form-inline" action="{{ route('resolved') }}" method="post">
+                                                                @csrf
+                                                                <input type="hidden" name="verifiedBy" value="1">
+                                                                <input type="hidden" name="id" value="{{ $assignmentid }}">
+                                                                <button class="btn  btn-block btn-success" type="submit">YES</button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <form action="{{ route('resolved') }}" method="post">
+                                                                @csrf
+                                                                <input type="hidden" name="verifiedBy" value="2">
+                                                                <input type="hidden" name="id" value="{{ $assignmentid }}">
+                                                                <button class="btn  btn-block btn-success" type="submit">Progress</button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <form action="{{ route('resolved') }}" method="post">
+                                                                @csrf
+                                                                <input type="hidden" name="verifiedBy" value="0">
+                                                                <input type="hidden" name="id" value="{{ $assignmentid }}">
+                                                                <button class="btn btn-block btn-success" type="submit" disabled>NO</button>
+                                                            </form>
+                                                        </div>
+                                                </div>
+                                        <?php
+                                    }
+                                    elseif($isresolved==2)
+                                    {
+                                        ?>
+                                    
+                                    <strong>Resolved?</strong>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                                <form class="form-inline" action="{{ route('resolved') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="verifiedBy" value="1">
+                                                    <input type="hidden" name="id" value="{{ $assignmentid }}">
+                                                    <button class="btn  btn-block btn-success" type="submit">YES</button>
+                                                </form>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <form action="{{ route('resolved') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="verifiedBy" value="2">
+                                                    <input type="hidden" name="id" value="{{ $assignmentid }}">
+                                                    <button class="btn  btn-block btn-success" type="submit" disabled>Progress</button>
+                                                </form>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <form action="{{ route('resolved') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="verifiedBy" value="0">
+                                                    <input type="hidden" name="id" value="{{ $assignmentid }}">
+                                                    <button class="btn btn-block btn-success" type="submit">NO</button>
+                                                </form>
+                                            </div>
+                                    </div>
+                                        
+                                    
+                                        <?php
+                                    }else{
+                                        ?>
+                                            <div class="alert alert-info opacity-0.5">
+                                                You cannot respond to this task anymore...
+                                            </div>
+                                            <strong>Resolved?</strong>
                                         <div class="row">
                                             <div class="col-md-2">
                                                     <form class="form-inline" action="{{ route('resolved') }}" method="post">
                                                         @csrf
                                                         <input type="hidden" name="verifiedBy" value="1">
                                                         <input type="hidden" name="id" value="{{ $assignmentid }}">
-                                                        <button class="btn  btn-block btn-success" type="submit">YES</button>
+                                                        <button class="btn  btn-block btn-success" type="submit" disabled>YES</button>
                                                     </form>
                                                 </div>
                                                 <div class="col-md-2">
@@ -77,52 +151,13 @@
                                                     </form>
                                                 </div>
                                         </div>
-                                    </div>
-                                </li>
-                                <?php
-                            }
-                            elseif($isresolved==2)
-                            {
-                                ?>
-                               
-                                <li class="list-group-item">
-                                    <strong>Resolved?</strong>
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                                <form class="form-inline" action="{{ route('resolved') }}" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="verifiedBy" value="1">
-                                                    <input type="hidden" name="id" value="{{ $assignmentid }}">
-                                                    <button class="btn  btn-block btn-success" type="submit">YES</button>
-                                                </form>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <form action="{{ route('resolved') }}" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="verifiedBy" value="2">
-                                                    <input type="hidden" name="id" value="{{ $assignmentid }}">
-                                                    <button class="btn  btn-block btn-success" type="submit">Progress</button>
-                                                </form>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <form action="{{ route('resolved') }}" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="verifiedBy" value="0">
-                                                    <input type="hidden" name="id" value="{{ $assignmentid }}">
-                                                    <button class="btn btn-block btn-success" type="submit">NO</button>
-                                                </form>
-                                            </div>
-                                    </div>
-                                </div>
-                            </li>
-                                <?php
-                            }else{
-                                ?>
-                                    <li class="list-group-item active">You cannot respond to this thread anymore...</li>
-                                <?php
-                            }
-                            ?>
-                            </ul>
+                                        <?php
+                                    }
+                                    ?>
+                        @else
+                            
+                        @endif
+                  
                         </div><!--end of card-->
     
 
@@ -172,7 +207,7 @@
                                             <div class="form-group">
                                                 <label for="resolutionDetails" class="text-dark fw-bolder"><strong>{{__("Response:")}}</strong></label><br>
                                                 {{-- <input type="hidden" name="id" value="{{ $resoid }}"> --}}
-                                                <input type="hidden" name="taskAssignmentID" value="{{ $response->taskID }}">
+                                                <input type="hidden" name="taskAssignmentID" value="{{ $assignmentid }}">
                                                 <textarea class="form-control border border-info form-bordered" name="resolutionDetails" id="resolutionDetails" rows="20"></textarea>
                                                 @include('alerts.feedback', ['field' => 'resolutionDetails'])
                                             </div>
@@ -217,9 +252,7 @@
                  @endif
                  
                     <div class="col-md-12">
-                        
                         @foreach ($responses as $item)
-                                
                             @if ($item->userID==auth()->user()->id)
                             <div class="row">
                                 <div class="col-md-9">
@@ -234,9 +267,20 @@
                                             @if (empty($item->path))
                                             
                                             @else
-                                                @foreach ($evidence as $item)
-                                                    <a href="{{asset('images')}}/{{ $item->path}}" class="badge badge-success text-white" target="_blank"><img src="{{asset('images')}}/{{ $item->path}}" alt="" class="img-thumbnail" width="200"></a>
-                                                @endforeach
+                                                
+                                                @foreach ($evidence as $itemeid)
+                                                        @foreach ($itemeid as $items)
+                                                           @if ($item->task_id==$items->task_id)
+                                                                <a href="{{asset('images')}}/{{ $items->path}}" target="_blank">
+                                                                    <img src="{{asset('images')}}/{{ $items->path}}" alt="" class="img-thumbnail" width="200px">
+                                                                </a>
+                                                           @else
+                                                               
+                                                           @endif 
+                                                            
+                                                        @endforeach    
+                                                @endforeach                 
+                                                
                                             @endif
                                         
                                         
@@ -249,10 +293,34 @@
                                     <div class="col-md-9">
                                         <blockquote class="blockquote rounded-0">
                                             <p class="mb-0">{{ $item->resolutionDetails}}</p>
-                                            @foreach ($responses as $ev)
-                                                <a href="{{asset('images')}}/{{ $ev->path}}" class="badge badge-success text-white" target="_blank">{{ $ev->path}}</a><br>
-                                            @endforeach
-                                            <footer class="blockquote-footer">{{ $item->userID }} | <cite title="">{{ $item->created_at}}</cite></footer>
+                                            @if (empty($item->path))
+                                            
+                                            @else
+                                                
+                                                @foreach ($evidence as $itemeid)
+                                                        @foreach ($itemeid as $items)
+                                                           @if ($item->task_id==$items->task_id)
+                                                                
+                                                            <a href="{{asset('images')}}/{{ $items->path}}" target="_blank">
+                                                                <img src="{{asset('images')}}/{{ $items->path}}" alt="" class="img-thumbnail" width="200px">
+                                                            </a>
+                                                           @else
+                                                               
+                                                           @endif 
+                                                            
+                                                        @endforeach    
+                                                @endforeach                 
+                                                
+                                            @endif
+                                            <footer class="blockquote-footer">
+                                                @php
+                                                    $data = App\Models\User::Select('name')->where('id',$item->userID)->get();
+                                                @endphp
+                                                @foreach($data as $element)
+                                                    <span style="" class="badge badge-info"> {{ $element->name ?? '' }}</span>
+                                                @endforeach
+
+                                                | <cite title="">{{ $item->created_at}}</cite></footer>
                                         </blockquote>
                                     </div>
                                     <div class="col-md-9">
