@@ -15,7 +15,7 @@
       <div class="col-md-12">
           <div class="card">
               <div class="card-header">
-                <h2><i class="fa fa-fw fa-th-list"></i>Task Assignments</h2>
+                <h2><i class="fa fa-fw fa-th-list"></i>Task Assignment</h2>
                 <a href="{{ route('taskform')}}" class="btn btn-success"><i class="fas fa-plus-circle"></i> New Task </a>
               </div>
             <div class="card-body">
@@ -41,12 +41,12 @@
                         <thead >
                             <tr style='font-size: 8pt; font-weight: bolder;'>
                                 <th style='font-size: 8pt; font-weight: bolder;'>Program</th>
-                            <th style='font-size: 8pt; font-weight: bolder;'>Task</th>
-                            <th style='font-size: 8pt; font-weight: bolder;'>Tasked to</th>
-                            <th style='font-size: 8pt; font-weight: bolder;'>Resolved</th>
-                            <th style='font-size: 8pt; font-weight: bolder;'>Created@</th>
-                            <th><i class="fa fa-fw fa-cog"></i></th>
-                        </tr>
+                                <th style='font-size: 8pt; font-weight: bolder;'>Task</th>
+                                <th style='font-size: 8pt; font-weight: bolder;'>Tasked to</th>
+                                <th style='font-size: 8pt; font-weight: bolder;'>Resolved</th>
+                                <th style='font-size: 8pt; font-weight: bolder;'>Created@</th>
+                                <th><i class="fa fa-fw fa-cog"></i>Option</th>
+                            </tr>
                     </thead>
                     <tbody>
                         @foreach($tasks as $task)
@@ -67,11 +67,16 @@
                             </td>
                             <td>{{ $task->assignmentdate }}</td>
                             <td>
-                                @if ($task->resolutionDetails==null)
-                                {{ $task->name}} is not responding.
+                                @if ($task->name == auth()->user()->name)
+                            
                                 @else
-                                    <a href="{{route('tasksresolutions', ['assignmentid'=>$task->taskID,'taskto'=>$task->taskedTo])}}" class="btn btn-info"><i class="fa-solid fa-reply"></i></a>
+                                    @if ($task->resolutionDetails==null)
+                                    {{ $task->name}} is not responding.
+                                    @else
+                                        <a href="{{route('tasksresolutions', ['assignmentid'=>$task->taskID,'taskto'=>$task->taskedTo])}}" class="btn btn-info"><i class="fa-solid fa-reply"></i></a>
+                                    @endif    
                                 @endif
+                                
                             </td>
                         </tr>
                         @endforeach
@@ -83,7 +88,7 @@
                             <th style='font-size: 8pt; font-weight: bolder;'>Task to</th>
                             <th style='font-size: 8pt; font-weight: bolder;'>Resolved</th>
                             <th style='font-size: 8pt; font-weight: bolder;'>Created@</th>
-                            <th><i class="fa fa-fw fa-cog"></i></th>
+                            <th><i class="fa fa-fw fa-cog"></i>Option</th>
                         </tr>
                     </tfoot>
                 </table>

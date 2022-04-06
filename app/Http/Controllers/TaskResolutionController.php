@@ -58,18 +58,28 @@ class TaskResolutionController extends Controller
         ->join('users', 'users.id', '=', 'task_resolutions.userID')
         ->where('task_resolutions.taskAssignmentID',$assignmentid)
         ->orderBy('task_resolutions.id', 'desc')
+        ->groupBy('resolutionDetails')
         ->get(['evidences.*','programs.*', 'task_assignments.*','task_assignments.id AS taskID','task_resolutions.*','task_resolutions.id as resoid','users.*','task_resolutions.created_at as resodate','users.name as fullname']);
+        
         $verifiedby = "";
-        $resoid = "";
+        $resoid = array();
         $taskresolved = "";
-        foreach($responses as $r)
+        $evidence = array();
+        foreach($responses as $key)
         {
-            $resoid = $r->resoid;
-            $verifiedby = $r->verifiedBy;
-            $taskresolved = $r->taskResolved;
+            $resoid[] = $key->resoid;
+            $assignmentid = $key->taskAssignmentID;
+            $isresolved = $key->taskResolved;
         }
-        $evidence = Evidences::where('task_id',$resoid)
-                    ->get();
+        // $evidence = Evidences::where('task_id',$resoid)
+        //             ->get();
+        foreach($resoid as $reso_id)
+        {
+            
+            $evidence[] = Evidences::where('task_id',$reso_id)
+                        ->get();
+
+        }
         // dd($evidence);
         return view('tasks.resolutions', [
                                             'responses'=>$responses,
@@ -91,8 +101,19 @@ class TaskResolutionController extends Controller
         return view('tasks.respond', ['responses'=>$responses, 'users'=>$users]);
     }
 
+    public function getimage($id)
+    {
+        $e = Evidence::where('taskAssignmentID',$id)
+            ->get();
+        return $e;
+    }
+
     public function responsethread($id,$taskby)
     {
+        $responses_v1 = TaskResolution::join('evidences','evidences.task_id','=','task_resolutions.id')
+        ->where('task_resolutions.taskAssignmentID','=',$id)
+        ->get();
+        
         $responses = TaskResolution::join('task_assignments','task_assignments.id','=','task_resolutions.taskAssignmentID')
         ->leftjoin('evidences','evidences.task_id','=','task_resolutions.id')
         ->where('task_assignments.taskBy','=',$taskby)
@@ -100,29 +121,55 @@ class TaskResolutionController extends Controller
         ->orderBy('task_resolutions.id', 'desc')
         ->groupBy('resolutionDetails')
         ->get(['task_assignments.id as taskid','task_resolutions.id as resoid','task_assignments.*','task_resolutions.*','evidences.*']);
+        
         $resolution = TaskResolution::where('taskAssignmentID',$id)
                         ->where('userID',$taskby)
                         ->get();
                         
-        $resoid = "";
+        $resoid = array();
+        $re_id = array();
         $assignmentid = "";
         $isresolved = "";
+        $evidence = array();
+        $itemevidences = array();
         foreach($responses as $key)
         {
-            $resoid = $key->resoid;
+            $resoid[] = $key->resoid;
             $assignmentid = $key->taskAssignmentID;
             $isresolved = $key->taskResolved;
         }
-        $evidence = Evidences::where('task_id',$resoid)
-                    ->get();
-    
-        // dd($responses);            
+        
+        $count = (count($resoid));
+        for($i = 1;$i<=$count;$i++)
+        {
+            // echo $i;
+        }
+        foreach($resoid as $reso_id)
+        {
+            
+            $evidence[] = Evidences::where('task_id',$reso_id)
+                        ->get();
+
+        }
+
+        foreach($evidence as $itemevidence)
+        {
+            $itemevidences = $itemevidence;
+        }
+
+        foreach($responses as $rid)
+        {
+            $re_id['0'] = $rid;
+        }
         return view('tasks.responsethread', [
                                                 'responses'=>$responses,
                                                 'assignmentid'=>$assignmentid,
                                                 'resoid'=>$resoid,
                                                 'isresolved'=>$isresolved,
-                                                'evidence'=>$evidence
+                                                'evidence'=>$evidence,
+                                                'itemevidences'=>$itemevidences,
+                                                're_id'=>$re_id,
+                                                'responses_v1'=>$responses_v1,
                                             ]);
         
     }
@@ -151,8 +198,8 @@ class TaskResolutionController extends Controller
                     ->update([
                                 'taskResolved'=>$request->input('verifiedBy'),
                     ]);
-                    return redirect()->route('taskindex')
-                    ->with('success', 'Some Event');
+                    return redirect()->back()
+                    ->with('resolved', 'Some Event');
     }
 
     public function deletemymessage($id)

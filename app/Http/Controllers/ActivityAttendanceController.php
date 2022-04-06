@@ -53,6 +53,7 @@ class ActivityAttendanceController extends Controller
         ->join('programs', 'programs.id', '=', 'activities.papID')
         ->join('users', 'users.id', '=', 'programs.focalPerson')
         ->where('activity_attendances.RegisteredID','=', $userID)
+        ->groupBy('activity_attendances.ActivityID')
         ->get(['activities.*', 'activity_attendances.*', 'programs.*','users.name']);
 
         return view('activity.userattendance',['activityattendances'=>$activityattendances]); 
