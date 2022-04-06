@@ -153,7 +153,7 @@ class ActivityController extends Controller
         $activity->created_at = now();
         $activity->updated_at = now();
         $activity->save();
-        return redirect('activity.index');
+        return redirect('activity.index')->with('indexsuccess', 'hahahaha');;
     }
 
     public function addactivity(Request $req)
