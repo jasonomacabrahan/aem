@@ -71,7 +71,7 @@ class User  extends Authenticatable implements MustVerifyEmail
         static::created(function(Model $model){
             if($model->role_id == ""){
                 $model->update([
-                    'role_id' => Role::where('title','user')->first()->id,
+                    'role_id' => Role::where('title','guest')->first()->id,
                 ]);
             }
         });

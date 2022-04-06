@@ -10,10 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" integrity="sha512-cyIcYOviYhF0bHIhzXWJQ/7xnaBuIIOecYoPZBgJHQKFPo+TOBA+BY1EnTpmM8yKDU4ZdI3UGccNGCEUdfbBqw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js" integrity="sha512-IZ95TbsPTDl3eT5GwqTJH/14xZ2feLEGJRbII6bRKtE/HC6x3N4cHye7yyikadgAsuiddCY2+6gMntpVHL1gHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-@php
-    $programs = DB::table('programs')->get();
-    $users = DB::table('users')->get();
-@endphp
+
 @section('content')
 <div class="panel-header panel-header-sm">
 
@@ -66,6 +63,7 @@
                     </div>
                     <div class="col-md-12" id="users-select">
                         <strong>Select Recipient</strong>
+                       
                         <select name="users[]" id="users-select" class="form-control border-info rounded-0"  multiple required>
                             @foreach ($users as $user)
                                   @if ($user->name == auth()->user()->name)

@@ -38,9 +38,35 @@ class TaskAssignmentController extends Controller
     {
         abort_if(Gate::denies('master_tables'), Response::HTTP_FORBIDDEN, 'Forbidden');
         $programs = Program::all();
-        $users = User::all();
-        //dd($programs, $users);
+        $users = User::whereNotIn('role_id',[8,7,6,5,4,3])
+                        ->get();
+        
+        // dd($list);
         return view('tasks.add', ['programs'=>$programs, 'users'=>$users]);    
+    }
+
+    public function addmytask()
+    {
+        abort_if(Gate::denies('createmytask'), Response::HTTP_FORBIDDEN, 'Forbidden');
+        $programs = Program::all();
+        return view('tasks.addmytask', ['programs'=>$programs]);    
+    }
+    public function createmytask(Request $req)
+    {
+        $data = $req->validate([
+            'papID' => 'required',
+            'taskDetail' => 'required',
+        ]);
+        
+            $assignment = TaskAssignment::create([
+                                    'papID'=>$req->papID,
+                                    'taskBy'=>auth()->user()->id,
+                                    'taskedTo'=>auth()->user()->id,
+                                    'taskDetail'=>$req->taskDetail,
+                                    'taskResolved'=>0,
+                                ]);
+        return redirect()->route('mytasks')->with('createsuccess', 'event');
+        
     }
 
     

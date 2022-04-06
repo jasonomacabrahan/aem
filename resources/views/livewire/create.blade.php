@@ -11,7 +11,7 @@
 
     <div class="form-group">
         <label for="exampleFormControlInput2"><strong style="font-weight: bolder;">Task Detail:</strong></label>
-        <input type="text" class="form-control border form-bordered rounded-0" id="exampleFormControlInput2" wire:model="taskDetail" placeholder="Enter Task Detail and Press Enter to Add">
+        <input type="text" class="form-control border border-info form-bordered rounded-0" id="exampleFormControlInput2" wire:model="taskDetail" placeholder="Enter Task Detail and Press Enter to Add">
         {{-- <textarea type="email" class="form-control border form-bordered" id="exampleFormControlInput2" wire:model="taskDetail" placeholder="Enter Task Detail"></textarea> --}}
         @error('taskDetail') <span class="text-danger">{{ $message }}</span>@enderror
     </div>

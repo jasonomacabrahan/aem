@@ -215,6 +215,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
             Route::get('/destroy/{id}','destroy')->name('destroy');
             Route::get('/taskindex', 'index')->name('taskindex');
             Route::get('/taskform', 'taskform')->name('taskform');
+            Route::get('/addmytask', 'addmytask')->name('addmytask');
+            Route::post('/createmytask', 'createmytask')->name('createmytask');
             Route::post('/addtask', 'create')->name('addtask');
         });
 
