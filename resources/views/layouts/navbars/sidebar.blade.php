@@ -81,12 +81,7 @@
                                     </li>
                                   @endcan()
                                   
-                                  <li class="@if ($activePage == 'tasks') active @endif">
-                                      <a href="{{ route('tasks.index') }}">
-                                        <i class="now-ui-icons shopping_shop"></i>
-                                        <p> {{ __(" Task Assignments") }} </p>
-                                      </a>
-                                  </li>
+                                  
 
                                   @can('taskmonitoring')
                                     <li class="">
@@ -112,7 +107,12 @@
                                   </a>
                                   <div class="collapse hide" id="master">
                                     <ul class="nav">
-                                     
+                                      <li class="@if ($activePage == 'tasks') active @endif">
+                                        <a href="{{ route('tasks.index') }}">
+                                          <i class="now-ui-icons shopping_shop"></i>
+                                          <p> {{ __(" Task Assignments") }} </p>
+                                        </a>
+                                      </li>
                                       @can('manuallyassignfocal')
                                         <li class="@if ($activePage == 'programs') active @endif">
                                           <a href="{{ route('addprogram') }}">
