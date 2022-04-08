@@ -45,20 +45,13 @@
                             @can('training_registered')
                               <li class="">
                                 <a href="{{ route('usertrainings') }}">
-                                  <i class="now-ui-icons design_bullet-list-67"></i>
+                                  <i class="fas fa-hiking"></i>
                                   <p> {{ __("Training Registered") }} </p>
                                 </a>
                               </li>
                             @endcan()
         
-                            @can('my_task')
-                              <li class="">
-                                <a href="{{ route('mytasks')  }}">
-                                  <i class="now-ui-icons design_bullet-list-67"></i>
-                                  <p> {{ __("My Tasks") }} </p>
-                                </a>
-                              </li>
-                            @endcan()
+                            
 
                             @can('userlogs')
                               <li class="">
@@ -69,10 +62,49 @@
                               </li>
                             @endcan()
 
+                            <li>
+                              <a data-toggle="collapse" href="#tasks">
+                                  <i class="fas fa-tasks"></i>
+                                <p>
+                                  {{ __("Tasks") }}
+                                  <b class="caret"></b>
+                                </p>
+                              </a>
+                              <div class="collapse hide" id="tasks">
+                                <ul class="nav">
+                                  @can('my_task')
+                                    <li class="">
+                                      <a href="{{ route('mytasks')  }}">
+                                        <i class="now-ui-icons design_bullet-list-67"></i>
+                                        <p> {{ __("My Tasks") }} </p>
+                                      </a>
+                                    </li>
+                                  @endcan()
+                                  
+                                  <li class="@if ($activePage == 'tasks') active @endif">
+                                      <a href="{{ route('tasks.index') }}">
+                                        <i class="now-ui-icons shopping_shop"></i>
+                                        <p> {{ __(" Task Assignments") }} </p>
+                                      </a>
+                                  </li>
+
+                                  @can('taskmonitoring')
+                                    <li class="">
+                                      <a href="#" onclick="alert('Coming soon')">
+                                        <i class="now-ui-icons design_bullet-list-67"></i>
+                                        <p> {{ __("Task Monitoring") }} </p>
+                                      </a>
+                                    </li>
+                                  @endcan()
+                                  
+                                 </ul>
+                              </div>
+                              </li>
+
                             @can('master_tables')
                               <li>
                                   <a data-toggle="collapse" href="#master">
-                                      <i class="now-ui-icons ui-1_settings-gear-63"></i>
+                                      <i class="fab fa-buromobelexperte"></i>
                                     <p>
                                       {{ __("Master Tables") }}
                                       <b class="caret"></b>
@@ -80,12 +112,7 @@
                                   </a>
                                   <div class="collapse hide" id="master">
                                     <ul class="nav">
-                                      <li class="@if ($activePage == 'tasks') active @endif">
-                                          <a href="{{ route('tasks.index') }}">
-                                            <i class="now-ui-icons shopping_shop"></i>
-                                            <p> {{ __(" Task Assignment") }} </p>
-                                          </a>
-                                      </li>
+                                     
                                       @can('manuallyassignfocal')
                                         <li class="@if ($activePage == 'programs') active @endif">
                                           <a href="{{ route('addprogram') }}">
@@ -95,11 +122,30 @@
                                         </li>  
                                       @endcan()
 
+                                      @can('createprogram') 
+                                        <li class="@if ($activePage == 'programs') active @endif">
+                                          <a href="{{ route('createprogram') }}">
+                                            <i class="fas fa-project-diagram"></i>
+                                            <p> {{ __(" Create Programs ") }} </p>
+                                          </a>
+                                        </li>
+                                      @endcan
+
+                                      @can('createfocal') 
+                                        <li class="@if ($activePage == 'programs') active @endif">
+                                          <a href="">
+                                            <i class="fab fa-teamspeak"></i>
+                                            <p> {{ __(" Create Focal ") }} </p>
+                                          </a>
+                                        </li>
+                                      @endcan
+
+
                                       @can('programs')    
                                       <li class="@if ($activePage == 'programs') active @endif">
                                         <a href="{{ route('program.index') }}">
-                                          <i class="fa-solid fa-hand-holding-hand"></i>
-                                          <p> {{ __(" Programs ") }} </p>
+                                          <i class="fas fa-project-diagram"></i>
+                                          <p> {{ __(" Programs/Projects ") }} </p>
                                         </a>
                                       </li>
                                       @endcan

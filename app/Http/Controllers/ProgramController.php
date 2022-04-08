@@ -38,7 +38,51 @@ class ProgramController extends Controller
         // dd($programs);
         return view('programs.index',['programs'=>$programs]);
     }
-    
+
+    public function saveselectedfocal(Request $request)
+    {
+        $request->validate([
+            'id'=>'required',
+            'focalPerson' => 'required'
+        ]);
+        $prog = Program::find($request->input('id'));
+        $prog->update([
+            'focalPerson' => $request->input('focalPerson')
+        ]);
+        return redirect()->back()
+        ->with('successfocal', 'Some Event');
+    }
+
+    public function createprogram()
+    {
+        $programs = Program::orderBy('created_at','desc')
+                    ->get();
+        return view('programs.createprogram',['programs'=>$programs]);
+    }
+    public function savecreatedprogram(Request $request)
+    {
+        $this->validate($request,[
+                'shortName'=>['required','string'],
+                'programDescription'=>['required','string'],
+        ]);
+        $data = array(
+            'shortName'=>$request->input('shortName'),
+            'programDescription' => $request->input('programDescription'), 
+            'focalPerson' => null,
+            'created_at'=>NOW(),
+            'updated_at'=>NOW()
+        );
+        $checker = Program::where('shortName',$request->input('shortName'))->where('programDescription', $request->input('programDescription'))->first();
+        if ($checker) {
+            return redirect()->back()
+                    ->with('error', 'Event');
+        }else{
+            Program::insert($data);
+            return redirect()->back()
+                    ->with('success', 'Some Event');
+          
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *

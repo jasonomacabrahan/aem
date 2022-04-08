@@ -59,17 +59,22 @@ class TaskResolutionController extends Controller
         ->where('task_resolutions.taskAssignmentID',$assignmentid)
         ->orderBy('task_resolutions.id', 'desc')
         ->groupBy('resolutionDetails')
-        ->get(['evidences.*','programs.*', 'task_assignments.*','task_assignments.id AS taskID','task_resolutions.*','task_resolutions.id as resoid','users.*','task_resolutions.created_at as resodate','users.name as fullname']);
+        ->get(['evidences.*','programs.*', 'task_assignments.*','task_assignments.created_at as assignmentdate','task_assignments.id AS taskID','task_resolutions.*','task_resolutions.id as resoid','users.*','task_resolutions.created_at as resodate','users.name as fullname']);
         
         $verifiedby = "";
         $resoid = array();
         $taskresolved = "";
         $evidence = array();
+        $assignmentdatecreated = "";
+        $assignmentdetails = "";
+        
         foreach($responses as $key)
         {
             $resoid[] = $key->resoid;
             $assignmentid = $key->taskAssignmentID;
-            $isresolved = $key->taskResolved;
+            $assignmentdetails = $key->taskDetail;
+            $assignmentdatecreated = $key->assignmentdate;
+            $taskresolved = $key->taskResolved;
         }
         // $evidence = Evidences::where('task_id',$resoid)
         //             ->get();
@@ -80,13 +85,15 @@ class TaskResolutionController extends Controller
                         ->get();
 
         }
-        // dd($evidence);
+        // dd($taskresolved);
         return view('tasks.resolutions', [
                                             'responses'=>$responses,
                                             'assignmentid'=>$assignmentid,
                                             'verifiedby'=>$verifiedby,
                                             'evidence'=>$evidence,
                                             'taskresolved'=>$taskresolved,
+                                            'assignmentdetails'=>$assignmentdetails,
+                                            'assignmentdatecreated'=>$assignmentdatecreated
                                         ]);
         
     }
@@ -120,7 +127,7 @@ class TaskResolutionController extends Controller
         ->where('task_resolutions.taskAssignmentID','=',$id)
         ->orderBy('task_resolutions.id', 'desc')
         ->groupBy('resolutionDetails')
-        ->get(['task_assignments.id as taskid','task_resolutions.id as resoid','task_assignments.*','task_resolutions.*','evidences.*']);
+        ->get(['task_assignments.id as taskid','task_resolutions.id as resoid','task_assignments.*','task_resolutions.*','evidences.*','task_resolutions.created_at as resodate']);
         
         $resolution = TaskResolution::where('taskAssignmentID',$id)
                         ->where('userID',$taskby)
