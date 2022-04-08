@@ -284,7 +284,7 @@
                                             @endif
                                         
                                         
-                                        <footer class="blockquote-footer  text-white">{{ auth()->user()->name }} | <cite title="">{{ $item->created_at}}</cite></footer>
+                                        <footer class="blockquote-footer  text-white">{{ auth()->user()->name }} | <cite title="">{{ $item->resodate}}</cite></footer>
                                     </blockquote>
                                 </div>
                             </div>
@@ -320,7 +320,7 @@
                                                     <span style="" class="badge badge-info"> {{ $element->name ?? '' }}</span>
                                                 @endforeach
 
-                                                | <cite title="">{{ $item->created_at}}</cite></footer>
+                                                | <cite title="">{{ $item->resodate}}</cite></footer>
                                         </blockquote>
                                     </div>
                                     <div class="col-md-9">

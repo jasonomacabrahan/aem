@@ -182,6 +182,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         });
 
         Route::controller(ProgramController::class)->group(function () {
+            
+            Route::get('/createprogram', 'createprogram')->name('createprogram');
+            Route::post('/savecreatedprogram', 'savecreatedprogram')->name('savecreatedprogram');
+            Route::post('/saveselectedfocal', 'saveselectedfocal')->name('saveselectedfocal');
+
             Route::get('/addprogram', 'addprogram')->name('addprogram');
             Route::post('/saveprogram', 'saveprogram')->name('saveprogram');
             Route::get('/program.edit/{id}', 'updateprogram')->name('updateprogram');//editing program and projects that belongs to yourself as a user or focal role

@@ -19,7 +19,7 @@ $activies = DB::table('activities')->get();
 <!--        <div class="col-md-12"> -->
           <div class="card">
             <div class="card-header">
-              <h5 class="title">{{__(" Event and Activity Registration ")}}</h5>
+              <h5 class="title">{{__(" Activity Registration ")}}</h5>
             </div>
 
             <div class="card-body">
@@ -27,11 +27,12 @@ $activies = DB::table('activities')->get();
                 @csrf
                 <div class="row">
                     <div class="col-md-11 pr-1">
-                      <div class="form-group">
-                        <label class="font-weight-bold text-dark" for="ActivityID">{{__(" Program / Project ")}}</label>
-                        <select class="form-control" name="ActivityID" id="ActivityID">
+                      <div class="form-group" id="events-select">
+                        <label class="font-weight-bold text-dark" for="ActivityID">{{__(" Activity ")}}</label>
+                        <select class="form-control border-info rounded-0" name="ActivityID" id="events-select">
+                                <option></option>
                             @foreach($activies as $activity)
-                            <option value="{{ $activity->id }}">{{ $activity->activityDescription }}</option>
+                                <option value="{{ $activity->id }}">{{ $activity->activityDescription }}</option>
                             @endforeach
                         </select>
                       </div>
@@ -43,7 +44,7 @@ $activies = DB::table('activities')->get();
                     <div class="col-md-11 pr-1">
                       <div class="form-group">
                         <label class="font-weight-bold text-dark" for="registrationDate">{{__(" Registration Date ")}}</label>
-                        <input class="form-control date" type="date"name="registrationDate" id="registrationDate" required/>
+                        <input class="form-control date border-info rounded-0" type="date" name="registrationDate" id="registrationDate" required/>
                       </div>
                     </div>
                 </div>

@@ -26,7 +26,8 @@
   <script type="text/javascript" src="{{ asset('sweet') }}/sweetalert-dev.js"></script>
   <link rel="stylesheet" type="text/css" href="{{ asset('sweet') }}/sweetalert.css"/>
   <script src="https://kit.fontawesome.com/c9033f3c51.js" crossorigin="anonymous"></script>
-  
+
+
 <livewire:styles />
 <style>
   #show_image_popup{
@@ -93,8 +94,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.1/slimselect.min.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.1/slimselect.min.css" rel="stylesheet">
   <!--end of datatable-->
+  
   <script type="text/javascript">
-    
+      Date.prototype.toDateInputValue = (function() {
+        var local = new Date(this);
+        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+        return local.toJSON().slice(0,10);
+    });
+    document.getElementById('registrationDate').value = new Date().toDateInputValue();
     $(window).on('load', function() {
         $('#focalModal').modal('show');
     });
@@ -106,7 +113,32 @@
         $('#focalModal').modal('hide');
     });
   </script>
-  <script>
+
+<script>
+  var events_select = new SlimSelect({
+      select: '#events-select select',
+      //showSearch: false,
+      placeholder: 'Select Event',
+      deselectLabel: '<span>&times;</span>',
+      hideSelectedOption: true,
+  })
+
+  $('#events-select #events-select-all').click(function(){
+      var options = [];
+      $('#events-select select option').each(function(){
+          options.push($(this).attr('value'));
+      });
+
+      user_select.set(options);
+  })
+
+  $('#events-select #events-deselect-all').click(function(){
+    events_select.set([]);
+  })
+</script>
+
+
+<script>
 
     var permission_select = new SlimSelect({
         select: '#permissions-select select',

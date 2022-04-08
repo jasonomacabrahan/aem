@@ -50,35 +50,68 @@
                     </thead>
                     <tbody>
                         @foreach($tasks as $task)
-                        <tr>
-                            <td>{{ $task->shortName }}</a></td>
-                            <td><a href="#" title="Update task"></i>{{ $task->taskDetail }}</a></td>
-                            <td>{{ $task->name}}</td>
-                            <td>
-                                @if ($task->taskResolved == 0)
-                                    <span class="badge badge-danger text-white"><i class="fa-solid fa-circle-xmark"></i> No</span>    
-                                @endif
-                                @if ($task->taskResolved == 1)
-                                    <span class="badge badge-success text-white"><i class="fa fa-fw fa-check-circle"></i>Yes</span>    
-                                @endif
-                                @if ($task->taskResolved == 2)
-                                    <span class="badge badge-warning text-white"><i class="fa fa-fw fa-flag"></i>Progress</span>
-                                @endif
-                            </td>
-                            <td>{{ $task->assignmentdate }}</td>
-                            <td>
-                                @if ($task->name == auth()->user()->name)
-                            
-                                @else
-                                    @if ($task->resolutionDetails==null)
-                                    {{ $task->name}} is not responding.
-                                    @else
-                                        <a href="{{route('tasksresolutions', ['assignmentid'=>$task->taskID,'taskto'=>$task->taskedTo])}}" class="btn btn-info"><i class="fa-solid fa-reply"></i></a>
-                                    @endif    
-                                @endif
-                                
-                            </td>
-                        </tr>
+                            @if ($task->taskBy == auth()->user()->id AND $task->taskedTo==auth()->user()->id)
+                                    <tr style="display:none;">
+                                        <td>{{ $task->shortName }}</a></td>
+                                        <td><a href="#" title="Update task"></i>{{ $task->taskDetail }}</a></td>
+                                        <td>{{ $task->name}}</td>
+                                        <td>
+                                            @if ($task->taskResolved == 0)
+                                                <span class="badge badge-danger text-white"><i class="fa-solid fa-circle-xmark"></i> No</span>    
+                                            @endif
+                                            @if ($task->taskResolved == 1)
+                                                <span class="badge badge-success text-white"><i class="fa fa-fw fa-check-circle"></i>Yes</span>    
+                                            @endif
+                                            @if ($task->taskResolved == 2)
+                                                <span class="badge badge-warning text-white"><i class="fa fa-fw fa-flag"></i>Progress</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $task->assignmentdate }}</td>
+                                        <td>
+                                            @if ($task->name == auth()->user()->name)
+                                        
+                                            @else
+                                                @if ($task->resolutionDetails==null)
+                                                {{ $task->name}} is not responding.
+                                                @else
+                                                    <a href="{{route('tasksresolutions', ['assignmentid'=>$task->taskID,'taskto'=>$task->taskedTo])}}" class="btn btn-info"><i class="fa-solid fa-reply"></i></a>
+                                                @endif    
+                                            @endif
+                                            
+                                        </td>
+                                    </tr>      
+                            @else
+                                    <tr>
+                                        <td>{{ $task->shortName }}</a></td>
+                                        <td><a href="#" title="Update task"></i>{{ $task->taskDetail }}</a></td>
+                                        <td>{{ $task->name}}</td>
+                                        <td>
+                                            @if ($task->taskResolved == 0)
+                                                <span class="badge badge-danger text-white"><i class="fa-solid fa-circle-xmark"></i> No</span>    
+                                            @endif
+                                            @if ($task->taskResolved == 1)
+                                                <span class="badge badge-success text-white"><i class="fa fa-fw fa-check-circle"></i>Yes</span>    
+                                            @endif
+                                            @if ($task->taskResolved == 2)
+                                                <span class="badge badge-warning text-white"><i class="fa fa-fw fa-flag"></i>Progress</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $task->assignmentdate }}</td>
+                                        <td>
+                                            @if ($task->name == auth()->user()->name)
+                                        
+                                            @else
+                                                @if ($task->resolutionDetails==null)
+                                                {{ $task->name}} is not responding.
+                                                @else
+                                                    <a href="{{route('tasksresolutions', ['assignmentid'=>$task->taskID,'taskto'=>$task->taskedTo])}}" class="btn btn-info"><i class="fa-solid fa-reply"></i></a>
+                                                @endif    
+                                            @endif
+                                            
+                                        </td>
+                                    </tr>
+                                   
+                            @endif
                         @endforeach
                     </tbody>
                     <tfoot style='font-size: 8pt;'>
