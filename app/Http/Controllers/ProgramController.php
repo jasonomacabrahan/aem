@@ -53,6 +53,23 @@ class ProgramController extends Controller
         ->with('successfocal', 'Some Event');
     }
 
+    public function saveselecteddescription(Request $request)
+    {
+        $request->validate([
+            'id'=>'required',
+            'shortName'=>'required',
+            'programDescription' => 'required'
+        ]);
+        $prog = Program::find($request->input('id'));
+        $prog->update([
+            'shortName' => $request->input('shortName'),
+            'programDescription' => $request->input('programDescription')
+        ]);
+        return redirect()->back()
+        ->with('successfocal', 'Some Event');
+    }
+
+
     public function createprogram()
     {
         $programs = Program::orderBy('created_at','desc')

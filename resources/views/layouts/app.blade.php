@@ -96,6 +96,22 @@
   <!--end of datatable-->
   
   <script type="text/javascript">
+
+    $('#myTab a').click(function(e) {
+      e.preventDefault();
+      $(this).tab('show');
+    });
+
+    // store the currently selected tab in the hash value
+    $("ul.nav-tabs > li > a").on("shown.bs.tab", function(e) {
+      var id = $(e.target).attr("href").substr(1);
+      window.location.hash = id;
+    });
+
+    // on load of the page: switch to the currently selected tab
+    var hash = window.location.hash;
+    $('#myTab a[href="' + hash + '"]').tab('show');
+
       Date.prototype.toDateInputValue = (function() {
         var local = new Date(this);
         local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
@@ -221,6 +237,81 @@
 
 </script>
 
+
+<script>
+  $(document).ready(function() {
+  
+  var table = $('#list1').DataTable( {
+    
+  lengthChange: true,
+  buttons: [
+              {
+                extend: "copy",
+                className: "btn-sm btn-info"
+              },
+              {
+                extend: "pdfHtml5",
+                className: "btn-sm btn-danger",
+                orientation: 'landscape'
+              },
+              {
+                extend: "print",
+                className: "btn-sm btn-info"
+              },
+                
+            ],
+    "order": [[ 4, "desc" ]]
+
+} );
+
+table.buttons().container()
+  .appendTo( '#list_wrapper .col-md-6:eq(0)' );
+
+  $('#receiptTable').DataTable( {
+  dom: 'Bfrtip',
+  buttons: [
+      'print'
+  ]
+} );
+} );
+</script>
+<script>
+  $(document).ready(function() {
+  
+  var table = $('#list2').DataTable( {
+    
+  lengthChange: true,
+  buttons: [
+              {
+                extend: "copy",
+                className: "btn-sm btn-info"
+              },
+              {
+                extend: "pdfHtml5",
+                className: "btn-sm btn-danger",
+                orientation: 'landscape'
+              },
+              {
+                extend: "print",
+                className: "btn-sm btn-info"
+              },
+                
+            ],
+    "order": [[ 4, "desc" ]]
+
+} );
+
+table.buttons().container()
+  .appendTo( '#list_wrapper .col-md-6:eq(0)' );
+
+  $('#receiptTable').DataTable( {
+  dom: 'Bfrtip',
+  buttons: [
+      'print'
+  ]
+} );
+} );
+</script>
 
   <script>
     $(document).ready(function() {
