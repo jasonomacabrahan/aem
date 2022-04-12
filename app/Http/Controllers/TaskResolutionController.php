@@ -42,13 +42,12 @@ class TaskResolutionController extends Controller
     public function usertask($taskid,$userid)
     {
         
+        $numuserid = (int)$userid;
         $usertasks = TaskAssignment::join('users', 'users.id', '=', 'task_assignments.taskBy')
-        ->leftjoin('task_resolutions','task_resolutions.taskAssignmentID','=','task_assignments.id')
         ->leftjoin('programs','programs.id','=','task_assignments.papID')
-        // ->where('task_assignments.id','=',$taskid)
-        ->where('task_assignments.taskedTo','=',$userid)
+        ->where('task_assignments.taskedTo','=',$numuserid)
         ->orderBy('task_assignments.created_at', 'asc')
-        ->get(['programs.*','task_resolutions.*','users.name AS thesource','task_assignments.id as taskid','task_assignments.taskResolved as isresolved','task_assignments.created_at AS datecreated','task_assignments.*','users.*']);
+        ->get(['programs.*','users.name AS thesource','task_assignments.id as taskid','task_assignments.taskResolved as isresolved','task_assignments.created_at AS datecreated','task_assignments.*','users.*']);
         // dd($usertasks);
         return view('tasks.usertasks',['usertasks'=>$usertasks]);
         
@@ -85,7 +84,7 @@ class TaskResolutionController extends Controller
     {
         $users = TaskAssignment::join('users','users.id','=','task_assignments.taskedTo')
                     ->groupBy('users.id')
-                    ->get(['task_assignments.created_at as assignmentdate','task_assignments.*','task_assignments.id as taskid','users.*',TaskAssignment::raw('count(task_assignments.id) as numcount')]);
+                    ->get(['task_assignments.created_at as assignmentdate','task_assignments.*','task_assignments.id as taskid','users.*',TaskAssignment::raw('count(task_assignments.taskedTo) as numcount')]);
         $project = TaskAssignment::join('programs','programs.id','=','task_assignments.papID')
                                     ->groupBy('programs.id')
                                     ->get(['programs.*','task_assignments.*']);
@@ -101,6 +100,7 @@ class TaskResolutionController extends Controller
                                             'programs'=>$programs
                                         ]);
     }
+
     /**
      * Display a listing of the resource.
      *
