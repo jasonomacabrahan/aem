@@ -26,7 +26,7 @@
                 </style>
                  @if ($message = Session::get('success'))
                  <script>
-                     swal("Success","...","success");
+                     swal("Success","Task Added","success");
                  </script>
                 @endif
 

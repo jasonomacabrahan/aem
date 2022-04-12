@@ -37,6 +37,13 @@
                      swal("Success","Response Added","success");
                  </script>
                 @endif
+
+                @if ($message = Session::get('successtask'))
+                 <script>
+                     swal("Success","Task Added","success");
+                 </script>
+                @endif
+
                  @if ($message = Session::get('createsuccess'))
                  <script>
                      swal("Success","Task Added","success");

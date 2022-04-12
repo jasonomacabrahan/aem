@@ -57,16 +57,58 @@ class TaskAssignmentController extends Controller
         $data = $req->validate([
             'papID' => 'required',
             'taskDetail' => 'required',
+            'name.*'=>'image|mimes:jpg,png,jpeg,gif,svg,pdf|max:2048',
         ]);
+            $files = [];
+            if($req->hasfile('name'))
+            {
+                foreach($req->file('name') as $file)
+                {
+                    $name = time().rand(1,100).'.'.$file->extension();
+                    $file->move(public_path('images'), $name);  
+                    $files[] = $name;  
+                }
+                $assignment = new TaskAssignment;
+                        $assignment->papID = $req->papID;
+                        $assignment->taskBy = auth()->user()->id;
+                        $assignment->taskedTo = auth()->user()->id;
+                        $assignment->taskDetail = $req->taskDetail;
+                        $assignment->taskResolved = 0;
+                        $assignment->save();
+                        $tid = $assignment->id;
+
+                $taskreso = new TaskResolution;
+                        $taskreso->taskAssignmentID = $tid;
+                        $taskreso->resolutionDetails = $req->taskDetail;
+                        $taskreso->userID = auth()->user()->id;
+                        $taskreso->verifiedBy = 0;
+                        $taskreso->save();
+                        $resoid = $taskreso->id;
+
+                foreach($files as $imago) 
+                {
+                    $data = array('task_id'=>$resoid,'name' => $imago, 'path' => $imago,'created_at'=>NOW());
+                    Evidences::insert($data);    
+                }
+
+
         
-            $assignment = TaskAssignment::create([
-                                    'papID'=>$req->papID,
-                                    'taskBy'=>auth()->user()->id,
-                                    'taskedTo'=>auth()->user()->id,
-                                    'taskDetail'=>$req->taskDetail,
-                                    'taskResolved'=>0,
-                                ]);
-        return redirect()->route('mytasks')->with('createsuccess', 'event');
+                return redirect()->route('mytasks')->with('success', 'event');
+                
+            }else{
+
+                $assignment = new TaskAssignment;
+                $assignment->papID = $req->papID;
+                $assignment->taskBy = auth()->user()->id;
+                $assignment->taskedTo = auth()->user()->id;
+                $assignment->taskDetail = $req->taskDetail;
+                $assignment->taskResolved = 0;
+                $assignment->save();
+            }
+
+        return redirect()->route('mytasks')->with('successtask', 'event');
+
+
         
     }
 
@@ -132,12 +174,12 @@ class TaskAssignmentController extends Controller
 
                     $taskreso = new TaskResolution;
                     $taskreso->taskAssignmentID = $tid;
-                    $taskreso->resolutionDetails = "Uploaded an Image";
+                    $taskreso->resolutionDetails = $req->taskDetail;
                     $taskreso->userID = auth()->user()->id;
                     $taskreso->verifiedBy = 0;
                     $taskreso->save();
                     $resoid = $taskreso->id;
-
+                    
                     foreach($files as $imago) 
                     {
                         $data = array('task_id'=>$resoid,'name' => $imago, 'path' => $imago,'created_at'=>NOW());
@@ -145,7 +187,7 @@ class TaskAssignmentController extends Controller
                     }
 
                 }
-            return redirect()->back()->with('success', 'event');
+            return redirect()->route('tasks.index')->with('success', 'event');
             
         }else{
             foreach($req->users as $d)
@@ -158,7 +200,7 @@ class TaskAssignmentController extends Controller
                                             'taskResolved'=>0,
                                         ]);
                 }
-                return redirect()->back()->with('success', 'event');
+                return redirect()->route('tasks.index')->with('success', 'event');
         }
         
         
