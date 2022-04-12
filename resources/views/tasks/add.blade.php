@@ -31,7 +31,7 @@
                             swal("Success","Task Added","success");
                         </script>
               @endif
-            <form action="{{ route('addtask') }}" method="POST" class="mt-1 py-3">
+            <form action="{{ route('addtask') }}" method="POST" enctype="multipart/form-data" class="mt-1 py-3">
                 @csrf
 
                 <div class="row">
@@ -85,34 +85,33 @@
                     </div>
                     
 
-                </div>                
+                </div>           
+                <div class="row">
+                  <div class="col-md-11 pr-1">
+                    @error('name')
+                              <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                    @enderror
 
-                {{-- <div class="row">
-                    <div class="col-md-7 pr-1">
-                      <div class="form-group">
-                        <button type="button" id="addMore" class="btn btn-success btn-sm"><i class="fa-solid fa-plus"></i> Add Recipient </button>
-                        <input type="hidden" name="rowCount" id="rowCount" class="form-control" value="0">
+                    <div class="btn-file input-group hdtuto control-group lst increment rounded-0" >
+                      <input type="file" name="name[]" class="myfrm form-control">
+                      <div class="input-group-btn  rounded-0"> 
+                        <button class="btn btn-success" type="button"><i class="fldemo fa fa-fw fa-plus"></i></button>
                       </div>
                     </div>
-                </div> --}}
 
-                <div class="form-group">
+                    <div class="clone hide">
+                      <div class="hdtuto control-group lst input-group" style="margin-top:10px">
+                        <input type="file" name="name[]" class="myfrm form-control">
+                        <div class="input-group-btn"> 
+                          <button class="btn btn-danger" type="button"><i class="fldemo fa fa-fw fa-x"></i></button>
+                        </div>
+                      </div>
+                    </div>
 
-                <table class="table table-sm table-responsive" style="display: none;">
-                    <thead>
-                        <tr  class=" text-center">
-                            <td>Person Name</td>
-                            <td>Action</td>
-                        </tr>
-                    </thead>
-
-                    <tbody id="addRow" class="addRow">
-
-                    </tbody>
-                </table>
-
-                </div>
-                <button type="submit" class="btn btn-block btn-info"> <i class="fa-solid fa-fw fa-floppy-disk"></i> Save </button>
+                    
+                  </div>
+              </div>
+              <button type="submit" class="btn btn-block btn-info"> <i class="fa-solid fa-fw fa-floppy-disk"></i> Save </button>
                 
             </form>
             </div>

@@ -188,7 +188,7 @@
   var user_select = new SlimSelect({
       select: '#users-select select',
       //showSearch: false,
-      placeholder: 'Select Permissions',
+      placeholder: 'Select Recipient',
       deselectLabel: '<span>&times;</span>',
       hideSelectedOption: true,
   })

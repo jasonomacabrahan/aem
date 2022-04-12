@@ -6,6 +6,7 @@ use App\Models\TaskAssignment;
 use App\Models\TaskResolution;
 use App\Models\Program;
 use App\Models\User;
+use App\Models\Evidences;
 use Illuminate\Http\Request;
 use Mail;
 use Illuminate\Support\Facades\Gate;
@@ -103,20 +104,65 @@ class TaskAssignmentController extends Controller
             'papID' => 'required',
             'users' => 'required',
             'taskDetail' => 'required',
+            'name.*'=>'image|mimes:jpg,png,jpeg,gif,svg,pdf|max:2048',
         ]);
-        foreach($req->users as $d)
+        
+        //==================
+        $files = [];
+        if($req->hasfile('name'))
         {
-            $assignment = TaskAssignment::create([
-                                    'papID'=>$req->papID,
-                                    'taskBy'=>auth()->user()->id,
-                                    'taskedTo'=>$d,
-                                    'taskDetail'=>$req->taskDetail,
-                                    'taskResolved'=>0,
-                                ]);
+            foreach($req->file('name') as $file)
+            {
+                $name = time().rand(1,100).'.'.$file->extension();
+                $file->move(public_path('images'), $name);  
+                $files[] = $name;  
+            }
+            
+            
+            foreach($req->users as $d)
+                {
+                    $assignment = new TaskAssignment;
+                    $assignment->papID = $req->papID;
+                    $assignment->taskBy = auth()->user()->id;
+                    $assignment->taskedTo = $d;
+                    $assignment->taskDetail = $req->taskDetail;
+                    $assignment->taskResolved = 0;
+                    $assignment->save();
+                    $tid = $assignment->id;
+
+                    $taskreso = new TaskResolution;
+                    $taskreso->taskAssignmentID = $tid;
+                    $taskreso->resolutionDetails = "Uploaded an Image";
+                    $taskreso->userID = auth()->user()->id;
+                    $taskreso->verifiedBy = 0;
+                    $taskreso->save();
+                    $resoid = $taskreso->id;
+
+                    foreach($files as $imago) 
+                    {
+                        $data = array('task_id'=>$resoid,'name' => $imago, 'path' => $imago,'created_at'=>NOW());
+                        Evidences::insert($data);    
+                    }
+
+                }
+            return redirect()->back()->with('success', 'event');
+            
+        }else{
+            foreach($req->users as $d)
+                {
+                    $assignment = TaskAssignment::create([
+                                            'papID'=>$req->papID,
+                                            'taskBy'=>auth()->user()->id,
+                                            'taskedTo'=>$d,
+                                            'taskDetail'=>$req->taskDetail,
+                                            'taskResolved'=>0,
+                                        ]);
+                }
         }
-        return redirect()->back()->with('success', 'event');
+        
         
     }
+
 
     public function destroy($id)
     {
