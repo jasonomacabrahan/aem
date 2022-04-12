@@ -186,6 +186,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
             Route::get('/createprogram', 'createprogram')->name('createprogram');
             Route::post('/savecreatedprogram', 'savecreatedprogram')->name('savecreatedprogram');
             Route::post('/saveselectedfocal', 'saveselectedfocal')->name('saveselectedfocal');
+            Route::post('/saveselecteddescription', 'saveselecteddescription')->name('saveselecteddescription');
 
             Route::get('/addprogram', 'addprogram')->name('addprogram');
             Route::post('/saveprogram', 'saveprogram')->name('saveprogram');
@@ -199,6 +200,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
 
         Route::controller(TaskResolutionController::class)->group(function () {
 
+            Route::get('/usertask/{taskid}/{userid}','usertask')->name('usertask');
+            Route::get('/createdtask/{taskid}','createdtask')->name('createdtask');
+            Route::get('/taskmonitoring','taskmonitoring')->name('taskmonitoring');
             Route::get('/responsethread/{id}/{taskby}','responsethread')->name('responsethread');
             Route::get('/deletemymessage/{id}','deletemymessage')->name('deletemymessage');
             Route::get('/task.edittaskdetail/{id}','editmytask')->name('editmytask');
