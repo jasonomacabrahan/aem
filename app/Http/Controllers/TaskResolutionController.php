@@ -6,6 +6,7 @@ use App\Models\TaskResolution;
 use App\Models\TaskAssignment;
 use App\Models\User;
 use App\Models\Evidences;
+use App\Models\Program;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
@@ -26,6 +27,7 @@ class TaskResolutionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function index()
     {
         $responses = TaskResolution::all();
@@ -37,14 +39,68 @@ class TaskResolutionController extends Controller
                 return view('tasks.resolution', ['responses'=>$responses]);
     }
 
+    public function usertask($taskid,$userid)
+    {
+        
+        $usertasks = TaskAssignment::join('users', 'users.id', '=', 'task_assignments.taskBy')
+        ->leftjoin('task_resolutions','task_resolutions.taskAssignmentID','=','task_assignments.id')
+        ->leftjoin('programs','programs.id','=','task_assignments.papID')
+        // ->where('task_assignments.id','=',$taskid)
+        ->where('task_assignments.taskedTo','=',$userid)
+        ->orderBy('task_assignments.created_at', 'asc')
+        ->get(['programs.*','task_resolutions.*','users.name AS thesource','task_assignments.id as taskid','task_assignments.taskResolved as isresolved','task_assignments.created_at AS datecreated','task_assignments.*','users.*']);
+        // dd($usertasks);
+        return view('tasks.usertasks',['usertasks'=>$usertasks]);
+        
+    }
+
+    public function createdtask($taskid)
+    {
+        $id = auth()->user()->id;
+        $createdtasks = TaskAssignment::join('users', 'users.id', '=', 'task_assignments.taskBy')
+        ->leftjoin('task_resolutions','task_resolutions.taskAssignmentID','=','task_assignments.id')
+        ->leftjoin('programs','programs.id','=','task_assignments.papID')
+        ->where('task_assignments.id','=',$taskid)
+        ->where('task_assignments.taskBy','=',$id)
+        ->groupBy('task_assignments.id')
+        ->orderBy('task_assignments.created_at', 'asc')
+        ->get(['programs.*','task_resolutions.*','users.name AS thesource','task_assignments.id as taskid','task_assignments.taskResolved as isresolved','task_assignments.created_at AS datecreated','task_assignments.*','users.*']);
+       
+        return view('tasks.createdtask',['createdtasks'=>$createdtasks]);
+        
+    }
     public function checknull()
     {
         $responses = TaskResolution::where('resolutionDetails', '=', '')
                                     ->orWhereNull('resolutionDetails')
                                     ->get();
-        return view('tasks.checknull',['responses'=>$responses]);
+        
+        return view('tasks.checknull',[
+                                        'responses'=>$responses
+                                    ]);
     }
 
+
+    public function taskmonitoring()
+    {
+        $users = TaskAssignment::join('users','users.id','=','task_assignments.taskedTo')
+                    ->groupBy('task_assignments.taskedTo')
+                    ->get(['task_assignments.created_at as assignmentdate','task_assignments.*','task_assignments.id as taskid','users.*',TaskAssignment::raw('count(task_assignments.id) as numcount')]);
+        $project = TaskAssignment::join('programs','programs.id','=','task_assignments.papID')
+                                    ->groupBy('programs.id')
+                                    ->get(['programs.*','task_assignments.*']);
+        $programs = User::join('programs','programs.focalPerson','=','users.id')
+                                    ->leftjoin('task_assignments','task_assignments.papID','=','programs.id')
+                                    ->where('programs.focalPerson',auth()->user()->id)
+                                    ->get(['programs.*','programs.created_at as programcreated','task_assignments.id as taskid','programs.updated_at as programupdated','programs.id AS programid','users.*','task_assignments.*']);
+
+        // dd($programs);
+        return view('tasks.taskmonitoring',[
+                                            'users'=>$users,
+                                            'project'=>$project,
+                                            'programs'=>$programs
+                                        ]);
+    }
     /**
      * Display a listing of the resource.
      *

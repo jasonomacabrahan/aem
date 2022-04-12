@@ -86,7 +86,10 @@
                             <tbody>
                                 @foreach($programs as $program)
                                     <tr>
-                                        <td><a href="{{route('edit', ['id' => $program->id ])}}" title="Update program"></i><i class="fa fa-fw fa-edit"></i>{{ $program->shortName }}</a></td>
+                                        <td>
+                                            {{-- <a href="{{route('edit', ['id' => $program->id ])}}" title="Update program"></i><i class="fa fa-fw fa-edit"></i>{{ $program->shortName }}</a> --}}
+                                            {{ $program->shortName }}
+                                        </td>
                                         <td>
                                             <a class="btn btn-link text-left" data-toggle="modal" data-target="#prog{{$program->id}}">{{ $program->programDescription }}</a>
                                             <div class="modal fade" id="prog{{$program->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -98,10 +101,17 @@
                                                         <span aria-hidden="true">&times;</span>
                                                       </button>
                                                     </div>
-                                                    <form action="{{ route('saveselectedfocal') }}" method="post">
+                                                    <form action="{{ route('saveselecteddescription') }}" method="post">
                                                         @csrf
                                                         <div class="modal-body">
-                                                            <textarea name="programDescription" class=""id="programDescription" cols="50" rows="5">{{ $program->programDescription }}</textarea>
+                                                            <input type="hidden" name="id" value="{{ $program->id }}">
+                                                            <div class="form-group">
+                                                              <input type="text" name="shortName" class="form-control border-info rounded-0" value="{{ $program->shortName }}">
+                                                            </div>
+                                                            <div class="form-group">
+                                                              <label>Program Description</label>
+                                                              <textarea name="programDescription" class="form-control form-bordered border-info rounded-0" id="programDescription" cols="50" rows="5">{{ $program->programDescription }}</textarea>
+                                                            </div>  
                                                         
                                                         </div>
                                                         <div class="modal-footer">
@@ -116,7 +126,7 @@
                                         </td>
                                         <td>
                                             @if ($program->focalPerson==null)
-                                                <a href="#" data-toggle="modal" data-target="#focal{{$program->id}}"><i class="fa fa-fw fa-plus"></i>Assign Focal</a>
+                                                <a href="#" data-toggle="modal" class="btn btn-xs btn-info rounded-0" data-target="#focal{{$program->id}}"><i class="fa fa-fw fa-plus"></i>Assign Focal</a>
                                                 <div class="modal fade" id="focal{{$program->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
                                                       <div class="modal-content">
@@ -132,10 +142,13 @@
                                                                 @php
                                                                     $focal = App\Models\User::Select('name','users.id')
                                                                                     ->join('roles','roles.id','=','users.role_id')
-                                                                                    ->where('title','Focal')->get();
+                                                                                    ->where('title','Focal')
+                                                                                    ->orWhere('title','Administrator')
+                                                                                    ->get();
                                                                 @endphp
                                                                 <input type="hidden" name="id" value="{{ $program->id }}">
                                                                 <select class="form-control rounded-0 border-info" name="focalPerson" id="focalPerson" required>
+                                                                    <option></option>
                                                                     @foreach($focal as $f)
                                                                     <option value="{{ $f->id }}"> {{ $f->name}}</option>
                                                                     @endforeach

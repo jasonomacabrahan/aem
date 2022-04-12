@@ -76,22 +76,20 @@
                                     <li class="">
                                       <a href="{{ route('mytasks')  }}">
                                         <i class="now-ui-icons design_bullet-list-67"></i>
-                                        <p> {{ __("My Tasks") }} </p>
+                                        <p> {{ __("My Tasks") }}
+                                          @php
+                                            $data = App\Models\TaskAssignment::Select('id')->where('taskedTo',auth()->user()->id)->get();
+                                          @endphp
+                                          
+                                              
+                                          
+                                        <span class="badge badge-pill badge-light float-right">{{ count($data) }}</span> </p>
                                       </a>
                                     </li>
                                   @endcan()
                                   
                                   
 
-                                  @can('taskmonitoring')
-                                    <li class="">
-                                      <a href="#" onclick="alert('Coming soon')">
-                                        <i class="now-ui-icons design_bullet-list-67"></i>
-                                        <p> {{ __("Task Monitoring") }} </p>
-                                      </a>
-                                    </li>
-                                  @endcan()
-                                  
                                  </ul>
                               </div>
                               </li>
@@ -113,6 +111,15 @@
                                           <p> {{ __(" Task Assignments") }} </p>
                                         </a>
                                       </li>
+                                      @can('taskmonitoring')
+                                        <li class="">
+                                          <a href="{{ route('taskmonitoring') }}">
+                                            <i class="now-ui-icons design_bullet-list-67"></i>
+                                            <p> {{ __("Task Monitoring") }} </p>
+                                          </a>
+                                        </li>
+                                      @endcan()
+
                                       @can('manuallyassignfocal')
                                         <li class="@if ($activePage == 'programs') active @endif">
                                           <a href="{{ route('addprogram') }}">
