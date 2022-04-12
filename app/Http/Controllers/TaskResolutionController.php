@@ -84,7 +84,7 @@ class TaskResolutionController extends Controller
     public function taskmonitoring()
     {
         $users = TaskAssignment::join('users','users.id','=','task_assignments.taskedTo')
-                    ->groupBy('task_assignments.taskedTo')
+                    ->groupBy('users.id')
                     ->get(['task_assignments.created_at as assignmentdate','task_assignments.*','task_assignments.id as taskid','users.*',TaskAssignment::raw('count(task_assignments.id) as numcount')]);
         $project = TaskAssignment::join('programs','programs.id','=','task_assignments.papID')
                                     ->groupBy('programs.id')
