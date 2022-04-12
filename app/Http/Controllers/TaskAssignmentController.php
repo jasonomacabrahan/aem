@@ -158,6 +158,7 @@ class TaskAssignmentController extends Controller
                                             'taskResolved'=>0,
                                         ]);
                 }
+                return redirect()->back()->with('success', 'event');
         }
         
         
