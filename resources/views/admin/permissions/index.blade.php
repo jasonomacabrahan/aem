@@ -24,20 +24,32 @@
       
       
       
-                    <table class="table table-bordered table-hover">
-                                <tr class="bg-info text-light">
-                                    <th class="text-center">ID</th>
-                                    <th>Name</th>
-                                    <th>
-                                        &nbsp;
-                                    </th>
-                                </tr>
+                    <table id="list" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <td style="font-size: 10pt; font-weight: strong;">ID</td>
+                                <td style="font-size: 10pt; font-weight: strong;">Name</td>
+                                <td style="font-size: 10pt; font-weight: strong;">
+                                    Date Created
+                                </td>
+                                <td style="font-size: 10pt; font-weight: strong;">
+                                    Date Updated
+                                </td>
+                                <td style="font-size: 10pt; font-weight: strong;">
+                                    Option(s)
+                                </td>
+                            </tr>
+                        </thead>        
+                        <tbody>
                         @forelse ($permissions as $permission)
+
                             <tr>
                                 <td class="text-center">{{$permission->id}}</td>
                                 <td>{{$permission->name}}</td>
+                                <td>{{$permission->created_at}}</td>
+                                <td>{{$permission->updated_at}}</td>
                                 <td>
-                                        @can('permission_edit')
+                                    @can('permission_edit')
                                             <a href="{{ route('admin.permissions.edit', $permission->id) }}" class="btn btn-sm btn-warning">Edit</a>
                                         @endcan
                                         @can('permission_delete')
@@ -49,20 +61,29 @@
                                     @endcan
                                 </td>
                             </tr>
+                            
                             @empty
-                                <tr>
-                                    <td colspan="100%" class="text-center text-muted py-3">No Permissions Found</td>
-                                </tr>
-                        @endforelse
+                            <tr>
+                                <td colspan="100%" class="text-center text-muted py-3">No Permissions Found</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                        <tfoot>
+                            <tr class="bg-info text-light">
+                                <td style="font-size: 10pt; font-weight: strong;">ID</td>
+                                <td style="font-size: 10pt; font-weight: strong;">Name</td>
+                                <td style="font-size: 10pt; font-weight: strong;">
+                                    Date Created
+                                </td>
+                                <td style="font-size: 10pt; font-weight: strong;">
+                                    Date Updated
+                                </td>
+                                <td style="font-size: 10pt; font-weight: strong;">
+                                    Option(s)
+                                </td>
+                            </tr>
+                        </tfoot>
                     </table>
-      
-      
-      
-      
-                @if($permissions->total() > $permissions->perPage())
-                    {{$permissions->links()}}
-                @endif
-      
             </div>
         </div>
     </div>

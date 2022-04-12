@@ -16,7 +16,7 @@ class PermissionController extends Controller
     {
         abort_if(Gate::denies('permissions_access'), Response::HTTP_FORBIDDEN, 'Forbidden');
         \LogActivity::addToLog('Accessed Permission Index');
-        $permissions = Permission::paginate(5)->appends($request->query());;
+        $permissions = Permission::all();
         return view('admin.permissions.index',compact('permissions'));
     }
 
