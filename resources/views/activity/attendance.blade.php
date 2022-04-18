@@ -16,6 +16,8 @@
           <div class="card">
               <div class="card-header">
                 <h2><i class="fa fa-fw fa-th-list"></i>Events Attendance</h2>
+                @foreach ($activity as $activities)@endforeach
+                
                 @foreach ($user as $item)@endforeach
                     @if ($item->title=="Focal")
                         
@@ -26,7 +28,10 @@
                         <a href="{{ route('activity.index') }}" class="btn btn-info"><i class="fa fa-fw fa-arrow-left"></i>Go back to Activities</a>
                         
                     @endif
+                    <div class="alert alert-info rounded-0">
                 
+                        <h5>Activity Description: {{ $activities->activityDescription}}</h5>
+                    </div>
 
                 
                 

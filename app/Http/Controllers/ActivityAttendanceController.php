@@ -71,6 +71,8 @@ class ActivityAttendanceController extends Controller
         $user = User::join('roles','roles.id','=','users.role_id')
                 ->where('users.id',auth()->user()->id)
                 ->get();
+        $activity = Activity::where('id',$id)
+                    ->get();
 
 
         return view('activity.attendance',[
@@ -80,7 +82,8 @@ class ActivityAttendanceController extends Controller
                                             'rathernotsay'=>$rathernotsay,
                                             'custom'=>$custom,
                                             'participants'=>$participants,
-                                            'user'=>$user
+                                            'user'=>$user,
+                                            'activity'=>$activity
                                         ]); 
     }
 
