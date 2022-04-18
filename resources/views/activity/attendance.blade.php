@@ -31,6 +31,8 @@
                     <div class="alert alert-info rounded-0">
                 
                         <h5>Activity Description: {{ $activities->activityDescription}}</h5>
+                        <sub>Activity Date: {{ $activities->activityDateStart}} to {{ $activities->activityDateEnd}}</sub><br>
+                        <sub><strong>Program/Project: {{ $activities->shortName}}</strong></sub>
                     </div>
 
                 

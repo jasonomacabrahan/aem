@@ -71,7 +71,8 @@ class ActivityAttendanceController extends Controller
         $user = User::join('roles','roles.id','=','users.role_id')
                 ->where('users.id',auth()->user()->id)
                 ->get();
-        $activity = Activity::where('id',$id)
+        $activity = Activity::join('programs','programs.id','=','activities.papID')
+                    ->where('activities.id',$id)
                     ->get();
 
 
