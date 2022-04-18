@@ -27,6 +27,7 @@ class LogActivity
     public static function logActivityLists()
     {
     	return LogActivityModel::join('users','users.id','=','log_activities.user_id')
+								->orderBy('log_activities.id','desc')
 								->get(['log_activities.*','users.*','log_activities.created_at as logdate']);
     }
 
