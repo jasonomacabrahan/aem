@@ -1,43 +1,34 @@
-@extends('layouts.app', [
-    'namePage' => 'Login page | ',
+@extends('layouts.apppartial', [
+    'namePage' => 'Welcome - ',
     'class' => 'login-page sidebar-mini ',
-    'activePage' => 'login',
-    'backgroundImage' => asset('assets') . "/img/bg2.png",
+    'activePage' => 'welcome',
+    'backgroundImage' => asset('assets') . "/img/bg2.png"
 ])
-
 @section('content')
     <div class="content">
         <div class="container">
         
-        <div class="col-md-4 ml-auto mr-auto">
+            <div class="row">
+                    
+                <div class="col-md-6">
+                    <h3 class="text-white">{{ __('Welcome to DICT - XI ( Davao Region ) Activity Event Monitoring System.') }}</h3>
+                    <a href="{{ route('register.show') }}" class="btn btn-lg btn-info"><i class="fa-solid fa-fw fa-user-astronaut"></i>Register Now</a>
+                    <hr>
+                    <p class="text-lead text-light mt-3 mb-0">
+                        @include('alerts.migrations_check')
+                    </p>
+                </div>
 
-                    @if (Session::has('message'))
-                            <div class="alert alert-success" role="alert">
-                            {{ Session::get('message') }}
-                        </div>
-                    @endif
+                <div class="col-md-2">
 
-                    @if ($message = Session::get('success'))
-                        <script>
-                            swal("Success","Registration was Successful","success");
-                        </script>
-                    @endif
-
-
-                    @if ($message = Session::get('error'))
-                        <script>
-                            swal("Oops!","Problem creating your account","error");
-                        </script>
-                    @endif
-
-                
-
-                  <form role="form" method="POST" action="{{ route('login.perform') }}">
+                </div>
+                <div class="col-md-4">
+                    <form role="form" method="POST" action="{{ route('login.perform') }}">
                         @csrf
                         <div class="card card-login">
                             <div class="card-header ">
                             <div class="logo-container">
-                                <a href="{{ route('home.index') }}"><img src="{{ asset('assets/img/favicon.png') }}" alt=""></a>
+                                <a href="{{ route('home') }}"><img src="{{ asset('assets/img/favicon.png') }}" alt=""></a>
                             </div>
                             </div>
                             <div class="card-body ">
@@ -68,14 +59,20 @@
                                 <strong>{{ $errors->first('password') }}</strong>
                                 </span>
                             @endif
+                            <div class="form-group">
+                                <input type="checkbox" name="remember" value="1">
+                                <label for="remember">Remember me</label>
                             </div>
-                            <div class="card-footer ">
-                                <button  type = "submit" class="btn btn-info btn-lg btn-block mb-3"><i class="ui-1_lock-circle-open"></i>{{ __('Login') }}</button>
-                                <a href="{{ route('forget.password.get') }}">Reset Password</a>
+                            <button  type = "submit" class="btn btn-info btn-lg btn-block mb-3"><i class="fa fa-fw fa-sign-in"></i>{{ __('Login') }}</button>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="{{ route('forget.password.get') }}" class="btn btn-xs btn-success card-link">Reset Password</a>
                             </div>
                         </div>
                         </form>
-        </div>
+                </div>
+                
+            </div>        
         </div>
     </div>
 @endsection

@@ -21,6 +21,11 @@
             </div>
 
             <div class="card-body">
+              @if ($message = Session::get('error'))
+              <script>
+                  swal("Oops","Something is wrong in your date range","error");
+              </script>
+             @endif
             <form action="{{ route('activity.add') }}" method="POST" class="mt-1 py-3">
                 @csrf
                 <div class="row">

@@ -31,6 +31,7 @@ class LoginController extends Controller
      */
     public function login(LoginRequest $request)
     {
+        
         $credentials = $request->getCredentials();
         //dd($credentials);
         if(!Auth::validate($credentials)):
