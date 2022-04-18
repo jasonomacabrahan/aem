@@ -63,7 +63,7 @@
                                         <td>{{ $activityattendance->programDescription }}</td>
                                         <td>{{ $activityattendance->name }}</td>
                                         <td>
-                                            <a href="{{ route('activity', ['id' => $activityattendance->ActivityID])  }}"><i class="fa fa-fw fa-th-list"></i></i></a>
+                                            <a href="{{ route('activity', ['id' => $activityattendance->ActivityID])  }}" class="btn btn-info rounded-0"><i class="fa fa-fw fa-users"></i></i></a>
 
                                         </td>
                                     </tr>

@@ -19,18 +19,22 @@
                 <div class="card" style="user-select: auto;">
                     <div class="card-header" style="user-select: auto;">
                       <ul class="nav nav-tabs justify-content-center" role="tablist" style="user-select: auto;" id="myTab">
-                          <li class="nav-item" style="user-select: auto;">
-                            <a class="nav-link active" data-toggle="tab" href="#taskbyuser" role="tab" aria-selected="false" style="user-select: auto;">
-                              <i class="fa fa-fw fa-users" style="user-select: auto;"></i>
-                                Monitor task by User
-                            </a>
-                          </li>
-                          <li class="nav-item" style="user-select: auto;">
-                            <a class="nav-link" data-toggle="tab" href="#taskbyproject" role="tab" aria-selected="false" style="user-select: auto;">
-                              <i class="fa fa-fw fa-th-list" style="user-select: auto;"></i>
-                                Monitor task by Project 
-                            </a>
-                          </li>
+                            @can('monitortaskbyuser')
+                                <li class="nav-item" style="user-select: auto;">
+                                <a class="nav-link active" data-toggle="tab" href="#taskbyuser" role="tab" aria-selected="false" style="user-select: auto;">
+                                    <i class="fa fa-fw fa-users" style="user-select: auto;"></i>
+                                    Monitor task by User
+                                </a>
+                                </li>
+                            @endcan
+                            @can('taskbyproject')
+                                <li class="nav-item" style="user-select: auto;">
+                                <a class="nav-link" data-toggle="tab" href="#taskbyproject" role="tab" aria-selected="false" style="user-select: auto;">
+                                    <i class="fa fa-fw fa-th-list" style="user-select: auto;"></i>
+                                    Monitor task by Project 
+                                </a>
+                                </li>
+                            @endcan
                           @can('yourproject')
                             <li class="nav-item" style="user-select: auto;">
                                 <a class="nav-link" data-toggle="tab" href="#yourproject" role="tab" aria-selected="false" style="user-select: auto;">
@@ -45,6 +49,7 @@
                     <div class="card-body" style="user-select: auto;">
                     <!-- Tab panes -->
                     <div class="tab-content" style="user-select: auto;">
+                        @can('monitortaskbyuser')     
                         <div class="tab-pane active" id="taskbyuser" role="tabpanel" style="user-select: auto;">
                             <div class="table table-responsive">
                                 <table id="list" class="table table-striped table-hover table-bordered" style="width:100%">
@@ -56,7 +61,7 @@
                                        <th style='font-size: 9pt; font-weight: bold;'>Date Updated</th>
                                        <th style='font-size: 9pt; font-weight: bold;'>Option(s)</th>
                                        
-                                   </tr>
+                                    </tr>
                                </thead>
                                <tbody>
                                    @foreach($users as $user)
@@ -64,9 +69,9 @@
                                             <td>
                                                 @php
                                                     $data = App\Models\User::Select('name')->where('id',$user->taskedTo)->get();
-                                                @endphp
+                                                    @endphp
                                                 @foreach($data as $element)
-                                                    {{ $element->name ?? '' }}
+                                                {{ $element->name ?? '' }}
                                                 @endforeach
                                                 
                                                 
@@ -79,21 +84,22 @@
                                             <td>N/A</td>
                                         </tr>
                                    @endforeach
-                               </tbody>
+                                </tbody>
                                <tfoot style='font-size: 8pt;'>
                                 <tr style='font-size: 8pt;'>
-                                        <th style='font-size: 9pt; font-weight: bold;'>Task by</th>
-                                        <th style='font-size: 9pt; font-weight: bold;'>Number of tasks Assigned</th>
-                                        <th style='font-size: 9pt; font-weight: bold;'>Date Created</th>
-                                        <th style='font-size: 9pt; font-weight: bold;'>Date Updated</th>
-                                        <th style='font-size: 9pt; font-weight: bold;'>Option(s)</th>
-                                    </tr>
-                               </tfoot>
-                           </table>
+                                    <th style='font-size: 9pt; font-weight: bold;'>Task by</th>
+                                    <th style='font-size: 9pt; font-weight: bold;'>Number of tasks Assigned</th>
+                                    <th style='font-size: 9pt; font-weight: bold;'>Date Created</th>
+                                    <th style='font-size: 9pt; font-weight: bold;'>Date Updated</th>
+                                    <th style='font-size: 9pt; font-weight: bold;'>Option(s)</th>
+                                </tr>
+                            </tfoot>
+                        </table>
                            
-                       </div>
-                        </div>
-                        <div class="tab-pane" id="taskbyproject" role="tabpanel" style="user-select: auto;">
+                    </div>
+                </div>
+                @endcan
+                <div class="tab-pane" id="taskbyproject" role="tabpanel" style="user-select: auto;">
                             <table id="list1" class="table table-striped table-hover table-bordered" style="width:100%">
                             <thead>
                                 <tr>
@@ -114,9 +120,7 @@
                                             @php
                                                 $data = App\Models\TaskAssignment::where('papID',$proj->papID)->get();
                                             @endphp
-                                        
-                                                <span class="badge badge-info">{{ count($data) ?? '' }}</span>
-                                        
+                                            <a href="{{ route('taskperproject',$proj->programid) }}" class="btn btn-xs btn-info rounded-0">{{ count($data) ?? '' }}</a>
                                         </td>
                                         <td>
                                             @php

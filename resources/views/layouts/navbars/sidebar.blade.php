@@ -166,14 +166,14 @@
                                       </li>
                                       @endcan()
 
-                                      @can('expense')
+                                      {{-- @can('expense')
                                       <li class="@if ($activePage == 'expenses') active @endif">
                                           <a href="{{ route('activity.expenses') }}">
                                             <i class="now-ui-icons business_money-coins"></i>
                                             <p> {{ __("Activity Expenses") }} </p>
                                           </a>
                                       </li>
-                                      @endcan()
+                                      @endcan() --}}
                                       
                                       @can('activityandmanagementexpenses')
                                       <li class="@if ($activePage == 'activitymanagement') active @endif">

@@ -28,6 +28,11 @@ $activies = DB::table('activities')->get();
                   swal("Success...","","success");
               </script>
               @endif
+              @if ($message = Session::get('successupdate'))
+              <script>
+                  swal("Success","Changes Saved...","success");
+              </script>
+              @endif
 
             <form action="{{ route('saveexpensesupdate') }}" method="POST" class="mt-1 py-3">
                 @csrf
@@ -75,17 +80,17 @@ $activies = DB::table('activities')->get();
                     </div>
                 </div>
 
-                {{-- <div class="row">
+                <div class="row">
                     <div class="col-md-11 pr-1">
                       <div class="form-group">
                         <label for="activityNotes">{{__(" Activity Notes")}}</label>
-                        <input type="text" name="activityNotes" class="form-control" placeholder="Enter Activity Notes" value="{{ old('activityNotes') }}" required>
+                        <input type="text" name="activityNotes" class="form-control" placeholder="Enter Activity Notes" value="{{$expense->activityNotes}}" required>
                         @include('alerts.feedback', ['field' => 'activityNotes'])
                       </div>
                     </div>
-                </div> --}}
+                </div>
                 @endforeach
-                <a href="{{ route('activity.expenses') }}" class="btn btn-danger"><i class="fa-solid fa-fw fa-angle-left"></i>Back</a>
+                <a href="{{ route('activity.index') }}" class="btn btn-danger"><i class="fa-solid fa-fw fa-angle-left"></i>Back</a>
                 <button type="submit" class="btn btn-info">Save</button>
             </form>
             </div>

@@ -20,10 +20,11 @@ Route::group(['namespace' => 'App\Http\Controllers\Auth'], function(){
 
 Route::group(['namespace' => 'App\Http\Controllers'], function(){
     Route::get('/', 'HomeController@index')->name('home.index');
+    Route::get('/home', 'HomeController@home')->name('home');
+    Route::get('attended', 'HomeController@successattendance')->name('attended');
+    Route::get('/guest/{activityid}/{realid}','HomeController@guest')->name('guest');
     Route::group(['middleware' => ['guest']], function() {
-        /**
-         * Register Routes
-         */
+        
         Route::get('checknull','TaskResolutionController@checknull');
         Route::get('overrideelete/{id}','TaskResolutionController@overrideelete')->name('delete');
         Route::get('/down', function()
@@ -79,7 +80,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
 
         Route::get('/register', 'RegisterController@show')->name('register.show');
         Route::post('/register', 'RegisterController@register')->name('register.perform');
-    
+        Route::post('/registerguest', 'RegisterController@registerasaguest')->name('register.guest');
+        Route::get('/guestlanding', 'RegisterController@guestlanding')->name('guestroom');
+        
         /**
          * Login Routes
          */
@@ -150,6 +153,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
 
 
         Route::controller(ActivityController::class)->group(function () {
+            
+            Route::get('/attendance/{activityid}/{realid}','activityattendance')->name('attendance');
             Route::get('addexpense_new/{id}/{eventname}/{shortsname}','addexpense_new')->name('addexpense_new');
             Route::get('activityid/{id}/{name}/{acid}/{shortsname}','expenses')->name('activityid');
             Route::get('activitymanagement','activitymanagement')->name('activitymanagement');
@@ -164,8 +169,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         });
         
         Route::controller(ActivityAttendanceController::class)->group(function () {
+            Route::get('/attendancesuccess','attendancesuccess')->name('attendancesuccess');
             Route::get('activityregistration','activityregistration')->name('activityregistration');//for view: get activity registration form
             Route::get('/activity/{id}', 'attendance')->name('activity');
+            Route::get('/newattendance/{ativityid}/{realid}', 'newattendance')->name('newattendance');
             Route::get('/activity.add', 'create')->name('activity.add');
             Route::get('/usertrainings', 'usertrainings')->name('usertrainings');
             Route::post('/saveactivity','create')->name('saveactivity');
@@ -200,6 +207,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
 
         Route::controller(TaskResolutionController::class)->group(function () {
 
+            Route::get('/taskperproject/{projectid}','taskperproject')->name('taskperproject');
             Route::get('/usertask/{taskid}/{userid}','usertask')->name('usertask');
             Route::get('/createdtask/{taskid}','createdtask')->name('createdtask');
             Route::get('/taskmonitoring','taskmonitoring')->name('taskmonitoring');

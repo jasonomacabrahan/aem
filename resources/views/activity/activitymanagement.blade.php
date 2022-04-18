@@ -113,7 +113,17 @@
                       <tbody>
                         @foreach($activities as $activity)
                         <tr>
-                          <td><a href="{{route('editactivity', ['id' => $activity->activityid])}}" title="Update activity"><i class="fa fa-fw fa-edit"></i>{{ $activity->activityDescription }}</a></td>
+                          <td>
+                            @if ($activity->participantcount==0)
+                                
+                              <a href="{{route('editactivity', ['id' => $activity->activityid])}}" title="Update activity"><i class="fa fa-fw fa-edit"></i>{{ $activity->activityDescription }}</a>
+                              
+                            @else
+                              
+                              <a href="{{route('activity', ['id' => $activity->activityid])}}" class="btn btn-info rounded-0">{{ $activity->activityDescription }}<i class="fa fa-fw fa-th-list"></i></a>
+                              
+                            @endif
+                          </td>
                           <td>{{ $activity->location }}</a></td>
                           <td>{{ $activity->shortName }}</td>
                           <td><label class="badge badge-success text-white">{{ $activity->activityDateStart }} to {{ $activity->activityDateEnd }}</label></td>

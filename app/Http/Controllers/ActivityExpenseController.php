@@ -51,8 +51,8 @@ class ActivityExpenseController extends Controller
         $activity->updated_at = now();
         $activity->save();
         //return redirect('../home');
-        return redirect()->route('activity.addexpense')
-                    ->with('success', 'Event');
+        return redirect()->route('activity.index')
+                    ->with('successexpenses', 'Event');
 
     }
 
@@ -123,7 +123,7 @@ class ActivityExpenseController extends Controller
                                 'miscExpense'=>$request->input('miscExpense'),
                                 'activityNotes'=>$request->input('activityNotes'),
                     ]);
-                    return redirect()->route('activity.expenses')
+                    return redirect()->back()
                         ->with('successupdate', 'Changes Saved');
      }
 

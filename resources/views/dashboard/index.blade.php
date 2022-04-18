@@ -13,10 +13,13 @@
             <div class="bg-light p-2 rounded">
             <div class="row">
                 <div class="col-md-6">
+                    
+                   
+
                     <h4>Hi {{ auth()->user()->name }}</h4>
                     <label class="badge badge-info h6">{{ date('Y-m-d H:i:s') }}</label><br>
                     @foreach ($user as $userdata)
-                        Your logged in as <label class="badge badge-danger">{{ $userdata->title }}</label>
+                        You logged in as <label class="badge badge-danger">{{ $userdata->title }}</label>
                     @endforeach
                 </div>
                 <div class="col-md-4">
