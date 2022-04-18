@@ -80,6 +80,15 @@ class TaskResolutionController extends Controller
     }
 
 
+    public function taskperproject($projectid)
+    {
+        $projects = TaskAssignment::join('programs','programs.id','=','task_assignments.papID')
+        ->join('users','users.id','=','task_assignments.taskedTo')
+        ->where('task_assignments.papID',$projectid)
+        ->get(['programs.*','users.*','task_assignments.*']);
+        // dd($projects);
+        return view('tasks.taskperproject',['projects'=>$projects]);
+    }
     public function taskmonitoring()
     {
         $users = TaskAssignment::join('users','users.id','=','task_assignments.taskedTo')
@@ -87,10 +96,11 @@ class TaskResolutionController extends Controller
                     ->get(['task_assignments.created_at as assignmentdate','task_assignments.*','task_assignments.id as taskid','users.*',TaskAssignment::raw('count(task_assignments.taskedTo) as numcount')]);
         $project = TaskAssignment::join('programs','programs.id','=','task_assignments.papID')
                                     ->groupBy('programs.id')
-                                    ->get(['programs.*','task_assignments.*']);
+                                    ->get(['programs.*','task_assignments.*','programs.id as programid']);
         $programs = User::join('programs','programs.focalPerson','=','users.id')
                                     ->leftjoin('task_assignments','task_assignments.papID','=','programs.id')
                                     ->where('programs.focalPerson',auth()->user()->id)
+                                    ->groupBy('programs.id')
                                     ->get(['programs.*','programs.created_at as programcreated','task_assignments.id as taskid','programs.updated_at as programupdated','programs.id AS programid','users.*','task_assignments.*']);
 
         // dd($programs);

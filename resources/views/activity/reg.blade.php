@@ -7,8 +7,8 @@
 ])
 
 @php
-// $activies = DB::table('activities')->where('activityDateStart', '>=', now())->get();
-$activies = DB::table('activities')->get();
+$activies = DB::table('activities')->where('activityDateStart', '>=', now())->get();
+// $activies = DB::table('activities')->get();
 @endphp
 
 @section('content')

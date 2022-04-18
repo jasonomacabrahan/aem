@@ -9,6 +9,7 @@ use App\Models\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Crypt;
 
 class ActivityAttendanceController extends Controller
 {
@@ -37,13 +38,50 @@ class ActivityAttendanceController extends Controller
     public function attendance($id)
     {
         abort_if(Gate::denies('master_tables'), Response::HTTP_FORBIDDEN, 'Forbidden');
+        $participants =  ActivityAttendance::join('users', 'users.id', '=', 'activity_attendances.RegisteredID')
+        ->where('activity_attendances.ActivityID','=',$id)
+        ->count();
+
+        $male =  ActivityAttendance::join('users', 'users.id', '=', 'activity_attendances.RegisteredID')
+        ->where('activity_attendances.ActivityID','=',$id)
+        ->where('users.sex','=',0)
+        ->count();
+
+        $female =  ActivityAttendance::join('users', 'users.id', '=', 'activity_attendances.RegisteredID')
+        ->where('activity_attendances.ActivityID','=',$id)
+        ->where('users.sex','=',1)
+        ->count();
+
+        $rathernotsay =  ActivityAttendance::join('users', 'users.id', '=', 'activity_attendances.RegisteredID')
+        ->where('activity_attendances.ActivityID','=',$id)
+        ->where('users.sex','=',2)
+        ->count();
+
+        $custom =  ActivityAttendance::join('users', 'users.id', '=', 'activity_attendances.RegisteredID')
+        ->where('activity_attendances.ActivityID','=',$id)
+        ->where('users.sex','=',3)
+        ->count();
+
         $activityattendances = ActivityAttendance::join('activities', 'activities.id', '=', 'activity_attendances.ActivityID')
         ->join('programs', 'programs.id', '=', 'activities.papID')
         ->join('users', 'users.id', '=', 'activity_attendances.RegisteredID')
         ->where('activity_attendances.ActivityID','=',$id)
         ->get(['activities.*', 'activity_attendances.*', 'programs.*', 'users.*','activity_attendances.created_at AS attendancedate'])->all();
-        //dd($activityattendances);
-        return view('activity.attendance',['activityattendances'=>$activityattendances]); 
+        
+        $user = User::join('roles','roles.id','=','users.role_id')
+                ->where('users.id',auth()->user()->id)
+                ->get();
+
+
+        return view('activity.attendance',[
+                                            'activityattendances'=>$activityattendances,
+                                            'male'=>$male,
+                                            'female'=>$female,
+                                            'rathernotsay'=>$rathernotsay,
+                                            'custom'=>$custom,
+                                            'participants'=>$participants,
+                                            'user'=>$user
+                                        ]); 
     }
 
     public function usertrainings()
@@ -88,6 +126,11 @@ class ActivityAttendanceController extends Controller
         return view('activity.reg');
     }
 
+    public function activityattendance($ativityid)
+    {
+        Crypt::encryptString('Hello DevDojo');
+        $decrypted = Crypt::decryptString('Hello DevDojo');
+    }
     public function create(Request $req)
     {
         $activityattendance = new ActivityAttendance;
@@ -99,7 +142,7 @@ class ActivityAttendanceController extends Controller
         $activity = ActivityAttendance::where('RegisteredID',$activityattendance->RegisteredID)->where('registrationDate', $activityattendance->registrationDate)->first();
         if ($activity) {
             return redirect()->route('activityregistration')
-                    ->with('error', 'Event');
+            ->with('error', 'Event');
         }else{
             $activityattendance->save();
             return redirect()->route('activityregistration')
@@ -117,6 +160,35 @@ class ActivityAttendanceController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    public function newattendance($ativityid,$realid)
+    {
+        $userid = auth()->user()->id ?? '';
+        $id = Crypt::decryptString($ativityid);
+        $nowdate = date('Y-m-d');
+        $activity = ActivityAttendance::where('RegisteredID',$userid)->where('ActivityID',$realid)->where('registrationDate', $nowdate)->first();
+        
+        if ($activity) {
+            return redirect()->route('activityregistration')
+            ->with('error', 'Event');
+        }else{
+            $attendance = ActivityAttendance::create([
+                'RegisteredID'=>$userid,
+                'ActivityID'=>$realid,
+                'registrationDate'=>NOW(),
+                'created_at'=>NOW(),
+                'updated_at'=>NOW(),
+            ]);
+            return redirect()->route('attendancesuccess')
+                    ->with('attendanceok', 'Event');
+          
+        }
+    }
+
+    public function attendancesuccess()
+    {
+        return view('activity.newattendance');        
     }
 
     /**

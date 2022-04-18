@@ -16,7 +16,7 @@
           <div class="card">
               <div class="card-header">
                 <h2><i class="fa fa-fw fa-th-list"></i>Activities / Events Expenses - </h2>
-                <a href="./activity.addexpense" id="test" class="btn btn-info"><i class="fas fa-plus-circle"></i> New Expense </a>
+                <a href="{{ route('activity.addexpense') }}" id="test" class="btn btn-info"><i class="fas fa-plus-circle"></i> New Expense </a>
 
               </div>
             <div class="card-body">

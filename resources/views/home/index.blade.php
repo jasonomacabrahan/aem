@@ -10,15 +10,48 @@
 <div class="panel-header panel-header-sm">
 </div>
 <div class="content">
-    <div class="container">
+    
+    <div class="container" id="login">
+        @if ($message = Session::get('attendance'))
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Welcome Guest!</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>You are successfully registered to the given activity using the provided link</p>
+                        <p>To make things easy for you, the system automatically created an account. See the details below:</p>
+                        <ul>
+                            <li>Email: <em>the email you provided earlier</em></li>
+                            <li>Password: <em>88888888</em></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+            </div>
+        @endif
                 @auth
                 <div class="row">
-                   <div class="col-md-12">
+                   <div class="col-md-6">
                        <div class="card">
                             <div class="card-body p-5">
                                 <h1>Welcome</h1>
-                                <a href="{{ route('dashboard.index') }}" class="btn btn-lg btn-info me-2"><i class="fa fa-fw fa-cog"></i>Go to Dashboard</a>
+                                <a href="{{ route('dashboard.index') }}" class="btn btn-lg btn-info me-2">Go to Dashboard<i class="fa fa-fw fa-arrow-right"></i></a>
 
+                            </div>
+                        </div>
+                   </div>
+                   <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-info">
+                                <label class="text-white"><i class="fa fa-fw fa-info"></i>What's New</label>
+                            </div>
+                            <div class="card-body p-5">
+                                <ul>
+                                    <li>No Upcoming Software Updates</li>
+                                </ul>
                             </div>
                         </div>
                    </div>
@@ -32,7 +65,6 @@
                         <h3 class="text-white">{{ __('Welcome to DICT - XI ( Davao Region ) Activity Event Monitoring System.') }}</h3>
                         <a href="{{ route('register.show') }}" class="btn btn-lg btn-info"><i class="fa-solid fa-fw fa-user-astronaut"></i>Register Now</a>
                         <hr>
-                        {{-- <a href="https://app.dict-mc3.online/" class="btn btn-lg btn-success"><i class="fa fa-fw fa-th-large"></i>Back to Portal</a> --}}
                         <p class="text-lead text-light mt-3 mb-0">
                             @include('alerts.migrations_check')
                         </p>

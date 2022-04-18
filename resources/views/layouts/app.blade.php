@@ -78,8 +78,7 @@
   <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
   <script src="{{ asset('assets') }}/demo/demo.js"></script>
   
-  @stack('js')
-
+  
   <!--for datatables-->
   <script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.0/js/dataTables.bootstrap4.min.js"></script>
@@ -95,7 +94,74 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.1/slimselect.min.css" rel="stylesheet">
   <!--end of datatable-->
   
+  
   <script type="text/javascript">
+    $(window).on('load', function() {
+        $('#focalModal').modal('show');
+    });
+    $("#selectsupervisor").click(function(){
+        var officer = $('#approvingofficer').val()
+        var designation = $('#designation').val()
+        $("#officer").text(officer);
+        $("#newdesignation").text(designation);
+        $('#focalModal').modal('hide');
+    });
+    
+
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+    
+    $('#guestform').hide();
+    $('#registeredguestform').hide();
+    $('#dictemployeeform').hide();
+    $('#guest').click(function(){
+        $('#guestform').show();
+        $('#dictemployeeform').hide();
+        $('#registeredguestform').hide();
+        $('#guest').attr("disabled", true);
+        $('#registeredguest').attr("disabled", false);
+        $('#employee').attr("disabled", false);
+        window.history.pushState({}, document.title, "/guest/" + "<?php if(empty($ativityid)){ echo 0 ;}else{ echo $ativityid; } ?>/<?php if(empty($id)){ echo 0; }else{ echo $id; } ?>");
+      });
+  
+      $('#registeredguest').click(function(){
+        $('#guestform').hide();
+        $('#dictemployeeform').hide();
+        $('#registeredguestform').show();
+        $('#guest').attr("disabled", false);
+        $('#registeredguest').attr("disabled", true);
+        $('#employee').attr("disabled", false);
+        window.history.pushState({}, document.title, "/newattendance/" + "<?php if(empty($ativityid)){ echo 0 ;}else{ echo $ativityid; } ?>/<?php if(empty($id)){ echo 0; }else{ echo $id; } ?>");
+      });
+      
+      $('#employee').click(function(){
+        $('#guestform').hide();
+        $('#dictemployeeform').show();
+        $('#registeredguestform').hide();
+        $('#guest').attr("disabled", false);
+        $('#registeredguest').attr("disabled", false);
+        $('#employee').attr("disabled", true);
+        window.history.pushState({}, document.title, "/newattendance/" + "<?php if(empty($ativityid)){ echo 0 ;}else{ echo $ativityid; } ?>/<?php if(empty($id)){ echo 0; }else{ echo $id; } ?>");
+      });
+    
+    
+    $('#dictemployee').hide();
+    function copy(element_id){
+      var aux = document.createElement("div");
+      aux.setAttribute("contentEditable", true);
+      aux.innerHTML = document.getElementById(element_id).innerHTML;
+      aux.setAttribute("onfocus", "document.execCommand('selectAll',false,null)"); 
+      document.body.appendChild(aux);
+      aux.focus();
+      document.execCommand("copy");
+      document.body.removeChild(aux);
+    }
+    $('#cboard').click(function(){
+        $('#cboard').text('COPIED TO CLIPBOARD');
+        $('#cboard').removeClass("btn btn-info").addClass("btn btn-success");
+        // swal('Copied to clipboard','','info');
+    });
 
     $('#myTab a').click(function(e) {
       e.preventDefault();
@@ -118,16 +184,10 @@
         return local.toJSON().slice(0,10);
     });
     document.getElementById('registrationDate').value = new Date().toDateInputValue();
-    $(window).on('load', function() {
-        $('#focalModal').modal('show');
-    });
-    $("#selectsupervisor").click(function(){
-        var officer = $('#approvingofficer').val()
-        var designation = $('#designation').val()
-        $("#officer").text(officer);
-        $("#newdesignation").text(designation);
-        $('#focalModal').modal('hide');
-    });
+   
+    
+
+    
   </script>
 
 <script>
@@ -350,6 +410,42 @@ table.buttons().container()
 } );
 } );
 </script>
+
+<script>
+  $(document).ready(function() {
+  var table = $('.listexpenses, .listactivities').DataTable( {
+      lengthChange: true,
+      buttons: [
+                  {
+                    extend: "copy",
+                    className: "btn-sm btn-info"
+                  },
+                  {
+                    extend: "pdfHtml5",
+                    className: "btn-sm btn-danger",
+                    orientation: 'landscape'
+                  },
+                  {
+                    extend: "print",
+                    className: "btn-sm btn-info"
+                  },
+                    
+                ],
+        "order": [[ 4, "desc" ]]
+  });
+
+table.buttons().container()
+  .appendTo( '#list_wrapper .col-md-6:eq(0)' );
+
+  $('#receiptTable').DataTable( {
+  dom: 'Bfrtip',
+  buttons: [
+      'print'
+  ]
+} );
+} );
+</script>
+
 
 <script language="javascript">
     function printdiv(printpage) {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Activity;
 use App\Models\ActivityExpense;
 use App\Models\User;
+use App\Models\ActivityAttendance;
 use Illuminate\Http\Request;
 use App\Models\Program;
 use App\Models\TaskAssignment;
@@ -31,9 +32,18 @@ class ActivityController extends Controller
      */
     public function index()
     {
+        
+
         $programs = Program::join('activities','activities.papID','=','programs.id')
-                    ->get(['activities.*','activities.id as activityid','programs.*']);
-        return view('activity.index',['programs'=>$programs]); 
+                    ->orderBy('activities.created_at','desc')
+                    ->get(['activities.*','activities.id as activityid','programs.*','activities.created_at as activitydatecreated']);
+        $activityexpenses = ActivityExpense::join('activities', 'activities.id', '=', 'activity_expenses.activityID')
+                    ->join('programs', 'programs.id', '=', 'activities.papID')
+                    ->get(['activities.*', 'activity_expenses.*', 'programs.*','activity_expenses.id']);
+        return view('activity.index',[
+                                        'programs'=>$programs,
+                                        'activityexpenses'=>$activityexpenses
+                                    ]); 
     }
 
     public function accomplishment()
@@ -45,8 +55,12 @@ class ActivityController extends Controller
     {
         $id = auth()->user()->id;
         $activities = Activity::join('programs','programs.id','=','activities.papID')
+                        // ->leftjoin('activity_expenses','activity_expenses.activityID','=','activities.id')
+                        ->leftjoin('activity_attendances','activity_attendances.ActivityID','=','activities.id')
                         ->where('programs.focalPerson',$id)
-                        ->get(['activities.id AS activityid','activities.*','programs.*','activities.created_at as activitydate']);
+                        ->groupBy('activities.id')
+                        ->get(['activities.id AS activityid','activities.*','programs.*','activities.created_at as activitydate',ActivityAttendance::raw('count(activity_attendances.RegisteredID) as participantcount')]);
+       
         return view('activity.activitymanagement',[
                                                     'activities'=>$activities
                                                 ]); 
@@ -152,8 +166,17 @@ class ActivityController extends Controller
         $activity->papID                =  $req->papID;
         $activity->created_at = now();
         $activity->updated_at = now();
-        $activity->save();
-        return redirect('activity.index')->with('indexsuccess', 'hahahaha');;
+
+        if (strtotime($req->activityDateStart)>strtotime($req->activityDateEnd)) {
+            return redirect()->back()->with('error','ddddd');
+        } else {
+            $activity->save();
+            $activityid = $activity->id;
+            $encid = Crypt::encrypt($activityid);
+            return redirect()->route('attendance',['activityid'=>$encid,'realid'=>$activityid]);
+        }
+        
+        
     }
 
     public function addactivity(Request $req)
@@ -169,5 +192,26 @@ class ActivityController extends Controller
         $activity->save();
         return redirect()->back()->with('success', 'hahahaha');
         
+    }
+
+    public function activityattendance($ativityid,$realid)
+    {
+        $encrypted = Crypt::encryptString($ativityid);
+        $decrypted = Crypt::decryptString($ativityid);
+        // dd($encrypted,$ativityid);
+        return view('activity.activitylink',[
+                                                'decrypted'=>$decrypted,
+                                                'ativityid'=>$ativityid,
+                                                'realid'=>$realid
+                                            ]);
+    }
+
+    public function guest($ativityid)
+    {
+        $id = Crypt::decryptString($ativityid);
+        // dd($encrypted,$ativityid);
+        return view('activity.guestattendance',[
+                                                'id'=>$id
+                                            ]);
     }
 }
