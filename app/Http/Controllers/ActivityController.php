@@ -101,8 +101,9 @@ class ActivityController extends Controller
         $accomplishments = TaskAssignment::join('task_resolutions','task_resolutions.taskAssignmentID','=','task_assignments.id')
          ->whereBetween('task_assignments.created_at', [$datefrom, $dateto])
          ->where('task_resolutions.userID',auth()->user()->id)
+         ->where('task_assignments.taskResolved',1)
+         ->groupBy('task_resolutions.taskAssignmentID')
          ->get(['task_assignments.*']);
-        //dd($accomplishments);
         return view('reports.generate', [
                                             'accomplishments'=>$accomplishments,
                                             'datefrom'=>$datefrom,

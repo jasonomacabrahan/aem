@@ -119,6 +119,16 @@ class TaskAssignmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function notifyFocal($useremail,$name,$task) {
+        $data = array('name'=>$name,'email'=>$useremail,'task'=>$task);
+        Mail::send('focalmail', $data, function($message) use ($data){
+           $message->to($data['email'], 'Task')->subject
+              ('Activity added under your assigned Project');
+           $message->from('customerservice@imc3.linkage.pw','iMC3 Portal');
+        });
+    }
+
     public function sendmail($useremail,$name,$task) {
         $data = array('name'=>$name,'email'=>$useremail,'task'=>$task);
         Mail::send('mail', $data, function($message) use ($data){
@@ -138,6 +148,18 @@ class TaskAssignmentController extends Controller
                 $this->sendmail($list->email,$list->name,$t);
             }
         
+    }
+
+    public function getfocalmail($focalid,$task)
+    {
+            $userlist = DB::table('programs')
+                            ->join('users','users.id','=','programs.focalPerson')
+                            ->where('users.id','=',2)
+                            ->get(['programs.*','users.*']);
+            foreach($userlist as $list)
+            {   
+                $this->notifyFocal($list->email,$list->name,$task);
+            }
     }
 
     public function create(Request $req)
@@ -185,7 +207,8 @@ class TaskAssignmentController extends Controller
                         $data = array('task_id'=>$resoid,'name' => $imago, 'path' => $imago,'created_at'=>NOW());
                         Evidences::insert($data);    
                     }
-
+                    $this->getuseremail($d,$req->taskDetail);
+                    $this->getfocalmail(auth()->user()->id,$req->taskDetail);
                 }
             return redirect()->route('tasks.index')->with('success', 'event');
             
@@ -199,6 +222,8 @@ class TaskAssignmentController extends Controller
                                             'taskDetail'=>$req->taskDetail,
                                             'taskResolved'=>0,
                                         ]);
+                    $this->getuseremail($d,$req->taskDetail);
+                    $this->getfocalmail(auth()->user()->id,$req->taskDetail);
                 }
                 return redirect()->route('tasks.index')->with('success', 'event');
         }
