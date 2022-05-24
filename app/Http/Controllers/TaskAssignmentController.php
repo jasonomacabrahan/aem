@@ -92,11 +92,12 @@ class TaskAssignmentController extends Controller
                 }
 
 
-        
+                $this->getuseremail(auth()->user()->id,$req->taskDetail);
+                $this->getfocalmail($req->papID,$req->taskDetail);
                 return redirect()->route('mytasks')->with('success', 'event');
                 
             }else{
-
+                
                 $assignment = new TaskAssignment;
                 $assignment->papID = $req->papID;
                 $assignment->taskBy = auth()->user()->id;
@@ -104,12 +105,9 @@ class TaskAssignmentController extends Controller
                 $assignment->taskDetail = $req->taskDetail;
                 $assignment->taskResolved = 0;
                 $assignment->save();
+                $this->getfocalmail($req->papID,$req->taskDetail);   
             }
-
-        return redirect()->route('mytasks')->with('successtask', 'event');
-
-
-        
+        return redirect()->route('mytasks')->with('successtask', 'event');        
     }
 
     
@@ -150,11 +148,11 @@ class TaskAssignmentController extends Controller
         
     }
 
-    public function getfocalmail($focalid,$task)
+    public function getfocalmail($programid,$task)
     {
             $userlist = DB::table('programs')
                             ->join('users','users.id','=','programs.focalPerson')
-                            ->where('users.id','=',2)
+                            ->where('programs.id','=',$programid)
                             ->get(['programs.*','users.*']);
             foreach($userlist as $list)
             {   
@@ -201,14 +199,13 @@ class TaskAssignmentController extends Controller
                     $taskreso->verifiedBy = 0;
                     $taskreso->save();
                     $resoid = $taskreso->id;
-                    
                     foreach($files as $imago) 
                     {
                         $data = array('task_id'=>$resoid,'name' => $imago, 'path' => $imago,'created_at'=>NOW());
                         Evidences::insert($data);    
                     }
                     $this->getuseremail($d,$req->taskDetail);
-                    $this->getfocalmail(auth()->user()->id,$req->taskDetail);
+                    $this->getfocalmail($req->papID,$req->taskDetail);
                 }
             return redirect()->route('tasks.index')->with('success', 'event');
             
@@ -223,7 +220,7 @@ class TaskAssignmentController extends Controller
                                             'taskResolved'=>0,
                                         ]);
                     $this->getuseremail($d,$req->taskDetail);
-                    $this->getfocalmail(auth()->user()->id,$req->taskDetail);
+                    $this->getfocalmail($req->papID,$req->taskDetail);
                 }
                 return redirect()->route('tasks.index')->with('success', 'event');
         }
