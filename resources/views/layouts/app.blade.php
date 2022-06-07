@@ -26,7 +26,7 @@
   <script type="text/javascript" src="{{ asset('sweet') }}/sweetalert-dev.js"></script>
   <link rel="stylesheet" type="text/css" href="{{ asset('sweet') }}/sweetalert.css"/>
   <script src="https://kit.fontawesome.com/c9033f3c51.js" crossorigin="anonymous"></script>
-
+  @stack('header')
 
 <livewire:styles />
 <style>
