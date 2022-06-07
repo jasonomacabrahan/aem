@@ -12,7 +12,6 @@
   </div>
   <div class="sidebar-wrapper" id="sidebar-wrapper">
     <ul class="nav">
-                     
       {{-- @can('admin_panel_access')
         <li>
             <a href="{{ route('admin.home') }}" aria-expanded="false">
@@ -21,7 +20,6 @@
             </a>
         </li>
       @endcan --}}
-
       @can('dashboard')
       <li class="@if ($activePage == 'dashboard') active @endif">
         <a href="{{ route('dashboard.index') }}" aria-expanded="false">
@@ -30,7 +28,6 @@
         </a>
       </li>
       @endcan
-
       @can('activity_registration')
         <li class="@if ($activePage == 'registration') active @endif">
           <a href="{{ route('activityregistration') }}">
@@ -40,7 +37,13 @@
         </li>
       @endcan()
 
-                        
+      <li class="@if ($activePage == 'feedback') active @endif">
+        <a href="{{ route('consent') }}">
+          <i class="fa-solid fa-comment-dots"></i>
+          <p> {{ __("Activity Feedback") }} </p>
+        </a>
+      </li>
+      
 
                             @can('training_registered')
                               <li class="">
@@ -229,13 +232,27 @@
                                 </div>
                               </li>
                               @endcan()
-      
-                              
-                              
-                              
-                              
-                              
-                              
+                              @can('quistionnaire_setup')
+                              <li>
+                                <a data-toggle="collapse" href="#settings">
+                                    <i class="fas fa-tasks"></i>
+                                  <p>
+                                    {{ __("Settings") }}
+                                    <b class="caret"></b>
+                                  </p>
+                                </a>
+                                <div class="collapse hide" id="settings">
+                                  <ul class="nav">
+                                      <li class="@if ($activePage == 'settings') active @endif">
+                                            <a href="{{ route('questionnaire.index') }}" aria-expanded="false">
+                                              <i class="fa fa-fw fa-cog"></i>
+                                              <span class="hide-menu">Questionnaire Setup</span>
+                                            </a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </li>
+                                @endcan()
     </ul>
   </div>
 </div>

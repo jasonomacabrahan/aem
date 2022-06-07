@@ -238,11 +238,38 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
             Route::post('/addtask', 'create')->name('addtask');
         });
 
-        Route::controller(UserController::class)->group(function(){
-            Route::get('/getuser/{id}', 'getuser')->name('getuser');
-            Route::get('/userdashboard', 'userdashboard')->name('userdashboard');
-            Route::post('/saveuserupdate', 'saveuserupdate')->name('saveuserupdate');
+        Route::group(['namespace' => 'Admin'], function () {
+            Route::controller(UserController::class)->group(function(){
+                Route::get('/getuser/{id}', 'getuser')->name('getuser');
+                Route::get('/userdashboard', 'userdashboard')->name('userdashboard');
+                Route::post('/saveuserupdate', 'saveuserupdate')->name('saveuserupdate');
+            });
         });
+        
+        Route::controller(QuestionnaireController::class)->group(function(){
+            Route::get('/editquestion/{qid}', 'edit')->name('editquestion');
+            Route::get('/deletequestion/{qid}', 'deletewarning')->name('deletequestion');
+            Route::post('/saveupdatequestion', 'update')->name('saveupdatequestion');
+            Route::post('/destroyna', 'destroy')->name('destroyna');
+
+        });
+        
+        Route::controller(QuestionnaireSubController::class)->group(function(){
+            Route::post('/updatesubquestion', 'update')->name('updatesubquestion');
+            Route::get('/newsubquestion/{qid}/{question}', 'newsubquestion')->name('newsubquestion');
+            Route::post('/savesubquestion', 'savesubquestion')->name('savesubquestion');
+        });
+
+        Route::resource('/questionnaire', 'QuestionnaireController');//im not fully using this controller
+        Route::resource('/questionnairesub', 'QuestionnaireSubController');//im not fully using this controller
+        Route::get('/addsubquestion/{qid}/{question}', 'QuestionnaireSubController@addsubquestion')->name('addsubquestion');
+        Route::resource('/rate', 'RateController');
+        Route::resource('/feedback', 'FeedbackController');
+        Route::resource('/thoughts', 'ThoughtsController');
+        Route::get('/yourthought/{activityid}', 'ThoughtsController@thoughts')->name('yourthought');
+        Route::get('/rating/{activityid}', 'RateController@rate')->name('rating');
+        Route::get('/consent', 'FeedbackController@consent')->name('consent');
+
 
     
         Route::group(['prefix'=>"admin",'as' => 'admin.','namespace' => 'Admin','middleware' => ['auth','AdminPanelAccess']], function () {
