@@ -19,11 +19,11 @@
                         @csrf
                         <div class="form-group">
                             <label>Question:</label><br>
-                            <strong>{{ $question }}</strong>
+                            <strong>{{ Crypt::decryptString($question) }}</strong>
                         </div>
                         <div class="form-group form-horizontal">
                             <label>Sub Question:</label><br>
-                            <input type="hidden" name="qid" value="{{ $id }}">
+                            <input type="hidden" name="qid" value="{{ $qid }}">
                             <textarea name="question_sub" class="form-control border border-info form-bordered" id="questionnaire" cols="100" rows="10" required></textarea>
                         </div>
                         <a href="{{ route('questionnaire.index') }}" class="btn btn-primary rounded-0"><i class="fa fa-fw fa-circle-check"></i>Finish</a>
