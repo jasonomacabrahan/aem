@@ -47,7 +47,7 @@
                                                     </a>
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                                         <a href="{{ route('editquestion', ['qid' => $item->qid])  }}" class="dropdown-item"><i class="fa fa-fw fa-solid fa-square-pen"></i>Edit</a>
-                                                        <a href="{{ route('addsubquestion', ['qid' => $item->qid,'question'=>$item->question])  }}" class="dropdown-item"><i class="fa fa-fw fa-solid fa-circle-plus"></i>Add</a>
+                                                        {{-- <a href="{{ route('newsubquestion', ['qid' => $item->qid,'question'=>$item->question])  }}" class="dropdown-item"><i class="fa fa-fw fa-solid fa-circle-plus"></i>Add</a> --}}
                                                         <a href="{{ route('deletequestion', ['qid' => $item->qid])  }}" class="dropdown-item"><i class="fa fa-fw fa-solid fa-trash"></i>Delete</a>
                                                         
                                                     </div>

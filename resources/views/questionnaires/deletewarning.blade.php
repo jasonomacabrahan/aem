@@ -27,7 +27,7 @@
                                     <input type="hidden" name="qid" value="{{ $qid }}"/>
                                     <div class="alert alert-danger">
                                         <h5>Are you sure you want to delete this Question?</h5>
-                                        <em>Note: Sub question will be deleted to.</em>
+                                        <em>Note: Sub question will be deleted too.</em>
                                     </div>
                                     <button class="btn btn-danger rounded-0" type="submit"><i class="fa fa-fw fa-trash"></i>Delete</button>
                                 </form>

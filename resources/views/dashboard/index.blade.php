@@ -113,7 +113,8 @@
                         <h5 class="text-white fw-bolder"><i class="fa fa-fw fa-folder"></i>Report(s)</h5>
                     </div>
                     <div class="card-body">
-                        <a href="{{ route('report') }}" class="badge badge-info text-uppercase"><i class="fa fa-fw fa-file"></i>Accomplishment Report</a>
+                        <a href="{{ route('report') }}" class="btn btn-info rounded-0 text-uppercase"><i class="fa fa-fw fa-file"></i>Accomplishment Report</a>
+                        <a href="{{ route('satisfaction_report') }}" class="btn btn-info rounded-0 text-uppercase"><i class="fa fa-fw fa-file"></i>CUSTOMER SATISFACTION SURVEY REPORT</a>
                     </div>
                 </div>
             </div>
