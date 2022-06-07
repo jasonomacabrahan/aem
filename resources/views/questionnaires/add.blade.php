@@ -11,6 +11,9 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <a href="{{ route('questionnaire.index') }}" class="btn btn-info rounded-0"><i class="fa fa-fw fa-arrow-left"></i></a>
+                </div> 
                 <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">

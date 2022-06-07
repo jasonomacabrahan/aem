@@ -15,8 +15,8 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        $subquestion =  QuestionnaireSub::all();
-        $question = Questionnaire::all();
+        $subquestion =  QuestionnaireSub::where('deleted_at',NULL)->get();
+        $question = Questionnaire::where('deleted_at',NULL)->get();
         return view('feedback.index',[
                                             'question'=>$question,
                                             'subquestion'=>$subquestion
@@ -47,9 +47,12 @@ class FeedbackController extends Controller
     public function store(Request $request)
     {
         $qcount = QuestionnaireSub::all();
+        $base = ($request->input('q_sub_id'));
+        $primero = reset($base);
+        $last = end($base);
         $count = count($qcount);
         $answer = array();
-        for($i=1;$i<=$count;$i++)
+        for($i=$primero;$i<=$last;$i++)
         {
                 $answer[]=$request->input($i);
         }

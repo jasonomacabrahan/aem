@@ -33,7 +33,7 @@ class QuestionnaireSubController extends Controller
     public function newsubquestion($qid,$question)
     {
         $q = Questionnaire::join('questionnaire_subs','questionnaire_subs.qid','=','questionnaires.qid')
-                            ->where('questionnaire_subs.qid',$id)
+                            ->where('questionnaire_subs.qid',$qid)
                             ->get(['questionnaire_subs.*','questionnaires.*']);
         return view('questionnaires.add',[
                                                     'qid'=>$qid,

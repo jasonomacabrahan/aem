@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireSub;
+use App\Models\Feedback;
+use App\Models\Activity;
 use Illuminate\Http\Request;
 use \Crypt;
 
@@ -16,8 +18,8 @@ class QuestionnaireController extends Controller
      */
     public function index()
     {
-        $subquestion =  QuestionnaireSub::all();
-        $question = Questionnaire::all();
+        $subquestion =  QuestionnaireSub::where('deleted_at',NULL)->get();
+        $question = Questionnaire::where('deleted_at',NULL)->get();
         // $q = Questionnaire::join('questionnaire_subs','questionnaire_subs.qid','=','questionnaires.qid')
         //                     ->get(['questionnaire_subs.*','questionnaire_subs.qid as subqid','questionnaires.*']);
 
@@ -25,6 +27,22 @@ class QuestionnaireController extends Controller
                                             'question'=>$question,
                                             'subquestion'=>$subquestion
                                         ]);
+    }
+
+    public function satisfaction_report(){
+        $activity = Activity::join('feedback','feedback.activity_id','=','activities.id')
+                                ->groupBy('feedback.activity_id')
+                                ->get(['feedback.*','activities.*',\DB::raw('round(AVG(feedback_answer),0) as average')]);
+
+        return view('reports.activity',['activity'=>$activity]);
+    }
+
+    public function satisfaction_reports(){
+        $activity = Activity::join('feedback','feedback.activity_id','=','activities.id')
+                                ->groupBy('feedback.activity_id')
+                                ->get(['feedback.*','activities.*']);
+
+        return view('reports.activity',['activity'=>$activity]);
     }
 
     /**
@@ -120,8 +138,14 @@ class QuestionnaireController extends Controller
     }
     public function destroy(Request $request)
     {
-        \DB::table('questionnaire_subs')->where('qid',$request->input('qid'))->delete();
-        \DB::table('questionnaires')->where('qid',$request->input('qid'))->delete();
+        Questionnaire::where('qid', $request->input('qid'))
+                    ->update([
+                        'deleted_at' => NOW()
+                    ]);
+        QuestionnaireSub::where('qid', $request->input('qid'))
+                    ->update([
+                        'deleted_at' => NOW()
+                    ]);
         return redirect()->route('questionnaire.index');
     }
 }
