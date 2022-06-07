@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireSub;
 use Illuminate\Http\Request;
+use \Crypt;
 
 class QuestionnaireController extends Controller
 {
@@ -52,8 +53,7 @@ class QuestionnaireController extends Controller
         $q->created_at= NOW();
         $q->updated_at= NOW();
         $q->save();
-        $q->id;
-        return redirect()->route('addsubquestion', ['qid' => $q->id,'question'=>$request->questionnaire]);
+        return redirect()->route('addsubquestion', ['qid' => $q->id,'question'=>Crypt::encryptString($request->questionnaire)]);
     }
 
     /**

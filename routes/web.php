@@ -257,12 +257,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         Route::controller(QuestionnaireSubController::class)->group(function(){
             Route::post('/updatesubquestion', 'update')->name('updatesubquestion');
             Route::get('/newsubquestion/{qid}/{question}', 'newsubquestion')->name('newsubquestion');
+            Route::get('/addsubquestion/{qid}/{question}', 'addsubquestion')->name('addsubquestion');
             Route::post('/savesubquestion', 'savesubquestion')->name('savesubquestion');
         });
 
         Route::resource('/questionnaire', 'QuestionnaireController');//im not fully using this controller
         Route::resource('/questionnairesub', 'QuestionnaireSubController');//im not fully using this controller
-        Route::get('/addsubquestion/{qid}/{question}', 'QuestionnaireSubController@addsubquestion')->name('addsubquestion');
         Route::resource('/rate', 'RateController');
         Route::resource('/feedback', 'FeedbackController');
         Route::resource('/thoughts', 'ThoughtsController');

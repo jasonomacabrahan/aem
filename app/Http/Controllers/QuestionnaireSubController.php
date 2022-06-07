@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireSub;
 use Illuminate\Http\Request;
-
+use \Crypt;
 class QuestionnaireSubController extends Controller
 {
     /**
@@ -19,13 +19,13 @@ class QuestionnaireSubController extends Controller
         return view('questionnaires.subquestion');
     }
 
-    public function addsubquestion($id,$question)
+    public function addsubquestion($qid,$question)
     {
         $q = Questionnaire::join('questionnaire_subs','questionnaire_subs.qid','=','questionnaires.qid')
-                            ->where('questionnaire_subs.qid',$id)
+                            ->where('questionnaire_subs.qid',$qid)
                             ->get(['questionnaire_subs.*','questionnaires.*']);
         return view('questionnaires.subquestion',[
-                                                    'id'=>$id,
+                                                    'qid'=>$qid,
                                                     'question'=>$question,
                                                     'q'=>$q
                                                 ]);
