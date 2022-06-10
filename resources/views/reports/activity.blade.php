@@ -37,7 +37,7 @@
                                                     <td>{{ $item->created_at }}</td>
                                                     <td>{{ $item->average }}</td>
                                                     <td>
-                                                        <a href="" class="btn btn-sm btn-info rounded-0"><i class="fa fa-fw fa-th-list"></i>View Evaluation</a>
+                                                        <a href="{{ route('evaluation',['activityid'=>Crypt::encryptString($item->activity_id)]) }}" class="btn btn-sm btn-info rounded-0"><i class="fa fa-fw fa-th-list"></i>View Evaluation</a>
                                                     </td>
                                                 </tr>
                                             @empty

@@ -247,12 +247,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function(){
         });
         
         Route::controller(QuestionnaireController::class)->group(function(){
+            Route::get('/evaluation/{activityid}', 'evaluation_report')->name('evaluation');
             Route::get('/satisfaction_report', 'satisfaction_report')->name('satisfaction_report');
             Route::get('/editquestion/{qid}', 'edit')->name('editquestion');
             Route::get('/deletequestion/{qid}', 'deletewarning')->name('deletequestion');
             Route::post('/saveupdatequestion', 'update')->name('saveupdatequestion');
             Route::post('/destroyna', 'destroy')->name('destroyna');
-
         });
         
         Route::controller(QuestionnaireSubController::class)->group(function(){

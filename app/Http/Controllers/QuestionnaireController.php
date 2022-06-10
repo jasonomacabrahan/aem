@@ -6,6 +6,7 @@ use App\Models\Questionnaire;
 use App\Models\QuestionnaireSub;
 use App\Models\Feedback;
 use App\Models\Activity;
+use App\Models\User;
 use Illuminate\Http\Request;
 use \Crypt;
 
@@ -20,9 +21,6 @@ class QuestionnaireController extends Controller
     {
         $subquestion =  QuestionnaireSub::where('deleted_at',NULL)->get();
         $question = Questionnaire::where('deleted_at',NULL)->get();
-        // $q = Questionnaire::join('questionnaire_subs','questionnaire_subs.qid','=','questionnaires.qid')
-        //                     ->get(['questionnaire_subs.*','questionnaire_subs.qid as subqid','questionnaires.*']);
-
         return view('questionnaires.index',[
                                             'question'=>$question,
                                             'subquestion'=>$subquestion
@@ -37,13 +35,31 @@ class QuestionnaireController extends Controller
         return view('reports.activity',['activity'=>$activity]);
     }
 
-    public function satisfaction_reports(){
+    //here i embedded query for graph
+    public function evaluation_report($activityid)
+    {
+        $activity_id = Crypt::decryptString($activityid);
         $activity = Activity::join('feedback','feedback.activity_id','=','activities.id')
                                 ->groupBy('feedback.activity_id')
                                 ->get(['feedback.*','activities.*']);
 
-        return view('reports.activity',['activity'=>$activity]);
+        $gendercount = User::join('feedback','feedback.user_id','=','users.id')
+                            ->groupBy('sex')
+                            ->get(['users.*','feedback.*',\DB::raw('count(DISTINCT sex) as gender_C')]);
+
+        $subquestion =  QuestionnaireSub::where('deleted_at',NULL)->get();
+        $question = Questionnaire::where('deleted_at',NULL)->get();
+        
+        
+        return view('reports.evaluation',[
+                                            'activity'=>$activity,
+                                            'id'=>$activity_id,
+                                            'gendercount'=>$gendercount,
+                                            'question'=>$question,
+                                            'subquestion'=>$subquestion
+                                        ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
