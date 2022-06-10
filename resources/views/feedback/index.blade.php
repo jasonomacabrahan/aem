@@ -26,7 +26,8 @@
                             <form action="{{ route('feedback.store') }}" method="post">
                                 @csrf
                                 @php
-                                    $activies = DB::table('activities')->where('activityDateStart', '>=', now())->get();
+                                    // $activies = DB::table('activities')->where('activityDateStart', '>=', now())->get();
+                                    $activies = DB::table('activities')->get();
                                 @endphp
 
                                 <div class="form-group" id="events-select">
