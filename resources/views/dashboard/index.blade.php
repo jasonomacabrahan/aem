@@ -114,7 +114,9 @@
                     </div>
                     <div class="card-body">
                         <a href="{{ route('report') }}" class="btn btn-info rounded-0 text-uppercase"><i class="fa fa-fw fa-file"></i>Accomplishment Report</a>
-                        <a href="{{ route('satisfaction_report') }}" class="btn btn-info rounded-0 text-uppercase"><i class="fa fa-fw fa-file"></i>CUSTOMER SATISFACTION SURVEY REPORT</a>
+                        @can('quistionnaire_setup')
+                            <a href="{{ route('satisfaction_report') }}" class="btn btn-info rounded-0 text-uppercase"><i class="fa fa-fw fa-file"></i>CUSTOMER SATISFACTION SURVEY REPORT</a>
+                        @endcan
                     </div>
                 </div>
             </div>
