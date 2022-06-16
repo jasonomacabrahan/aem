@@ -40,10 +40,12 @@ class QuestionnaireController extends Controller
     {
         $activity_id = Crypt::decryptString($activityid);
         $activity = Activity::join('feedback','feedback.activity_id','=','activities.id')
+                                ->where('feedback.activity_id',$activity_id)
                                 ->groupBy('feedback.activity_id')
                                 ->get(['feedback.*','activities.*']);
 
         $gendercount = User::join('feedback','feedback.user_id','=','users.id')
+                            ->where('feedback.activity_id',$activity_id)
                             ->groupBy('sex')
                             ->get(['users.*','feedback.*',\DB::raw('count(DISTINCT sex) as gender_C')]);
 
