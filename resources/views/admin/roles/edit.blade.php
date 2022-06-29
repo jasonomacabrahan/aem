@@ -51,7 +51,6 @@
       
                     <div class="form-group row">
                         <label for="permissions" class="col-md-4 col-form-label text-md-right">{{ __('Permissions') }}</label>
-      
                         <div class="col-md-6" id="permissions-select">
                             <select name="permissions[]" id="permissions" class="@error('permissions') is-invalid @enderror"  multiple>
                                 @foreach ($permissions as $id => $permission)
@@ -60,13 +59,11 @@
                             </select>
                             <a href="#" id="permission-select-all" class="btn btn-link">select all</a>
                             <a href="#" id="permission-deselect-all" class="btn btn-link">deselect all</a>
-      
                             @error('permissions')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-      
                         </div>
                     </div>
       

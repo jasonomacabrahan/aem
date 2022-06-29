@@ -1,6 +1,6 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
-    'namePage' => 'Add Activity',
+    'namePage' => 'Activity Attendance | ',
     'activePage' => 'activitys',
     'activeNav' => '',
     'backgroundImage' => asset('now') . "/img/logo.png",
@@ -16,7 +16,7 @@
         </div>
         <div class="card-body">
           <h3>Are you here as a?</h3>
-          <a href="#" id="guest" class="btn btn-info rounded-0" data-toggle="tooltip" data-placement="top" title="Pag wala pa ka account tapos dili ka DICT-XI employee kani na link e click po..."><i class="fa fa-fw fa-user"></i>Guest!</a>
+          <a href="#" id="guest" class="btn btn-info rounded-0" data-toggle="tooltip" data-placement="top"><i class="fa fa-fw fa-user"></i>Guest!</a>
           <a href="#" id="registeredguest" class="btn btn-info rounded-0">Registered Guest!</a>
           <a href="#" id="employee" class="btn btn-info rounded-0">DICT-XI Employee!</a>
           

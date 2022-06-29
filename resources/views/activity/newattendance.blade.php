@@ -1,6 +1,6 @@
 @extends('layouts.app', [
     'class' => 'sidebar-mini ',
-    'namePage' => 'Add Activity',
+    'namePage' => 'Activity Attendace | ',
     'activePage' => 'activitys',
     'activeNav' => '',
     'backgroundImage' => asset('now') . "/img/logo.png",
